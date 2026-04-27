@@ -1,7 +1,7 @@
 # Traditional C++
 ## C++ Parameter Passing: Value vs Pointer vs Reference
 
-This document explains three common ways to pass arguments to functions in C++:
+This section explains three common ways to pass arguments to functions in C++:
 - Pass by Value
 - Pass by Pointer
 - Pass by Reference
@@ -64,3 +64,108 @@ int main() {
     cout << "After calling func(), x = " << x << endl;
 }
 ```
+
+## String versus Vectors
+
+### String index
+```
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    string hello("Hello");  
+    // Creates a std::string object and initializes it with "Hello"
+    // Memory is allocated dynamically and managed automatically
+
+    cout << hello[0];  
+    // Accesses first character → 'H' (index starts at 0)
+
+    cout << hello[4];  
+    // Accesses fifth character → 'o'
+
+    hello[3] = 'b';  
+    // Modifies the string: "Hello" → "Helbo"
+    // Strings in C++ are mutable (can be changed)
+
+    int i;
+    for (i = 0; i < hello.size(); ++i) {
+        cout << "Element with index " << i 
+             << " has value " << hello[i] << "\n";
+    }
+    // Iterates through the string using .size()
+    // Prints each character and its index
+
+} 
+// At the end of main(), the string is automatically destroyed
+// Memory is freed (RAII — no manual delete needed)
+```
+
+### Vector index
+```
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    vector<int> vec;  
+    // Creates an empty vector of integers
+    // No elements initially, size = 0
+
+    vec.push_back(4);  
+    vec.push_back(2);  
+    vec.push_back(3);
+    vec.push_back(4);
+    vec.push_back(1);
+    // Adds elements to the end of the vector
+    // After this: vec = {4, 2, 3, 4, 1}
+
+    cout << "Element with index 0 has value " << vec[0] << endl;
+    // First element → 4
+
+    cout << "Element with index 2 has value " << vec[2] << endl;
+    // Third element → 3
+
+    cout << "Element with index 4 has value " << vec[4] << endl;
+    // Fifth element → 1 (note: comment in original code had a small mistake)
+
+    cout << endl << "Modifying element with index 2 to have value 6" << endl;
+    vec[2] = 6;
+    // Changes vector: {4, 2, 3, 4, 1} → {4, 2, 6, 4, 1}
+
+    cout << endl << "Printing out all elements: " << endl;
+
+    int i;
+    for (i = 0; i < vec.size(); ++i) {
+        cout << "Element with index " << i 
+             << " has value " << vec[i] << endl;
+    }
+    // Iterates through all elements using .size()
+}
+```
+
+### String find
+```
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+	string str ("Hello world");
+	cout << "The string is \"" << str << "\"" << endl;
+	cout << "First occurrence of \'o\' is at index " << str.find('o') << endl;     // Returns 4
+	cout << "First occurrence of \"or\" is at index " << str.find("or") << endl;   // Returns 7
+
+	cout << "Does 'O' occur in the string? ";
+	
+	if (str.find('O') == string::npos)
+		cout << "No" << endl;
+	else
+		cout << "Yes" << endl;
+}
+```
+
+
