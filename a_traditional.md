@@ -60,7 +60,7 @@ int main() {
 ## String versus Vectors
 
 ### String index
-```
+```cpp
 #include <iostream>
 #include <string>
 
@@ -95,7 +95,7 @@ int main() {
 ```
 
 ### Vector index
-```
+```cpp
 #include <iostream>
 #include <vector>
 
@@ -139,7 +139,7 @@ int main() {
 ```
 
 ### String find
-```
+```cpp
 #include <iostream>
 #include <string>
 
@@ -164,7 +164,7 @@ int main() {
 ## Iterators
 
 ### String loop
-```
+```cpp
 #include <iostream>   // Required for input/output (cout)
 
 using namespace std;
@@ -195,7 +195,7 @@ int main() {
 ```
 
 ### String iterators
-```
+```cpp
 #include <iostream>
 #include <string>
 
@@ -210,7 +210,7 @@ int main() {
 ```
 
 ### String find
-```
+```cpp
 #include <iostream>    // For input/output (cout, endl)
 #include <string>      // For using std::string
 #include <algorithm>   // For std::find
@@ -252,7 +252,7 @@ int main() {
 ## Sequential containers (e.g., array)
 
 ### Deque
-```
+```cpp
 #include <deque>       // For std::deque container
 #include <iostream>    // For input/output (cout)
 #include <algorithm>   // For algorithms like sort and find
@@ -333,7 +333,7 @@ int main() {
 ```
 
 ### List
-```
+```cpp
 #include <list>        // For std::list container
 #include <iostream>    // For input/output (cout)
 #include <algorithm>   // For algorithms like find
@@ -417,7 +417,7 @@ int main() {
 ## Associative containers with a key (e.g., set and map)
 
 ### Set
-```
+```cpp
 #include <set>
 #include <iostream>
 
@@ -467,7 +467,7 @@ int main() {
 ```
 
 ### Multiset (like set but allows duplicate values)
-```
+```cpp
 #include <set>
 #include <iostream>
 
@@ -495,7 +495,7 @@ int main() {
 
 ### Map
 
-```
+```cpp
 #include <map>
 #include <string>
 #include <iostream>
@@ -535,7 +535,7 @@ int main() {
 ```
 
 ### Multimap (like map but allows duplicate values)
-```
+```cpp
 #include <map>
 #include <string>
 #include <iostream>
