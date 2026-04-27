@@ -209,70 +209,171 @@ int main() {
 
 ## Classes and inheritence
 
+### Output from parent class
 ```
 #include <iostream>
-#include <string>
+#include <vector>
+
 using namespace std;
 
-// Base class
-class Animal {
-protected:
-    string name;   // Protected so derived classes can access it
-
-public:
-    // Constructor to initialize name
-    Animal(string n) : name(n) {}
-
-    // Virtual function (can be overridden in derived class)
-    virtual void speak() {
-        cout << name << " makes a sound" << endl;
-    }
-
-    // Function overloading (same name, different parameter list)
-    void speak(int times) {
-        for (int i = 0; i < times; i++) {
-            cout << name << " makes a sound" << endl;
-        }
-    }
+class Drawable {
+	public:
+	void draw() { cout << "What am I supposed to do here?\n"; }
 };
 
-// Derived class
-class Dog : public Animal {
-public:
-    // Constructor calls base class constructor
-    Dog(string n) : Animal(n) {}
+class Circle : public Drawable {
+	public:
+	void draw() { cout << "I'm a circle!\n"; }
+};
 
-    // Function overriding
-    // This replaces the base class version of speak()
-    void speak() override {
-        cout << name << " says Woof!" << endl;
-    }
-
-    void bark(int times) {
-        for (int i = 0; i < times; i++) {
-            cout << name << " barks" << endl;
-        }
-    }
+class Triangle : public Drawable {
+	public:
+	void draw() { cout << "I'm a triangle!\n"; }
 };
 
 int main() {
-    Dog d("Buddy");   // Create Dog object
+	vector<Drawable*> shapes;      // Vector of pointers to Drawable instances
 
-    // Overriding example
-    Animal* a = &d;   // Base class pointer pointing to Dog object
-    a->speak();       // Calls Dog's version due to virtual function (runtime polymorphism)
+	// Create a pointer to a Drawable instance and append it to the vector 
+	shapes.push_back(new Circle());
+	shapes.push_back(new Triangle());
+	for (vector<Drawable*>::iterator it = shapes.begin(); it != shapes.end(); ++it)
+		(*it)->draw();
+}
+```
 
-    // Overloading example (same function name, different parameters)
-    d.speak(2);       // Calls Animal::speak(int)
+### Output from child class (virtual)
+Added virtual keyword in the drawable
 
-    // Calling derived class function
-    d.bark(3);        // Calls Dog-specific function
+```
+#include <iostream>
+#include <vector>
 
-    return 0;         // End of program
+using namespace std;
+
+class Drawable {
+	public:
+	virtual void draw() { cout << "What am I supposed to do here?\n"; }
+};
+
+class Circle : public Drawable {
+	public:
+	void draw() { cout << "I'm a circle!\n"; }
+};
+
+class Triangle : public Drawable {
+	public:
+	void draw() { cout << "I'm a triangle!\n"; }
+};
+
+int main() {
+	vector<Drawable*> shapes;      // Vector of pointers to Drawable instances
+
+	// Create a pointer to a Drawable instance and append it to the vector 
+	shapes.push_back(new Circle());
+	shapes.push_back(new Triangle());
+	for (vector<Drawable*>::iterator it = shapes.begin(); it != shapes.end(); ++it)
+		(*it)->draw();
+}
+```
+### Pure virtual function
+Makes the base class an abstract class which cannot be instantiated. Similar to an interface in other languages.
+```
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Drawable {
+	public:
+	virtual void draw() const = 0;
+};
+
+class Circle : public Drawable {
+	public:
+	void draw() const { cout << "I'm a circle!\n"; }
+};
+
+class Triangle : public Drawable {
+	public:
+	void draw() const { cout << "I'm a triangle!\n"; }
+};
+
+void draw_shape(const Drawable& d) {
+    d.draw();                                            // Calls draw member function of Circle etc
+}
+
+int main() {
+	Circle circle;
+	draw_shape(circle);
+	//Drawable shape;          // Error!
 }
 ```
 
 **Function overloading** in C++ means defining multiple functions with the same name but different parameter lists (different types, number, or order of arguments), allowing the compiler to choose the correct version at compile time, while **overriding** happens when a derived class provides a new implementation of a base class function with the exact same signature, typically using the virtual and override keywords, and the decision of which function to call is made at runtime through polymorphism (e.g., via base class pointers or references); in short, overloading is about flexibility within the same scope, whereas overriding is about changing inherited behavior.
 
+## Friend keyword
 
+### Friend Function
+```
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Test {
+	int i{42};
+	string s{"Hello"};
+public:
+	friend void print(const Test&);
+};
+
+void print(const Test& test) {
+	cout << "i = " << test.i << ", s = " << test.s << endl;
+}
+
+int main() {
+	Test test;
+	print(test);
+}
+```
+
+### Friend Class
+```
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Class with private members
+class Test {
+    int i{42};            // Private integer member (default is private)
+    string s{"Hello"};    // Private string member
+
+public:
+    // Declare Example as a friend class
+    // This allows Example to access private members of Test
+    friend class Example;
+};
+
+// Class that can access Test's private members
+class Example {
+public:
+    // Function that takes a Test object (by const reference)
+    void print(const Test& test) {
+        // Accessing private members of Test (allowed because of friendship)
+        cout << "i = " << test.i << ", s = " << test.s << endl;
+    }
+};
+
+int main() {
+    Test test;     // Create Test object
+    Example ex;    // Create Example object
+
+    // Call print function to display private data of Test
+    ex.print(test);
+
+    return 0;      // End of program
+}
+```
 
