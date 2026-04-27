@@ -168,4 +168,51 @@ int main() {
 }
 ```
 
+## Iterators
+
+```
+#include <iostream>   // Required for input/output (cout)
+
+using namespace std;
+
+int main() {
+    // Define a character array (not null-terminated, just 5 characters)
+    const char str[] = {'H','e','l','l','o'};
+
+    // Pointer to one past the last element of the array
+    // This is a common technique for marking the "end"
+    const char *pEnd = str + 5;
+
+    // Pointer to the first element of the array
+    const char *p = str;
+
+    // Loop until the pointer reaches the end position
+    while (p != pEnd) {
+        // Dereference pointer to get current character and print it
+        cout << *p << ", ";
+
+        // Move pointer to the next character in the array
+        ++p;
+    }
+
+    // Program ends successfully
+    return 0;
+}
+```
+
+```
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+	string str("Hello");
+	
+	for (string::iterator it = str.begin(); it != str.end(); ++it)
+        cout << *it << ", ";
+}
+```
+
+
 
