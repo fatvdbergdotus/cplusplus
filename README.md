@@ -1,6 +1,6 @@
 # C++ manual
 
-- [A. Traditional C++](a_tradional.md)
+- A. Traditional C++ [1](a_tradional.md) [2](a_tradional2.md)
 - [B. Modern C++ features](b_modern.md)
 - [C. Lambda expressions](c_lambda.md)
 - [D. Modern C++ Library features](d_modern_library.md)
