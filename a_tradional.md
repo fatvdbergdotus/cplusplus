@@ -431,6 +431,9 @@ void print(const set<int>& s) {
 	cout << endl;
 }
 
+// ret.first iterator to the element in the set
+// ret.second boolean result of insertion
+
 int main() {
 	set<int> s;                             // Create an instance of std::set
 	s.insert(6);                            // Add some elements to it
