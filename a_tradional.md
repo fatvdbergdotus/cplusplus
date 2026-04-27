@@ -421,5 +421,158 @@ int main() {
 }
 ```
 
+## Associative containers with a key (e.g., set and map)
+
+### Set
+```
+#include <set>
+#include <iostream>
+
+using namespace std;
+
+void print(const set<int>& s) {
+	cout << "Set values: ";
+	set<int>::iterator it;
+	for (it = s.begin(); it != s.end(); ++it)
+	 cout << *it << ",";
+	cout << endl;
+}
+
+int main() {
+	set<int> s;                             // Create an instance of std::set
+	s.insert(6);                            // Add some elements to it
+	s.insert(7);
+	s.insert(4);
+	s.insert(5);
+	s.insert(3);
+
+	print(s);	
+	cout <<  endl << "Trying to insert element with value 3" << endl;
+	pair<set<int>::iterator, bool> ret = s.insert(3);          // Try to insert an element with value 3
+	if (ret.second)                                            // Did it work?
+		cout << "Added value 3 to set\n";
+	else
+		cout << "Set already contains " << *(ret.first) << endl;
+
+	cout << "Erasing element with value 3" << endl;
+	s.erase(3);                                                // Erase the element with value 3
+	
+	print(s);
+	
+	cout <<  endl << "Trying to insert element with value 3" << endl;
+	pair<set<int>::iterator, bool> ret2 = s.insert(3);         // Try to insert the element again
+	if (ret2.second)                                           // Did it work?
+		cout << "Added value 3 to set\n";
+	else
+		cout << "Set already contains " << *(ret.first) << endl;
+	
+	print(s);
+}
+```
+
+### Multiset (like set but allows duplicate values)
+```
+#include <set>
+#include <iostream>
+
+using namespace std;
+
+void print(const multiset<int>& s) {
+	cout << "Set values: ";
+	multiset<int>::iterator it;
+	for (it = s.begin(); it != s.end(); ++it)
+	 cout << *it << ",";
+	cout << endl;
+}
+
+int main() {
+	multiset<int> s;                        // Create an instance of std::set
+	s.insert(6);                            // Add some elements to it
+	s.insert(7);
+	s.insert(4);
+	s.insert(6);                            // Add duplicate elements
+	s.insert(6);
+
+	print(s);
+}
+```
+
+### Map
+
+```
+#include <map>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+void print(const map<string, int>& scores) {
+	cout << "Map elements: " << endl;
+	map<string, int>::const_iterator it;
+	for (it = scores.begin(); it != scores.end(); ++it)
+		cout << it->first << " has a score of " << it->second << endl;
+	cout << endl;
+}
+
+int main() {
+	map<string, int> scores;                                           // Create an instance of std::map
+	scores.insert(make_pair<string, int>("Maybelline", 86));           // Add some elements to it
+	scores.insert(make_pair<string, int>("Graham", 78));
+
+	print(scores);
+	
+	cout << "Graham has a score of " << scores["Graham"] << endl;      // Fetches the value with key "Graham"
+	print(scores);
+	
+	cout << "Setting Graham's score to 66" << endl;
+	scores["Graham"] = 66;          // Changes the value of the element with key "Graham"
+	print(scores);
+	
+	cout << "Adding Grace's score of 66" << endl;
+	scores["Grace"] = 66;           // Creates a new element with key "Grace"
+	print(scores);
+	
+	map<string, int>::const_iterator p = scores.find("Graham");
+	if (p != scores.end())
+		cout << "Found element with key " << p->first << ". It has value " << p->second << endl;
+}
+```
+
+### Multimap (like map but allows duplicate values)
+```
+#include <map>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+void print(const multimap<string, int>& scores) {
+	cout << "Map elements: " << endl;
+	multimap<string, int>::const_iterator it;
+	for (it = scores.begin(); it != scores.end(); ++it)
+		cout << it->first << " has a score of " << it->second << endl;
+	cout << endl;
+}
+
+int main() {
+	multimap<string, int> scores;                              // Create an instance of std::multimap
+	scores.insert(make_pair<string, int>("Graham", 78));       // Add some elements to it
+	scores.insert(make_pair<string, int>("Grace", 66));
+	scores.insert(make_pair<string, int>("Graham", 66));       // Add duplicate elements
+	scores.insert(make_pair<string, int>("Graham", 72));
+	scores.insert(make_pair<string, int>("Hareesh", 77));
+
+	print(scores);
+	
+	cout << "Removing all Graham's scores" << endl;
+	scores.erase("Graham");                                    // Remove all elements with key "Graham"
+	print(scores);
+}
+```
+
+
+
+
+
 
 
