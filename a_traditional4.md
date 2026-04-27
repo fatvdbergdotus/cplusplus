@@ -77,6 +77,21 @@ int main() {
 }
 ```
 
+## Miscellaneous features
 
+### Booleans
+```
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	int x = -7;
+	bool neg = x < 0;
+	cout << "Is x negative?" << endl;
+	cout << neg << endl; // 1
+	cout << boolalpha << neg << endl; // true (because not zero)
+}
+```
 
 
