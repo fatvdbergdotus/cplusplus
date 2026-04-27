@@ -248,7 +248,6 @@ public:
         cout << name << " says Woof!" << endl;
     }
 
-    // Another overloaded function (different name, with parameter)
     void bark(int times) {
         for (int i = 0; i < times; i++) {
             cout << name << " barks" << endl;
