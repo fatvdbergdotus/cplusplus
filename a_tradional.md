@@ -170,6 +170,7 @@ int main() {
 
 ## Iterators
 
+### String loop
 ```
 #include <iostream>   // Required for input/output (cout)
 
@@ -200,6 +201,7 @@ int main() {
 }
 ```
 
+### String iterators
 ```
 #include <iostream>
 #include <string>
