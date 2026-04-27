@@ -1,5 +1,5 @@
 # Traditional C++
-'''
+```
 #include <iostream>
 
 using namespace std;
@@ -16,4 +16,4 @@ int main() {
 	cout << "Address of z is " << &z << endl;
 	cout << "After calling func(), z = " << z << endl;
 }
-'''
+```
