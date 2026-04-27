@@ -3,7 +3,7 @@
 ## Container adapter (containers built on other containers)
 
 ### Queue (FIFO)
-```
+```cpp
 #include <queue>                        
 #include <iostream>
 
@@ -29,7 +29,7 @@ int main() {
 ```
 
 ### Stack (LIFO)
-```
+```cpp
 #include <stack>                        
 #include <iostream>
 
@@ -52,7 +52,7 @@ int main() {
 ## Operator overloading
 
 ### Operator() is also known as Functor
-```
+```cpp
 #include <iostream>
 
 using namespace std;
@@ -72,7 +72,7 @@ int main() {
 ```
 
 ### Operators +, -, == and <<
-```
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -131,7 +131,7 @@ int main() {
 ## Algorithms with predicates
 
 ### Sort (==)
-```
+```cpp
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -159,7 +159,7 @@ int main() {
 ```
 
 ### Sort by length using a Functor
-```
+```cpp
 #include <iostream>
 #include <vector>
 #include <string>
@@ -210,7 +210,7 @@ int main() {
 ## Classes and inheritence
 
 ### Output from parent class
-```
+```cpp
 #include <iostream>
 #include <vector>
 
@@ -245,7 +245,7 @@ int main() {
 ### Output from child class (virtual)
 Added virtual keyword in the drawable
 
-```
+```cpo
 #include <iostream>
 #include <vector>
 
@@ -278,7 +278,7 @@ int main() {
 ```
 ### Pure virtual function
 Makes the base class an abstract class which cannot be instantiated. Similar to an interface in other languages.
-```
+```cpp
 #include <iostream>
 #include <vector>
 
@@ -315,7 +315,7 @@ int main() {
 ## Friend keyword
 
 ### Friend Function
-```
+```cpp
 #include <iostream>
 #include <string>
 
@@ -339,7 +339,7 @@ int main() {
 ```
 
 ### Friend Class
-```
+```cpp
 #include <iostream>
 #include <string>
 
