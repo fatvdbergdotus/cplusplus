@@ -256,5 +256,170 @@ int main() {
 }
 ```
 
+## Sequential containers (e.g., array)
+
+### Deque
+```
+#include <deque>       // For std::deque container
+#include <iostream>    // For input/output (cout)
+#include <algorithm>   // For algorithms like sort and find
+
+using namespace std;
+
+// Function to print all elements in the deque
+void print(const deque<int>& dq) {
+    cout << "dq elements are: ";
+
+    // Const iterator to traverse the deque (read-only)
+    deque<int>::const_iterator it;
+
+    // Loop through all elements from beginning to end
+    for (it = dq.begin(); it != dq.end(); ++it) {
+        cout << *it << ",";   // Dereference iterator to access element
+    }
+}
+
+int main() {
+    deque<int> dq;   // Create an empty deque container
+
+    // Add elements to the deque
+    dq.push_back(4);   // Add 4 at the end
+    dq.push_back(2);   // Add 2 at the end
+    dq.push_front(1);  // Add 1 at the beginning
+    dq.push_front(5);  // Add 5 at the beginning
+    dq.push_front(3);  // Add 3 at the beginning
+
+    // Display size and whether deque is empty
+    cout << "dq contains " << dq.size() << " elements" << endl;
+    cout << "dq is" << (dq.empty() ? "" : " not") << " empty" << endl;
+
+    // Print current elements
+    print(dq);
+
+    cout << endl << endl << "Sorting deque" << endl;
+
+    // Sort the deque in ascending order
+    sort(dq.begin(), dq.end());
+
+    // Print sorted deque
+    print(dq);
+
+    cout << endl << endl << "Inserting element in deque" << endl;
+
+    // Find the first occurrence of value 3
+    deque<int>::iterator three = find(dq.begin(), dq.end(), 3);
+
+    // Insert value 0 before the element '3'
+    dq.insert(three, 0);
+
+    // Print updated deque
+    print(dq);
+
+    cout << endl << endl << "Removing first element" << endl;
+
+    // Remove the first element of the deque
+    dq.erase(dq.begin());
+
+    // Print updated deque
+    print(dq);
+
+    cout << endl << endl << "Clearing deque" << endl;
+
+    // Remove all elements from the deque
+    dq.clear();
+
+    // Check deque status after clearing
+    cout << "dq contains " << dq.size() << " elements" << endl;
+    cout << "dq is" << (dq.empty() ? "" : " not") << " empty" << endl;
+
+    // Attempt to print (will show nothing after label)
+    print(dq);
+
+    return 0;   // End of program
+}
+```
+
+### List
+```
+#include <list>        // For std::list container
+#include <iostream>    // For input/output (cout)
+#include <algorithm>   // For algorithms like find
+
+using namespace std;
+
+// Function to print all elements in the list
+void print(const list<int>& l) {
+    cout << "l elements are: ";
+
+    // Const iterator to traverse the list (read-only)
+    list<int>::const_iterator it;
+
+    // Loop through all elements from beginning to end
+    for (it = l.begin(); it != l.end(); ++it) {
+        cout << *it << ",";   // Access and print each element
+    }
+}
+
+int main() {
+    list<int> l;   // Create an empty list container
+
+    // Add elements to the list
+    l.push_back(4);   // Add 4 at the end
+    l.push_back(2);   // Add 2 at the end
+    l.push_front(1);  // Add 1 at the beginning
+    l.push_front(5);  // Add 5 at the beginning
+    l.push_front(3);  // Add 3 at the beginning
+
+    // Display size and whether list is empty
+    cout << "l contains " << l.size() << " elements" << endl;
+    cout << "l is" << (l.empty() ? "" : " not") << " empty" << endl;
+
+    // Print current elements
+    print(l);
+
+    cout << endl << endl << "Sorting list" << endl;
+
+    // Sort the list in ascending order
+    // Note: std::list has its own member function sort()
+    l.sort();
+
+    // Print sorted list
+    print(l);
+
+    cout << endl << endl << "Inserting element in list" << endl;
+
+    // Find the first occurrence of value 3
+    list<int>::iterator three = find(l.begin(), l.end(), 3);
+
+    // Insert value 0 before the element '3'
+    l.insert(three, 0);
+
+    // Print updated list
+    print(l);
+
+    cout << endl << endl << "Removing first element" << endl;
+
+    // Remove the first element of the list
+    l.erase(l.begin());
+
+    // Print updated list
+    print(l);
+
+    cout << endl << endl << "Clearing list" << endl;
+
+    // Remove all elements from the list
+    l.clear();
+
+    // Check list status after clearing
+    cout << "l contains " << l.size() << " elements" << endl;
+    cout << "l is" << (l.empty() ? "" : " not") << " empty" << endl;
+
+    // Attempt to print (will show nothing after label)
+    print(l);
+
+    return 0;   // End of program
+}
+```
+
 
 
