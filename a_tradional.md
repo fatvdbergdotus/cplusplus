@@ -216,5 +216,45 @@ int main() {
 }
 ```
 
+### String find
+```
+#include <iostream>    // For input/output (cout, endl)
+#include <string>      // For using std::string
+#include <algorithm>   // For std::find
+
+using namespace std;
+
+int main() {
+    // Initialize a string with some text
+    string str("Hello world");
+
+    // Character we want to search for
+    char c = 'l';
+
+    // Display the original string
+    cout << "The string is " << str << endl;
+
+    // Display the character we are searching for
+    cout << "Searching for character " << c << endl;
+
+    // Use std::find to search for the first occurrence of 'l'
+    // It returns an iterator pointing to the found element,
+    // or str.end() if the element is not found
+    string::iterator res = find(str.begin(), str.end(), c);
+
+    // Check if the character was found
+    if (res != str.end())
+        // If found, calculate the index by subtracting iterators
+        cout << "Found a matching element at index: "
+             << res - str.begin() << endl;
+    else
+        // If not found, print a message
+        cout << "String does not contain " << c << endl;
+
+    // End of program
+    return 0;
+}
+```
+
 
 
