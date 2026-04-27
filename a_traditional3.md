@@ -137,5 +137,71 @@ int main() {
 }
 ```
 
+## Synthesized functions
+The following code demonstrates how C++ handles object creation and copying when no custom constructors or operators are defined: the compiler automatically provides a default constructor, copy constructor, and assignment operator, which are used when creating objects (Test test), copying them (Test test3 = test), and assigning them (test = test2); however, because the member variable i is never initialized, all objects contain undefined (garbage) values, showing the importance of explicitly initializing class members even when relying on compiler-generated behavior.
+
+```
+#include <iostream>
+
+using namespace std;
+
+class Test {
+    int i;   // Member variable (uninitialized!)
+
+public:
+    // Default constructor (currently missing)
+    // If you uncomment this, it will initialize i
+    // Test() : i(0) {}
+
+    // Parameterized constructor
+    // Test(int i) : i(i) {}
+
+    // Copy constructor
+    // Test(const Test& other) : i(other.i) {}
+
+    // Assignment operator
+    // Test& operator=(const Test& other) {
+    //     i = other.i;
+    //     return *this;
+    // }
+
+    // Destructor
+    // ~Test() {}
+
+    // Function to print value of i
+    void print() {
+        cout << i << endl;   // Undefined value if i is not initialized
+    }
+};
+
+int main() {
+    // Default constructor is called (compiler-generated)
+    Test test;
+
+    cout << "test after default constructor: ";
+    test.print();   // i is uninitialized, garbage value
+
+    // Another object using default constructor
+    Test test2;
+
+    cout << "test2 after default constructor: ";
+    test2.print();  // also uninitialized
+
+    // Copy constructor is called here
+    Test test3 = test;
+
+    cout << "test3 after copy constructor: ";
+    test3.print();  // copies the same (garbage) value
+
+    // Assignment operator is called here
+    test = test2;
+
+    cout << "test after assignment operator: ";
+    test.print();   // now has same value as test2
+
+    return 0;
+}
+```
+
 
 
