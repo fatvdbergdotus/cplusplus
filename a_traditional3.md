@@ -203,5 +203,62 @@ int main() {
 }
 ```
 
+## Casting 
+### C-style cast (old, not recommended)
+```
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	int c = 'A';
+	cout << c << endl;
+	cout << (char)c << endl;
+}
+```
+
+### static_cast (most common, used for safe, compile-time conversions)
+```
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	int c = 'A';
+	cout << c << endl;
+	cout << static_cast<char>(c) << endl;
+}
+```
+
+### dynamic_cast (runtime, polymorphism)
+```
+class Base { virtual void f() {} };
+class Derived : public Base {};
+
+Base* b = new Derived;
+Derived* d = dynamic_cast<Derived*>(b);
+
+if (d) {
+    // successful cast
+}
+```
+
+### Const_cast (Used to add or remove const)
+Dangerous if you modify something that was originally const
+```
+#include <iostream>
+
+using namespace std;
+
+void print(char *str) {       // Doesn't mutate str, but not declared const
+    cout << str << endl;
+}
+
+int main() {
+	const char *msg = "Hello, world!";
+	//print(msg);               // Error - invalid conversion
+	print(const_cast<char *>(msg));
+}
+```
 
 
