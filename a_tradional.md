@@ -152,7 +152,8 @@ int main() {
 	cout << "First occurrence of \"or\" is at index " << str.find("or") << endl;   // Returns 7
 
 	cout << "Does 'O' occur in the string? ";
-	
+
+	// string::npos represents “no position” or “not found”
 	if (str.find('O') == string::npos)
 		cout << "No" << endl;
 	else
