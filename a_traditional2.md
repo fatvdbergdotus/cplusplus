@@ -128,7 +128,152 @@ int main() {
 }
 ```
 
+## Algorithms with predicates
 
+### Sort (==)
+```
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+	vector<string> words;
+	string s;
+	
+	cout << "Please type in some words, separated by spaces" << endl;
+	
+	while (cin >> s && s != "stop") {
+		words.push_back(s);
+	}
+	
+	sort(words.begin(), words.end());                          // Sort the words in alphabetical order
+	
+	cout << "Your words in alphabetical order: " << endl;
+	
+	vector<string>::iterator it;
+	for (it = words.begin(); it != words.end(); ++it)
+		cout << *it << ", ";
+}
+```
+
+### Sort by length using a Functor
+```
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+// Define a predicate as a functor
+class is_shorter {
+public:
+	// Overloaded () operator
+	// Takes two strings as arguments
+	// Returns true/false depending on relative string length
+   bool operator () (const string& lhs, const string& rhs) {
+        return lhs.size() < rhs.size();
+    }
+};
+
+int main() {
+	vector<string> words;
+	words.push_back("a");
+	words.push_back("collection");
+	words.push_back("of");
+	words.push_back("words");
+	words.push_back("with");
+	words.push_back("varying");
+	words.push_back("lengths");
+	
+	// Sort the data in alphabetical order
+	sort(words.begin(), words.end());
+	
+	cout << "Sorted alphabetically:" << endl;
+	vector<string>::iterator it;
+	for (it = words.begin(); it != words.end(); ++it)
+		cout << *it << ", ";
+	cout << endl;
+	
+	// Use is_shorter to sort the data
+	sort(words.begin(), words.end(), is_shorter());
+	
+	cout << endl << "Sorted by length:" << endl;
+	for (it = words.begin(); it != words.end(); ++it)
+		cout << *it << ", ";
+	cout << endl;
+}
+```
+
+## Classes and inheritence
+
+```
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Base class
+class Animal {
+protected:
+    string name;   // Protected so derived classes can access it
+
+public:
+    // Constructor to initialize name
+    Animal(string n) : name(n) {}
+
+    // Virtual function (can be overridden in derived class)
+    virtual void speak() {
+        cout << name << " makes a sound" << endl;
+    }
+
+    // Function overloading (same name, different parameter list)
+    void speak(int times) {
+        for (int i = 0; i < times; i++) {
+            cout << name << " makes a sound" << endl;
+        }
+    }
+};
+
+// Derived class
+class Dog : public Animal {
+public:
+    // Constructor calls base class constructor
+    Dog(string n) : Animal(n) {}
+
+    // Function overriding
+    // This replaces the base class version of speak()
+    void speak() override {
+        cout << name << " says Woof!" << endl;
+    }
+
+    // Another overloaded function (different name, with parameter)
+    void bark(int times) {
+        for (int i = 0; i < times; i++) {
+            cout << name << " barks" << endl;
+        }
+    }
+};
+
+int main() {
+    Dog d("Buddy");   // Create Dog object
+
+    // Overriding example
+    Animal* a = &d;   // Base class pointer pointing to Dog object
+    a->speak();       // Calls Dog's version due to virtual function (runtime polymorphism)
+
+    // Overloading example (same function name, different parameters)
+    d.speak(2);       // Calls Animal::speak(int)
+
+    // Calling derived class function
+    d.bark(3);        // Calls Dog-specific function
+
+    return 0;         // End of program
+}
+```
+
+**Function overloading** in C++ means defining multiple functions with the same name but different parameter lists (different types, number, or order of arguments), allowing the compiler to choose the correct version at compile time, while **overriding** happens when a derived class provides a new implementation of a base class function with the exact same signature, typically using the virtual and override keywords, and the decision of which function to call is made at runtime through polymorphism (e.g., via base class pointers or references); in short, overloading is about flexibility within the same scope, whereas overriding is about changing inherited behavior.
 
 
 
