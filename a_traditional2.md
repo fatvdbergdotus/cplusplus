@@ -51,7 +51,7 @@ int main() {
 
 ## Operator overloading
 
-### Operator()
+### Operator() is also known as Functor
 ```
 #include <iostream>
 
