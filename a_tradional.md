@@ -1,13 +1,5 @@
 # Traditional C++
 ## C++ Parameter Passing: Value vs Pointer vs Reference
-
-This section explains three common ways to pass arguments to functions in C++:
-- Pass by Value
-- Pass by Pointer
-- Pass by Reference
-
----
-
 ### 1. Pass by Value
 
 ```cpp
