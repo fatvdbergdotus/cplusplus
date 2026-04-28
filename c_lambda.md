@@ -564,3 +564,59 @@ int main() {
 }
 ```
 
+## Map lambda
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> v{1, 2, 3, 4};
+
+    std::vector<int> result(v.size());
+
+    std::transform(v.begin(), v.end(), result.begin(),
+        [](int x) { return x * 2; }   // lambda
+    );
+
+    for (int x : result)
+        std::cout << x << " ";  // 2 4 6 8
+}
+```
+
+## Filter lambda
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> v{1, 2, 3, 4, 5};
+
+    std::vector<int> result;
+
+    std::copy_if(v.begin(), v.end(), std::back_inserter(result),
+        [](int x) { return x % 2 == 0; }   // lambda
+    );
+
+    for (int x : result)
+        std::cout << x << " ";  // 2 4
+}
+```
+
+## Reduce lambda
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+
+int main() {
+    std::vector<int> v{1, 2, 3, 4};
+
+    int sum = std::accumulate(v.begin(), v.end(), 0,
+        [](int acc, int x) { return acc + x; }  // lambda
+    );
+
+    std::cout << sum << std::endl;  // 10
+}
+```
