@@ -173,3 +173,65 @@ int main() {
     return 0;
 }
 ```
+
+## Containers and emplace
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class refrigerator {
+    int temperature;
+    bool door_open;
+    bool power_on;
+public:
+    refrigerator(int temp, bool open, bool power)
+        : temperature(temp), door_open(open), power_on(power) {}
+
+    void print() const {
+        cout << "Temperature = " << temperature;
+        cout << boolalpha;
+        cout << ", door_open = " << door_open;
+        cout << ", power_on = " << power_on;
+    }
+};
+
+void test_insert_emplace() {
+    vector<refrigerator> vec;
+
+    refrigerator fridge(2, false, true);
+    vec.insert(vec.begin(), fridge);
+
+    vec.insert(vec.end(), refrigerator(3, false, true));
+    vec.emplace(vec.end(), 5, false, false);
+
+    cout << "Insert / emplace test:\n";
+    for (const auto& el : vec) {
+        el.print();
+        cout << "\n";
+    }
+}
+
+void test_push_back_emplace_back() {
+    vector<refrigerator> vec;
+
+    refrigerator fridge(2, false, true);
+    vec.push_back(fridge);
+
+    vec.push_back(refrigerator(3, false, true));
+    vec.emplace_back(5, false, false);
+
+    cout << "\nPush_back / emplace_back test:\n";
+    for (const auto& el : vec) {
+        el.print();
+        cout << "\n";
+    }
+}
+
+int main() {
+    test_insert_emplace();
+    test_push_back_emplace_back();
+    return 0;
+}
+```
