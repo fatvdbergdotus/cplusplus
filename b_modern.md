@@ -293,99 +293,49 @@ int main() {
 ## Enums
 
 ```cpp
+
+// ===== FILE: class_enum.cc =====
 #include <iostream>
-#include <string>
-#include <vector>
 
 using namespace std;
 
-// -------- alias --------
-using IntVec = vector<int>;
-
-// -------- function overloading (nullptr demo) --------
-void func(int i) {
-    cout << "func(int) called\n";
-}
-
-void func(int* i) {
-    cout << "func(int *) called\n";
-}
-
-// -------- class for most vexing parse --------
-class Test {};
-
-// -------- enums --------
-enum Color { RED, GREEN, BLUE };
-
-enum class Direction { NORTH, SOUTH, EAST, WEST };
+enum class suits { clubs, diamonds, hearts, spades };
+enum class face_value { two = 2, three, /* ... */ king, ace };
 
 int main() {
-
-    // -------- alias demo --------
-    vector<IntVec> vec_of_vec;
-    cout << "Created vector of vector<int>\n";
-
-
-    // -------- initialization demo --------
-    int x{7};
-    string s{"Let us begin"};
-
-    cout << "x = " << x << endl;
-    cout << "s = \"" << s << "\"" << endl;
-
-    vector<int> vec{4, 2, 3, 5, 1};
-    string hello{'H', 'e', 'l', 'l', 'o'};
-
-    cout << "vec = ";
-    for (auto v : vec)
-        cout << v << ", ";
-
-    cout << endl << "hello = \"" << hello << "\"" << endl;
-
-
-    // -------- initialization continued --------
-    int y = 7.7;
-    cout << "y = " << y << endl;
-
-    vector<int> old_one(4);
-    vector<int> old_two(4, 2);
-    vector<int> uni_one{4};
-    vector<int> uni_two{4, 2};
-
-    cout << "old_one = ";
-    for (auto v : old_one) cout << v << ", ";
-
-    cout << endl << "old_two = ";
-    for (auto v : old_two) cout << v << ", ";
-
-    cout << endl << "uni_one = ";
-    for (auto v : uni_one) cout << v << ", ";
-
-    cout << endl << "uni_two = ";
-    for (auto v : uni_two) cout << v << ", ";
-    cout << endl;
-
-    // Most vexing parse
-    Test test(); // declares function, not object
-
-
-    // -------- nullptr demo --------
-    func(NULL);
-    func(nullptr);
-
-
-    // -------- enum demo --------
-    Color c = RED;
-    cout << "Color enum value: " << c << endl;
-
-    Direction d = Direction::NORTH;
-    cout << "Direction enum value: " << static_cast<int>(d) << endl;
-
-
-    // -------- nested vector --------
-    vector<vector<int>> nested_vec;
-    cout << "Nested vector created\n";
-
-    return 0;
+	//int i = suits::hearts;                                  // Error - cannot implicitly convert to int
+	int i = static_cast<int>(suits::hearts);                // suit implicitly converted to int
+	
+	//...
+	
+	//if (i == face_value::two)                                       // Error - no match for operator ==
+	if (i == static_cast<int>(face_value::two))             // face_value implicitly converted to int
+		cout << "???\n";                  // This shouldn't be possible!
 }
+
+// ===== FILE: enum.cc =====
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	enum primary_colours {red, yellow, blue};
+	enum peppers {red, orange, yellow, green};  // Error - redeclaration
+}
+
+// ===== FILE: enum_conv.cc =====
+#include <iostream>
+
+using namespace std;
+
+enum suits { clubs, diamonds, hearts, spades };
+enum face_value { two = 2, three, /* ... , */ king, ace };
+
+int main() {
+	int i = hearts;                // suit implicitly converted to int
+	//...
+	if (i == two)                  // face_value implicitly converted to int
+		cout << "???\n";           // This shouldn't be possible - but it is!
+}
+
 ```
