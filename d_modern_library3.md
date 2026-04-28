@@ -300,7 +300,8 @@ void demo_data() {
 
     vector<int> numbers{1, 2, 3, 4, 5};
 
-    // data() gives raw pointer to underlying array
+    //data() gives you a raw pointer to the underlying contiguous array inside a std::vector.
+	//This is useful when you need compatibility with APIs that expect a C-style array (int*, double*, etc.).
     print(numbers.data(), numbers.size());
 
     cout << endl;
