@@ -414,3 +414,99 @@ int main() {
     return 0;
 }
 ```
+
+## Partial evaluation
+```cpp
+// ==== AUTO-GENERATED MINIMAL COMPILABLE MERGE ====
+
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+
+
+// ==== HEADERS (INLINED) ====
+
+
+// ==== SOURCES ====
+
+// ===== BEGIN SOURCE: partial_evaluation.cc =====
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Function which returns a lambda function
+auto greeter(const string& salutation) {
+	return [salutation](const string& name) { return salutation + ", "s + name; };       // The lambda function
+}
+
+int main() {
+	// Store the lambda function in a variable
+	auto greet = greeter("Hello"s);
+
+	// Call the lambda function
+	cout << "Greeting: " << greet("James") << endl;
+	cout << "Greeting: " << greet("students") << endl;
+
+	auto greet_formal = greeter("Good morning"s);
+
+	// Call the lambda function
+	cout << "Formal greeting: " << greet_formal("Dr Stroustrup") << endl;
+}
+// ===== END SOURCE: partial_evaluation.cc =====
+
+// ===== BEGIN SOURCE: return.cc =====
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Function which returns a lambda function
+auto greeter(const string& salutation) {
+	return [salutation](const string& name) { return salutation + ", "s + name; };       // The lambda function
+}
+
+/* DISABLED EXTRA MAIN
+int main() {
+	// Store the lambda function in a variable
+	auto greet = greeter("Hello"s);
+
+	// Call the lambda function
+	cout << "Greeting: " << greet("James") << endl;
+	cout << "Greeting: " << greet("students") << endl;
+}
+*/
+
+// ===== END SOURCE: return.cc =====
+
+// ===== BEGIN SOURCE: stored_lambda.cc =====
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+/* DISABLED EXTRA MAIN
+int main() {
+	vector<string> words{"a", "collection", "of", "words", "with", "varying", "lengths"};
+	int max{5};
+
+	// Save the lambda expression in a variable
+	auto is_longer_than = [max](const string& str) { return str.size() > max; };
+
+	// Pass this variable as the predicate
+	auto res = find_if(words.cbegin(), words.cend(), is_longer_than);
+
+	// Display it
+	if (res != words.end()) {
+		cout << R"(The first word which is more than )" << max << R"( letters long is ")";
+		cout << *res << R"(")" << endl;
+	}
+}
+*/
+
+// ===== END SOURCE: stored_lambda.cc =====
+
+```
