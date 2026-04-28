@@ -541,7 +541,7 @@ int main() {
 }
 ```
 
-### Range for loops
+### Range for-loops
 ```cpp
 #include <iostream>
 #include <vector>
