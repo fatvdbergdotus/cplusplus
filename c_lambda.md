@@ -2,7 +2,19 @@
 
 ## Overview
 
-### Simple lambda function
+### Simple lambda function 1
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    // A lambda that takes two ints and returns their sum
+
+    cout << [](int a, int b) { return a + b; } (3, 4); // Output: 7
+}
+```cpp
+
+### Simple lambda function 2
 ```cpp
 #include <iostream>
 using namespace std;
