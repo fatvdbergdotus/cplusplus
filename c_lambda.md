@@ -12,7 +12,7 @@ int main() {
 
     cout << [](int a, int b) { return a + b; } (3, 4); // Output: 7
 }
-```cpp
+```
 
 ### Simple lambda function 2
 ```cpp
