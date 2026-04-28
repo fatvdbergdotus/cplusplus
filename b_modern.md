@@ -138,6 +138,9 @@ int main() {
 ```
 
 ```cpp
+#include <iostream>
+using namespace std;
+
 // -------- celsius + fahrenheit --------
 class Celsius {
     long double temperature;
