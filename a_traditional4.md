@@ -2,7 +2,7 @@
 
 ## Run-time type information
 ### Typeid
-```
+```cpp
 #include <iostream>
 #include <typeinfo>
 
@@ -26,7 +26,7 @@ int main() {
 ```
 
 ### Type_info
-```
+```cpp
 #include <iostream>
 #include <typeinfo>
 
@@ -52,7 +52,7 @@ int main() {
 
 ### Dynamic cast
 Checks wheter it is possible to convert from the base class to a derived class at run-time.
-```
+```cpp
 #include <iostream>
 
 using namespace std;
@@ -80,7 +80,7 @@ int main() {
 ## Miscellaneous features
 
 ### Booleans
-```
+```cpp
 #include <iostream>
 
 using namespace std;
@@ -94,4 +94,53 @@ int main() {
 }
 ```
 
+### Without Explicit (implicit conversion allowed)
+```cpp
+#include <iostream>
+using namespace std;
+
+class Test {
+    int value;
+public:
+    Test(int v) : value(v) {}   // NOT explicit
+
+    void print() {
+        cout << value << endl;
+    }
+};
+
+void show(Test t) {
+    t.print();
+}
+
+int main() {
+    show(5);   // int → Test conversion happens automatically
+}
+```
+
+### With Explicit (safer)
+```cpp
+#include <iostream>
+using namespace std;
+
+class Test {
+    int value;
+public:
+    explicit Test(int v) : value(v) {}   // explicit constructor
+
+    void print() {
+        cout << value << endl;
+    }
+};
+
+void show(Test t) {
+    t.print();
+}
+
+int main() {
+    // show(5);   ERROR: implicit conversion not allowed
+
+    show(Test(5));   // must be explicit
+}
+```
 
