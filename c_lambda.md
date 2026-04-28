@@ -299,3 +299,117 @@ int main() {
     return 0; // indicates successful execution
 }
 ```
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+/* =========================================================
+   SECTION 1: Lambda with capture by reference
+   Demonstrates capturing a variable (idx) by reference
+   ========================================================= */
+void demo_lambda_by_ref() {
+    cout << "\n=== Demo: Lambda Capture by Reference ===\n";
+
+    vector<string> words{ "a", "collection", "of", "words", "with", "varying", "lengths" };
+
+    int max{5}, idx{-1}; // idx tracks position
+
+    auto res = find_if(words.begin(), words.end(),
+        // Capture max by value, idx by reference
+        [max, &idx](const string& str) mutable {
+            ++idx;
+            return str.size() > max;
+        }
+    );
+
+    if (res != words.end()) {
+        cout << "The first word longer than " << max << " letters is: " << *res << endl;
+        cout << "Index: " << idx << endl;
+    }
+}
+
+
+/* =========================================================
+   SECTION 2: Functor equivalent of lambda
+   Shows how a class can replace a lambda expression
+   ========================================================= */
+class is_longer_than {
+private:
+    const int n;
+    int& idx;
+
+public:
+    is_longer_than(const int n, int& idx) : n(n), idx(idx) {}
+
+    bool operator()(const string& str) const {
+        ++idx;
+        return str.size() > n;
+    }
+};
+
+void demo_functor() {
+    cout << "\n=== Demo: Functor (Lambda Equivalent) ===\n";
+
+    vector<string> words{ "a", "collection", "of", "words", "with", "varying", "lengths" };
+
+    int max{5}, idx{-1};
+
+    auto res = find_if(words.cbegin(), words.cend(), is_longer_than(max, idx));
+
+    if (res != words.end()) {
+        cout << "The first word longer than " << max << " letters is: " << *res << endl;
+        cout << "Index: " << idx << endl;
+    }
+}
+
+
+/* =========================================================
+   SECTION 3: Capturing `this` in a lambda
+   Demonstrates accessing class members inside a lambda
+   ========================================================= */
+class Test {
+    int time{10};
+
+public:
+    void countdown() {
+        // Capture current object (this pointer)
+        [this]() {
+            if (time > 0)
+                cout << time << endl;
+            else if (time == 0)
+                cout << "Liftoff!" << endl;
+
+            --time;
+        }(); // Immediately invoked lambda
+    }
+};
+
+void demo_capture_this() {
+    cout << "\n=== Demo: Capture this ===\n";
+
+    Test test;
+
+    // Call multiple times to simulate countdown
+    for (int i = 0; i < 12; ++i) {
+        test.countdown();
+    }
+}
+
+
+/* =========================================================
+   MAIN FUNCTION
+   Runs all demos
+   ========================================================= */
+int main() {
+    demo_lambda_by_ref();
+    demo_functor();
+    demo_capture_this();
+
+    return 0;
+}
+```
