@@ -79,7 +79,9 @@ int main() {
 ```cpp
 using namespace std;
 
-// ===== FILE: containers_insert/insert.cc =====
+
+// ===============================
+// ORIGINAL FILE: containers_insert/insert.cc =====
 #include <iostream>
 #include <vector>
 
@@ -91,6 +93,7 @@ void print(const vector<int>& vec) {
 	cout << endl;
 }
 
+// Entry point from original file
 int main_1() {
 	vector<int> vec{1, 2, 3, 4, 5};
 
@@ -117,7 +120,9 @@ int main_1() {
 	vec2.insert(vec2.end(), {2, 6, 5});
 	print(vec2);
 }
-// ===== FILE: containers_insert/insert_loop.cc =====
+
+// ===============================
+// ORIGINAL FILE: containers_insert/insert_loop.cc =====
 #include <iostream>
 #include <vector>
 
@@ -129,6 +134,7 @@ void print(const vector<int>& vec) {
 	cout << endl;
 }
 
+// Entry point from original file
 int main_2() {
 	vector<int> vec;
 	auto it = vec.begin();           // First element will be added at start of list
@@ -139,12 +145,15 @@ int main_2() {
 	
 	print(vec);
 }
-// ===== FILE: containers_insert/map_insert.cc =====
+
+// ===============================
+// ORIGINAL FILE: containers_insert/map_insert.cc =====
 #include <iostream>
 #include <map>
 
 using namespace std;
 
+// Entry point from original file
 int main_3() {
 	map<string, int> scores;                                           
 	scores.insert(make_pair("Maybelline", 86));          // C++03 requires make_pair()
@@ -156,6 +165,7 @@ int main_3() {
 	}
 }
 
+// Unified main function calling all sub-programs
 int main() {
     main_1();
     main_2();
