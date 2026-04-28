@@ -62,7 +62,77 @@ int main() {
     cout << "int: " << sizeof(int) << endl;
     cout << "long: " << sizeof(long) << endl;
     cout << "long long: " << sizeof(long long) << endl;
-```
 
     return 0;
 }
+```
+
+## User defined literals
+
+```cpp
+#include <iostream>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+// -------- string.cc --------
+string operator "" _rev(const char *s, size_t l) {
+    string retval(s, l);
+    reverse(retval.begin(), retval.end());
+    return retval;
+}
+
+// -------- temperature.cc --------
+long double operator "" _F_to_C(long double fahrenheit) {
+    return 5.0 / 9.0 * (fahrenheit - 32.0);
+}
+
+// -------- celsius.cc --------
+class Celsius {
+    long double temperature;
+public:
+    explicit Celsius(long double temperature) : temperature(temperature) {}
+    void print() const { cout << temperature << " Celsius\n"; }
+};
+
+Celsius operator "" _C(long double celsius) {
+    return Celsius(celsius);
+}
+
+// -------- raw.cc --------
+class Bignum {
+public:
+    Bignum(const char *str) {
+        cout << "Creating bignum with value " << str << endl;
+    }
+};
+
+Bignum operator "" _Big(const char *str) {
+    return Bignum(str);
+}
+
+// -------- combined main --------
+int main() {
+    // string.cc demo
+    cout << R"("xyz" reversed is )" << "xyz"_rev << endl;
+
+    // temperature.cc demo
+    cout << "212 Fahrenheit is " << 212.0_F_to_C << " Celsius" << endl;
+
+    // builtin.cc demo
+    cout << 3.14159f << endl;
+    cout << "Hello"s << endl;
+    cout << 12'345'678'901'234'567'890ULL << endl;
+
+    // celsius.cc demo
+    cout << "100.0_C is ";
+    Celsius temp = 100.0_C;
+    temp.print();
+
+    // raw.cc demo
+    Bignum big = "1234567890123456789012345678901234567890"_Big;
+
+    return 0;
+}
+```
