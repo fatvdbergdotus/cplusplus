@@ -28,6 +28,8 @@ int main() {
 ```
 
 ## Time
+
+### Measure duration
 ```cpp
 #include <iostream>     // For input/output (cout)
 #include <thread>       // For std::this_thread::sleep_for
@@ -80,5 +82,51 @@ int main() {
     cout << "Time taken: " << elapsed << " milliseconds" << endl;
 
     return 0; // Indicate successful program execution
+}
+```
+
+### Retrieve day, month, year, hour, minute, second
+```cpp
+#include <iostream>
+#include <chrono>
+#include <ctime>
+#include <iomanip>
+
+using namespace std;
+
+int main() {
+    // Get current time using chrono
+    auto now = chrono::system_clock::now();
+
+    // Convert to time_t
+    time_t now_c = chrono::system_clock::to_time_t(now);
+
+    // Convert to local time
+    tm* timeInfo = localtime(&now_c);
+
+    // Extract date
+    int day   = timeInfo->tm_mday;
+    int month = timeInfo->tm_mon + 1;      // tm_mon is 0–11
+    int year  = timeInfo->tm_year + 1900;  // years since 1900
+
+    // Extract time
+    int hours   = timeInfo->tm_hour;
+    int minutes = timeInfo->tm_min;
+    int seconds = timeInfo->tm_sec;
+
+    // Pretty output
+    cout << setfill('0');
+
+    cout << "Date: "
+         << setw(2) << day << "-"
+         << setw(2) << month << "-"
+         << year << endl;
+
+    cout << "Time: "
+         << setw(2) << hours << ":"
+         << setw(2) << minutes << ":"
+         << setw(2) << seconds << endl;
+
+    return 0;
 }
 ```
