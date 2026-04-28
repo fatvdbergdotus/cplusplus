@@ -3,7 +3,7 @@
 ## Exceptions
 
 ### No try catch
-```
+```cpp
 #include <vector>
 #include <iostream>
 
@@ -17,7 +17,7 @@ int main() {
 ```
 
 ### Try catch
-```
+```cpp
 #include <vector>
 #include <iostream>
 
@@ -35,7 +35,7 @@ int main() {
 ```
 
 ### Try catch with a throw
-```
+```cpp
 #include <vector>
 #include <iostream>
 
@@ -55,7 +55,7 @@ int main() {
 ```
 
 ### Promise to not throw exceptions
-```
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -72,7 +72,7 @@ int main() {
 
 ## Templates (generics)
 
-```
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -95,7 +95,9 @@ int main() {
 ```
 
 ## Namespaces
-```
+
+### Simple namespace
+```cpp
 #include <iostream>
 
 using namespace std;
@@ -115,7 +117,7 @@ int main() {
 }
 ```
 
-```
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -137,10 +139,28 @@ int main() {
 }
 ```
 
+### Nested namespace
+```cpp
+#include <iostream>
+
+namespace Outer {
+    namespace Inner {
+        void greet() {
+            std::cout << "Hello from Inner namespace!" << std::endl;
+        }
+    }
+}
+
+int main() {
+    Outer::Inner::greet();  // access nested namespace
+    return 0;
+}
+```
+
 ## Synthesized functions
 The following code demonstrates how C++ handles object creation and copying when no custom constructors or operators are defined: the compiler automatically provides a default constructor, copy constructor, and assignment operator, which are used when creating objects (Test test), copying them (Test test3 = test), and assigning them (test = test2); however, because the member variable i is never initialized, all objects contain undefined (garbage) values, showing the importance of explicitly initializing class members even when relying on compiler-generated behavior.
 
-```
+```cpp
 #include <iostream>
 
 using namespace std;
@@ -205,7 +225,7 @@ int main() {
 
 ## Casting 
 ### C-style cast (old, not recommended)
-```
+```cpp
 #include <iostream>
 
 using namespace std;
@@ -218,7 +238,7 @@ int main() {
 ```
 
 ### static_cast (most common, used for safe, compile-time conversions)
-```
+```cpp
 #include <iostream>
 
 using namespace std;
@@ -231,7 +251,7 @@ int main() {
 ```
 
 ### dynamic_cast (runtime, polymorphism)
-```
+```cpp
 class Base { virtual void f() {} };
 class Derived : public Base {};
 
@@ -245,7 +265,7 @@ if (d) {
 
 ### Const_cast (Used to add or remove const)
 Dangerous if you modify something that was originally const
-```
+```cpp
 #include <iostream>
 
 using namespace std;
