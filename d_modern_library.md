@@ -1,6 +1,8 @@
 # Modern C++ Library features
 
 ## Initializer list
+An initializer_list in C++ is a lightweight object that lets you pass a list of values written in curly braces {} to a function or constructor.
+
 ```cpp
 #include <iostream>
 #include <initializer_list>
