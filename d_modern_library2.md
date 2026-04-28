@@ -230,3 +230,136 @@ int main() {
     return 0; // indicate successful execution
 }
 ```
+
+## Bind
+std::bind (from the C++ Standard Library) creates a callable wrapper by taking a function and “pre-filling” some of its arguments, producing a new function with fewer parameters. You can think of it as turning a function like f(a, b) into a new function where one argument is fixed (e.g., g(a) = f(a, 42)), which is useful when passing functions into algorithms like std::count_if. It also lets you reorder arguments using placeholders like _1, _2. In modern C++, it’s often replaced by lambdas because they’re clearer, but std::bind
+
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <functional>
+
+using namespace std;
+using namespace std::placeholders;
+
+// ============================================================
+// SHARED UTILITIES
+// ============================================================
+
+// Generic match with value
+bool match_with_value(const string& text, const string& value) {
+    return text == value;
+}
+
+// Simple match for "two"
+bool match_two_simple(const string& text) {
+    return text == "two";
+}
+
+// Helper to print result
+void print_result(int total) {
+    cout << "The vector contains " << total;
+    cout << R"( occurrences of the word "two")" << endl;
+}
+
+// ============================================================
+// SECTION: bind.cc (std::bind example)
+// ============================================================
+
+void test_bind() {
+    cout << "[bind] Using std::bind\n";
+
+    vector<string> texts = {"one", "two", "three", "two", "four", "two", "three"};
+
+    // Bind second argument to "two"
+    auto match_two = bind(match_with_value, _1, "two");
+
+    int total = count_if(texts.begin(), texts.end(), match_two);
+
+    print_result(total);
+}
+
+// ============================================================
+// SECTION: bound_lambda.cc (lambda capture example)
+// ============================================================
+
+void test_bound_lambda() {
+    cout << "[lambda] Using lambda with capture\n";
+
+    vector<string> texts = {"one", "two", "three", "two", "four", "two", "three"};
+
+    int total = count_if(
+        texts.begin(),
+        texts.end(),
+        [value = "two"](const string& text) {
+            return match_with_value(text, value);
+        }
+    );
+
+    print_result(total);
+}
+
+// ============================================================
+// SECTION: match.cc (simple function pointer)
+// ============================================================
+
+void test_match() {
+    cout << "[match] Using simple function\n";
+
+    vector<string> texts = {"one", "two", "three", "two", "four", "two", "three"};
+
+    int total = count_if(texts.begin(), texts.end(), match_two_simple);
+
+    print_result(total);
+}
+
+// ============================================================
+// SECTION: match_error.cc (fixed version + explanation)
+// ============================================================
+
+void test_match_error_fixed() {
+    cout << "[match_error] Demonstrating FIX for incorrect usage\n";
+
+    vector<string> texts = {"one", "two", "three", "two", "four", "two", "three"};
+
+    // ORIGINAL ERROR:
+    // count_if(..., match("two"))
+    // This CALLS match immediately instead of passing a function
+
+    // FIX: use lambda to bind argument
+    int total = count_if(
+        texts.begin(),
+        texts.end(),
+        [](const string& text) {
+            return match_with_value(text, "two");
+        }
+    );
+
+    print_result(total);
+}
+
+// ============================================================
+// MAIN ENTRY POINT
+// ============================================================
+
+int main() {
+    cout << "=== Combined Test Program ===\n\n";
+
+    test_bind();
+    cout << "-----------------------------\n";
+
+    test_bound_lambda();
+    cout << "-----------------------------\n";
+
+    test_match();
+    cout << "-----------------------------\n";
+
+    test_match_error_fixed();
+    cout << "-----------------------------\n";
+
+    cout << "\n=== Done ===\n";
+    return 0;
+}
+```
