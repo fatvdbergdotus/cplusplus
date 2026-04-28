@@ -458,6 +458,8 @@ int main() {
 ```
 
 ## Automatic type deduction
+All of this is resolved at compile time (statically).
+
 ```cpp
 int main() {
 	int x{42};
@@ -490,5 +492,52 @@ int main() {
 	const auto& i6 = rcx;                             // auto = int, i6 = const int&
 	//template <typename Auto> void func(const Auto& a);   
 	//func(rcx);                                      // Auto = int, a = const int&, i6 = const int&
+}
+```
+
+## Loops
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    // Initialize a simple array
+    int arr[] = {1, 2, 3, 4, 5};
+    
+    // -----------------------------------------
+    // Normal iterator (begin → end)
+    // -----------------------------------------
+    // begin(arr) points to the first element
+    // end(arr) points *past* the last element
+    cout << "Iterator: ";
+    for (auto it = begin(arr); it != end(arr); ++it)
+        cout << *it << ", ";  // dereference iterator to get value
+    
+    // -----------------------------------------
+    // Const iterator (read-only access)
+    // -----------------------------------------
+    // cbegin/cend ensure elements cannot be modified
+    cout << endl << "Const iterator: ";
+    for (auto it = cbegin(arr); it != cend(arr); ++it)
+        cout << *it << ", ";  // safe: cannot modify *it
+    
+    // -----------------------------------------
+    // Reverse iterator (end → begin)
+    // -----------------------------------------
+    // rbegin starts from the last element
+    // rend goes before the first element
+    cout << endl << "Reverse iterator: ";
+    for (auto it = rbegin(arr); it != rend(arr); ++it)
+        cout << *it << ", ";  // prints in reverse order
+    
+    // -----------------------------------------
+    // Const reverse iterator (read-only reverse)
+    // -----------------------------------------
+    // crbegin/crend combine reverse + const safety
+    cout << endl << "Const reverse iterator: ";
+    for (auto it = crbegin(arr); it != crend(arr); ++it)
+        cout << *it << ", ";  // cannot modify elements
+}
 }
 ```
