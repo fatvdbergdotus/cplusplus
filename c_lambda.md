@@ -123,3 +123,179 @@ int main() {
     return 0;
 }
 ```
+
+## Lambda functions capture
+```cpp
+#include <iostream>
+using namespace std;
+
+/*
+====================================================
+LAMBDA DEMONSTRATION PROGRAM (Single File Version)
+====================================================
+
+This program demonstrates:
+1. No-capture lambda
+2. Capture by value and reference
+3. Mutable lambda
+4. Functor vs Lambda
+
+Each example is placed in its own function
+and called from main().
+*/
+
+
+/*
+====================================================
+1. No-capture lambda
+====================================================
+- A lambda that does NOT use any external variables
+- Syntax: []() { ... }
+- Equivalent to a simple inline function
+*/
+void noCaptureExample() {
+    cout << "\n--- No Capture Lambda ---\n";
+
+    // Define a lambda with no parameters and no capture
+    auto greet = []() {
+        cout << "Hello from a no-capture lambda!\n";
+    };
+
+    // Call the lambda like a function
+    greet();
+}
+
+
+/*
+====================================================
+2. Capture lambda
+====================================================
+- Lambdas can "capture" variables from outer scope
+- Two common types:
+    [x]   -> capture by VALUE (copy)
+    [&x]  -> capture by REFERENCE (original variable)
+
+Key difference:
+- Value: cannot modify original variable
+- Reference: CAN modify original variable
+*/
+void captureLambdaExample() {
+    cout << "\n--- Capture Lambda ---\n";
+
+    int x = 10; // variable in outer scope
+
+    // Capture by VALUE (copy of x is used)
+    auto byValue = [x]() {
+        // x is read-only here (const by default)
+        cout << "Captured by value: x = " << x << endl;
+    };
+
+    // Capture by REFERENCE (original x is used)
+    auto byRef = [&x]() {
+        x += 5; // modifies original variable
+        cout << "Captured by reference, modified x = " << x << endl;
+    };
+
+    byValue();  // prints 10
+    byRef();    // modifies x → now 15
+
+    // Show final value after modification
+    cout << "Outside lambda, x = " << x << endl;
+}
+
+
+/*
+====================================================
+3. Mutable lambda
+====================================================
+- By default, value-captured variables are CONST
+- 'mutable' allows modifying the COPY inside lambda
+
+IMPORTANT:
+- This does NOT change the original variable
+- Only the internal copy is modified
+*/
+void mutableLambdaExample() {
+    cout << "\n--- Mutable Lambda ---\n";
+
+    int x = 5;
+
+    // Capture by value, but allow modification of the copy
+    auto modifyCopy = [x]() mutable {
+        x += 10; // modifies ONLY the copy
+        cout << "Inside lambda, modified copy x = " << x << endl;
+    };
+
+    modifyCopy();
+
+    // Original value remains unchanged
+    cout << "Outside lambda, original x = " << x << endl;
+}
+
+
+/*
+====================================================
+4. Functor vs Lambda
+====================================================
+Functor:
+- A class that overloads operator()
+- Can behave like a function
+
+Lambda:
+- Short, inline alternative to functors
+- Usually preferred for simple use cases
+*/
+
+// Define a functor (function object)
+class Functor {
+    int value; // stored value
+
+public:
+    // Constructor initializes value
+    Functor(int v) : value(v) {}
+
+    // Overload function call operator
+    void operator()() {
+        cout << "Functor value = " << value << endl;
+    }
+};
+
+void functorExample() {
+    cout << "\n--- Functor vs Lambda ---\n";
+
+    // Using functor
+    Functor f(20);
+    f(); // calls operator()
+
+    // Equivalent lambda
+    int value = 20;
+
+    auto lambda = [value]() {
+        cout << "Lambda value = " << value << endl;
+    };
+
+    lambda();
+}
+
+
+/*
+====================================================
+MAIN FUNCTION
+====================================================
+- Entry point of the program
+- Calls all examples sequentially
+*/
+int main() {
+    cout << "Lambda Demonstration Program\n";
+
+    // Run each example one by one
+    noCaptureExample();
+    captureLambdaExample();
+    mutableLambdaExample();
+    functorExample();
+
+    cout << "\nAll examples executed.\n";
+
+    return 0; // indicates successful execution
+}
+```
