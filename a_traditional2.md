@@ -245,7 +245,7 @@ int main() {
 ### Output from child class (virtual)
 Added virtual keyword in the drawable
 
-```cpo
+```cpp
 #include <iostream>
 #include <vector>
 
