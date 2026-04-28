@@ -363,3 +363,132 @@ int main() {
     return 0;
 }
 ```
+
+## Callable objects
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <functional>
+
+using namespace std;
+using namespace std::placeholders;
+
+/*
+    ============================================================
+    COMMON MATCH FUNCTIONS
+    ============================================================
+*/
+
+// Simple match function (used in function pointer + std::function)
+bool match_simple(const string& test) {
+    return test == "two";
+}
+
+// Generic match function (used with bind and lambda capture)
+bool match_with_value(const string& text, const string& value) {
+    return text == value;
+}
+
+/*
+    ============================================================
+    COUNT FUNCTIONS
+    ============================================================
+*/
+
+// Version using raw function pointer
+int count_strings_fp(vector<string>& texts, bool (*match_ptr)(const string&)) {
+    int tally = 0;
+    for (auto text : texts) {
+        if (match_ptr(text)) {
+            ++tally;
+        }
+    }
+    return tally;
+}
+
+// Version using std::function (more flexible)
+int count_strings_func(vector<string>& texts, function<bool(const string&)> match_ptr) {
+    int tally = 0;
+    for (auto text : texts) {
+        if (match_ptr(text)) {
+            ++tally;
+        }
+    }
+    return tally;
+}
+
+/*
+    ============================================================
+    MAIN DEMO
+    ============================================================
+*/
+
+int main() {
+    vector<string> texts = {"one", "two", "three", "two", "four", "two", "three"};
+
+    /*
+        ------------------------------------------------------------
+        1. FUNCTION POINTER
+        ------------------------------------------------------------
+        Old-school C-style function pointer
+    */
+    cout << "[Function Pointer] Count: ";
+    cout << count_strings_fp(texts, match_simple) << endl;
+
+
+    /*
+        ------------------------------------------------------------
+        2. std::function (wrapper)
+        ------------------------------------------------------------
+        More flexible than raw function pointers
+    */
+    cout << "[std::function] Count: ";
+    cout << count_strings_func(texts, match_simple) << endl;
+
+
+    /*
+        ------------------------------------------------------------
+        3. std::bind
+        ------------------------------------------------------------
+        Bind second parameter ("two") to create a unary function
+    */
+    auto match_two_bind = bind(match_with_value, _1, "two");
+
+    cout << "[std::bind] Count: ";
+    cout << count_strings_func(texts, match_two_bind) << endl;
+
+
+    /*
+        ------------------------------------------------------------
+        4. LAMBDA (inline function)
+        ------------------------------------------------------------
+        Anonymous function defined directly in place
+    */
+    cout << "[Lambda] Count: ";
+    cout << count_strings_func(texts,
+        [](const string& text) {
+            return text == "two";
+        }
+    ) << endl;
+
+
+    /*
+        ------------------------------------------------------------
+        5. LAMBDA WITH CAPTURE
+        ------------------------------------------------------------
+        Capture external variable (value = "two")
+    */
+    string value = "two";
+
+    cout << "[Lambda Capture] Count: ";
+    cout << count_strings_func(texts,
+        [value](const string& text) {
+            return match_with_value(text, value);
+        }
+    ) << endl;
+
+
+    return 0;
+}
+```
