@@ -55,6 +55,8 @@ int main() {
 ```
 
 ### Promise to not throw exceptions
+If the function does throw an exception, the program terminates immediately.
+
 ```cpp
 #include <iostream>
 using namespace std;
