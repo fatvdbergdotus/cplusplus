@@ -74,3 +74,92 @@ int main() {
     return 0; // Indicate successful execution
 }
 ```
+
+## Containers and Insert()
+```cpp
+using namespace std;
+
+// ===== FILE: containers_insert/insert.cc =====
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void print(const vector<int>& vec) {
+	for (auto i : vec)
+		cout << i << ", ";
+	cout << endl;
+}
+
+int main_1() {
+	vector<int> vec{1, 2, 3, 4, 5};
+
+	cout << "Original vector: ";
+	print(vec);
+
+	cout << "\nCalling insert with arguments begin(), 0\n";
+	vec.insert(vec.begin(), 0);    // Insert element with value 0 before first element
+	print(vec);
+
+	cout << "Calling insert with arguments end(), 3, 6\n";
+	vec.insert(vec.end(), 3, 6);      // Insert 3 elements with value 6 after last element
+	print(vec);
+
+	vector<int> vec2{3, 1, 4, 1, 5, 9};
+	cout << "\nvec2: ";
+	print(vec2);
+
+	cout << "\nCalling insert on vec with arguments vec.begin(), vec2.begin(), vec2.end()\n";
+	vec.insert(vec.begin(), vec2.begin(), vec2.end());      // Insert all elements from vec2 before first element
+	print(vec);
+
+	cout << "\nCalling insert on vec2 with arguments vec2.end(), {2, 6, 5}\n";
+	vec2.insert(vec2.end(), {2, 6, 5});
+	print(vec2);
+}
+// ===== FILE: containers_insert/insert_loop.cc =====
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void print(const vector<int>& vec) {
+	for (auto i : vec)
+		cout << i << ", ";
+	cout << endl;
+}
+
+int main_2() {
+	vector<int> vec;
+	auto it = vec.begin();           // First element will be added at start of list
+	int i;
+
+	while (cin >> i)
+		it = vec.insert(it, i);      // Add element. Next element will be added before this one
+	
+	print(vec);
+}
+// ===== FILE: containers_insert/map_insert.cc =====
+#include <iostream>
+#include <map>
+
+using namespace std;
+
+int main_3() {
+	map<string, int> scores;                                           
+	scores.insert(make_pair("Maybelline", 86));          // C++03 requires make_pair()
+	scores.insert( {"Graham", 78} );                     // C++11 allows initializer_list
+
+	cout << "Map elements:" << endl;
+	for (auto it: scores) {                                                     // Use a range-for loop 
+		cout << it.first << " has a score of " << it.second << endl;
+	}
+}
+
+int main() {
+    main_1();
+    main_2();
+    main_3();
+    return 0;
+}
+```
