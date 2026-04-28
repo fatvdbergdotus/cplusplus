@@ -252,3 +252,68 @@ int main() {
     return 0;
 }
 ```
+
+## Tuple
+```cpp
+#include <iostream>
+#include <string>
+#include <tuple>
+
+using namespace std;
+
+// Function that returns a tuple with 3 different types
+tuple<double, int, string> func() {
+    return {1.0, 2, "Three"s};
+}
+
+int main() {
+
+    // --- Creating tuples ---
+    // Direct initialization
+    tuple<double, int, string> numbers(1.0, 2, "Three"s);
+
+    // Using make_tuple (type is deduced automatically)
+    auto numbers2{ make_tuple(1.0, 2, "Three"s) };
+
+    // --- Accessing tuple elements ---
+    // Get first element (index-based access)
+    auto x = get<0>(numbers);
+    cout << "First element is " << x << endl;
+
+    // Modify second element (tuples are mutable)
+    cout << "Setting second element to 3" << endl;
+    get<1>(numbers) = 3;
+
+    // Access element by type (must be unique type in tuple)
+    auto i_val = get<int>(numbers);
+    cout << "Value of int element is " << i_val << endl;
+
+    // --- Unpacking tuple using tie ---
+    double d;
+    int i;
+    string str;
+
+    // Assign tuple values to variables
+    tie(d, i, str) = numbers;
+    cout << "Tuple elements are: " << d << ", " << i
+         << R"(, ")" << str << R"(")" << endl;
+
+    // --- Using function that returns a tuple ---
+    tie(d, i, str) = func();
+    cout << "Elements of returned tuple are: "
+         << d << ", " << i
+         << R"(, ")" << str << R"(")" << endl;
+
+    // --- Working with pairs ---
+    // A pair holds exactly two values
+    pair<string, string> wordpair("hello", "there");
+
+    // make_pair automatically deduces types
+    auto wordpair2{ make_pair("hello"s, "there"s) };
+
+    cout << "Pair: " << wordpair.first
+         << ", " << wordpair.second << endl;
+
+    return 0;
+}
+```
