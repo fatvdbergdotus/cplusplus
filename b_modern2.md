@@ -382,6 +382,7 @@ public:
 class SuperFridge : public Refrigerator {
 public:
     // Inherit base class constructor directly
+    // a constructor inheritance feature in C++ (introduced in C++11). It tells the derived class to reuse all constructors from the base class without rewriting them.
     using Refrigerator::Refrigerator;
 };
 
