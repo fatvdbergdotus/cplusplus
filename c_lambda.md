@@ -1,6 +1,23 @@
 # Lambda expressions
 
 ## Overview
+
+### Simple lambda function
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    // A lambda that takes two ints and returns their sum
+    auto add = [](int a, int b) {
+        return a + b;
+    };
+
+    cout << add(3, 4); // Output: 7
+}
+```
+
+### String compare with lambda
 ```cpp
 #include <string>
 #include <algorithm>
