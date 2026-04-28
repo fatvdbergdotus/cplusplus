@@ -204,8 +204,6 @@ using namespace std;
 /*
 ========================================================
 1. IMPLICIT CONVERSION OPERATOR
-- Allows automatic conversion to int
-- Can be dangerous because it happens silently
 ========================================================
 */
 namespace implicit_demo {
@@ -213,24 +211,22 @@ namespace implicit_demo {
 class Test {
     int i{42};
 public:
-    operator int() const { return i; }  // Implicit conversion
+    operator int() const { return i; }
 };
 
 void run() {
     cout << "[Implicit conversion]\n";
     Test t;
-    cout << t << endl;  // Works automatically
+    cout << t << endl;
     cout << endl;
 }
 
-} // namespace implicit_demo
+}
 
 
 /*
 ========================================================
 2. EXPLICIT CONVERSION OPERATOR
-- Requires manual casting
-- Safer than implicit conversion
 ========================================================
 */
 namespace explicit_demo {
@@ -238,26 +234,22 @@ namespace explicit_demo {
 class Test {
     int i{42};
 public:
-    explicit operator int() const { return i; } // Explicit conversion
+    explicit operator int() const { return i; }
 };
 
 void run() {
     cout << "[Explicit conversion]\n";
     Test t;
-
-    // cout << t << endl; // ERROR: no implicit conversion
-    cout << static_cast<int>(t) << endl; // Must cast manually
+    cout << static_cast<int>(t) << endl;
     cout << endl;
 }
 
-} // namespace explicit_demo
+}
 
 
 /*
 ========================================================
 3. EXPLICIT BOOL + INT CONVERSION
-- Allows use in conditions (if statements)
-- Still requires explicit cast for int
 ========================================================
 */
 namespace explicit_bool_demo {
@@ -275,21 +267,52 @@ void run() {
 
     cout << static_cast<int>(t) << endl;
 
-    if (t) // Works because of operator bool()
+    if (t)
         cout << "OK" << endl;
 
     cout << endl;
 }
 
-} // namespace explicit_bool_demo
+}
 
 
 /*
 ========================================================
-4. SURPRISING CASE
-- Demonstrates how operator overloading can compile
-  in unexpected ways
-- NOTE: This does NOT behave as intended
+4. FUNCTION CALL OPERATOR (operator())
+- Makes objects behave like functions
+========================================================
+*/
+namespace function_call_demo {
+
+class Multiplier {
+    int factor;
+public:
+    Multiplier(int f) : factor(f) {}
+
+    // Function call operator
+    int operator()(int value) const {
+        return value * factor;
+    }
+};
+
+void run() {
+    cout << "[Function call operator()]\n";
+
+    Multiplier doubleIt(2);
+    Multiplier tripleIt(3);
+
+    cout << "doubleIt(5): " << doubleIt(5) << endl;
+    cout << "tripleIt(5): " << tripleIt(5) << endl;
+
+    cout << endl;
+}
+
+}
+
+
+/*
+========================================================
+5. SURPRISING CASE
 ========================================================
 */
 namespace surprise_demo {
@@ -299,29 +322,26 @@ void run() {
 
     int i = 99;
 
-    // This compiles because of operator overloading resolution,
-    // but it does NOT do input like >> would.
-    // It's actually trying to use operator<< in a weird way.
-    // Avoid writing code like this.
+    // Avoid confusing operator misuse like:
     // cin << i;
 
-    cout << "cin << i is valid syntax but meaningless here.\n";
+    cout << "cin << i compiles in some contexts but is meaningless.\n";
     cout << endl;
 }
 
-} // namespace surprise_demo
+}
 
 
 /*
 ========================================================
 MAIN FUNCTION
-Runs all demonstrations
 ========================================================
 */
 int main() {
     implicit_demo::run();
     explicit_demo::run();
     explicit_bool_demo::run();
+    function_call_demo::run();
     surprise_demo::run();
 
     return 0;
