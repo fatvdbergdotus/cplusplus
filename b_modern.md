@@ -69,6 +69,7 @@ int main() {
 
 ## User defined literals
 
+### Different suffices
 ```cpp
 #include <iostream>
 #include <algorithm>
@@ -137,6 +138,9 @@ int main() {
 }
 ```
 
+### Suffix for Celcius
+operator "" in C++ defines a user-defined literal (UDL)—it lets you attach meaning to suffixes like 100.0_C or "abc"_rev.
+
 ```cpp
 #include <iostream>
 using namespace std;
@@ -179,5 +183,109 @@ int main() {
     tempFromF.print();         // 100 Celsius
 
     return 0;
+}
+```
+
+## Declaration and initialization
+auto in for (auto v : old_one) tells the compiler to automatically deduce the type of v from the elements of old_one; since old_one is a vector<int>, v becomes an int for each iteration, making the code shorter and easier to maintain without explicitly writing the type. In this form, v is a copy of each element, so changes to v don’t affect the vector; if you want to avoid copying or modify elements directly, you would use auto& v, and for read-only access without copying, const auto& v is typically preferred.
+
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+// -------- alias.cc --------
+// Type alias: IntVec is another name for vector<int>
+using IntVec = vector<int>;
+
+// -------- nullptr.cc --------
+// Function overloading: one takes int, the other takes pointer to int
+void func(int i) {
+    cout << "func(int) called\n";
+}
+
+void func(int* i) {
+    cout << "func(int *) called\n";
+}
+
+// -------- initialization_contd helper --------
+// Empty class used to demonstrate "most vexing parse"
+class Test {};
+
+int main() {
+
+    // -------- alias.cc demo --------
+    // Vector of vectors using alias
+    vector<IntVec> vec_of_vec;
+    cout << "Created vector of vector<int>\n";
+
+
+    // -------- initialization.cc demo --------
+    // Uniform initialization using {}
+    int x{7};
+    string s{"Let us begin"};
+
+    cout << "x = " << x << endl;
+    cout << "s = \"" << s << "\"" << endl;
+
+    // Initializing vector and string with list initialization
+    vector<int> vec{4, 2, 3, 5, 1};
+    string hello{'H', 'e', 'l', 'l', 'o'};
+
+    cout << "vec = ";
+    // Range-based for loop with auto (v is int)
+    for (auto v : vec)
+        cout << v << ", ";
+
+    cout << endl << "hello = \"" << hello << "\"" << endl;
+
+
+    // -------- initialization_contd.cc demo --------
+    // Traditional initialization allows narrowing (double -> int)
+    int y = 7.7;
+
+    cout << "y = " << y << endl;
+
+    // Different vector initializations
+    vector<int> old_one(4);      // 4 elements, all 0
+    vector<int> old_two(4, 2);   // 4 elements, all 2
+    vector<int> uni_one{4};      // 1 element: 4
+    vector<int> uni_two{4, 2};   // elements: 4, 2
+
+    cout << "old_one = ";
+    for (auto v : old_one) cout << v << ", ";
+
+    cout << endl << "old_two = ";
+    for (auto v : old_two) cout << v << ", ";
+
+    cout << endl << "uni_one = ";
+    for (auto v : uni_one) cout << v << ", ";
+
+    cout << endl << "uni_two = ";
+    for (auto v : uni_two) cout << v << ", ";
+    cout << endl;
+
+    // Most vexing parse:
+    // This looks like object creation, but actually declares a function
+    Test test(); 
+
+
+    // -------- nullptr.cc demo --------
+    // NULL is typically 0 → may call func(int)
+    func(NULL);
+
+    // nullptr is a true pointer literal → calls func(int*)
+    func(nullptr);
+
+
+    // -------- vector_vector.cc demo --------
+    // Nested vector (vector of vector<int>)
+    vector<vector<int>> nested_vec;
+    cout << "Nested vector created\n";
+
+    return 0;
+}
 }
 ```
