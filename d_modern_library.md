@@ -175,6 +175,8 @@ int main() {
 ```
 
 ## Containers and emplace
+Use insert instead of emplace when you already have a fully constructed object and simply want to add it to the container, because insert clearly expresses “put this existing object here,” while emplace is intended for constructing a new object directly in-place from constructor arguments. In cases where you pass an existing object to emplace, it offers no real performance benefit and can actually reduce readability, whereas insert is also required for certain operations like inserting multiple elements, ranges, or initializer lists.
+
 ```cpp
 #include <iostream>
 #include <vector>
