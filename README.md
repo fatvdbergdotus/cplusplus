@@ -3,7 +3,7 @@
 - A. Traditional C++ [1](a_traditional.md) [2](a_traditional2.md) [3](a_traditional3.md) [4](a_traditional4.md)
 - B. Modern C++ features [1](b_modern.md) [2](b_modern2.md) [3](b_modern3.md)
 - C. Lambda expressions [1](c_lambda.md)
-- D. Modern C++ Library features [1](d_modern_library.md)
+- D. Modern C++ Library features [1](d_modern_library.md) [2](d_modern_library2.md)
 - [E. Move semantics](e_move.md)
 - [F. Multithreading](f_multithreading.md)
 - [G. Smart pointers](g_smart_pointers.md)
