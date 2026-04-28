@@ -159,6 +159,35 @@ int main() {
 }
 ```
 
+### Inline namespace
+```cpp
+#include <iostream>
+
+// Outer namespace
+namespace Library {
+
+    // Inline namespace (automatically used)
+    inline namespace v1 {
+        void print() {
+            std::cout << "Version 1\n";
+        }
+    }
+
+    // Another version (not inline)
+    namespace v2 {
+        void print() {
+            std::cout << "Version 2\n";
+        }
+    }
+}
+
+int main() {
+    Library::print();      // Calls v1::print() (default)
+    Library::v2::print();  // Explicitly call version 2
+
+    return 0;
+```
+
 ## Synthesized functions
 The following code demonstrates how C++ handles object creation and copying when no custom constructors or operators are defined: the compiler automatically provides a default constructor, copy constructor, and assignment operator, which are used when creating objects (Test test), copying them (Test test3 = test), and assigning them (test = test2); however, because the member variable i is never initialized, all objects contain undefined (garbage) values, showing the importance of explicitly initializing class members even when relying on compiler-generated behavior.
 
