@@ -196,3 +196,165 @@ int main() {
     return 0;
 }
 ```
+
+## Bitsets
+```cpp
+#include <iostream>
+#include <bitset>
+
+using namespace std;
+
+int main() {
+	bitset<8> b1{"10101110"};                                // Initialize from string literal - bitset with value 174
+	bitset<8> b2{0xae};                                      // Initialize from integer value (decimal or hexadecimal)
+	bitset<8> b3{0b1010'1110};                               // Initialize from binary constant (C++14)
+
+	bitset<8> b4{0b010'1010};                                // Bitset with value 42
+
+	cout << "b1 is " << b1 << endl;                          // Displays 10101110
+	cout << "b4 is " << b4 << endl;                          // Displays 00101010
+	cout << "b2 in decimal is " << b2.to_ulong() << endl;    // Displays 174
+	cout << "b2 as a string is " << b2.to_string() << endl;  // Displays 10101110
+
+	cout << "~b1 is " << ~b1 << endl;                        // Displays 01010001
+
+	cout << "b1 & b4 is " <<(b1 & b4) << endl;               // Displays 00101010
+	cout << "b1 | b4 is " << (b1 | b4) << endl;              // Displays 10101110
+	cout << "b1 ^ b4 is " << (b1 ^ b4) << endl;              // Displays 10000100
+}
+```
+
+## Various Library Features
+```cpp
+#include <iostream>
+#include <vector>
+#include <functional>
+#include <fstream>
+#include <string>
+
+using namespace std;
+using namespace std::placeholders;
+
+/* =========================================================
+   Shared helper function (used in bind/ref examples)
+   ========================================================= */
+void incr(int& number, int& value) {
+    // Assign current value to number, then increment value
+    number = value;
+    ++value;
+}
+
+/* =========================================================
+   Demo 1: std::bind WITHOUT std::ref (value is copied)
+   ========================================================= */
+void demo_bind_copy() {
+    cout << "=== Demo: std::bind (copy) ===" << endl;
+
+    int n{2};
+    auto incr_n = bind(incr, _1, n); // n is copied
+
+    vector<int> numbers(5);
+
+    for (auto& number : numbers)
+        incr_n(number);
+
+    cout << "After call, elements are: ";
+    for (auto number : numbers)
+        cout << number << ", ";
+
+    cout << "\nn = " << n << " (unchanged because it was copied)\n\n";
+}
+
+/* =========================================================
+   Demo 2: std::bind WITH std::ref (reference is used)
+   ========================================================= */
+void demo_bind_ref() {
+    cout << "=== Demo: std::bind (reference using std::ref) ===" << endl;
+
+    int n{2};
+    auto incr_n = bind(incr, _1, ref(n)); // n passed by reference
+
+    vector<int> numbers(5);
+
+    for (auto& number : numbers)
+        incr_n(number);
+
+    cout << "After call, elements are: ";
+    for (auto number : numbers)
+        cout << number << ", ";
+
+    cout << "\nn = " << n << " (changed because it's a reference)\n\n";
+}
+
+/* =========================================================
+   Demo 3: vector::data()
+   ========================================================= */
+void print(int* arr, size_t size) {
+    for (size_t i = 0; i < size; ++i)
+        cout << arr[i] << ", ";
+    cout << endl;
+}
+
+void demo_data() {
+    cout << "=== Demo: vector::data() ===" << endl;
+
+    vector<int> numbers{1, 2, 3, 4, 5};
+
+    // data() gives raw pointer to underlying array
+    print(numbers.data(), numbers.size());
+
+    cout << endl;
+}
+
+/* =========================================================
+   Demo 4: fstream usage
+   ========================================================= */
+void demo_fstream() {
+    cout << "=== Demo: fstream ===" << endl;
+
+    string filename = "file.txt";
+
+    // Open file (default: input/output depending on file existence)
+    fstream file(filename);
+
+    if (!file) {
+        cout << "Failed to open file.\n\n";
+        return;
+    }
+
+    cout << "File opened successfully.\n\n";
+
+    file.close();
+}
+
+/* =========================================================
+   Demo 5: to_string, stoi, stod
+   ========================================================= */
+void demo_to_string() {
+    cout << "=== Demo: to_string / stoi / stod ===" << endl;
+
+    string hello{"Hello, "};
+    string pi{to_string(3.14159)};
+
+    hello += pi;
+    cout << hello << endl;
+
+    cout << "stoi(pi): " << stoi(pi) << endl;   // Converts to int (3)
+    cout << "stod(pi): " << stod(pi) << endl;   // Converts to double
+
+    cout << endl;
+}
+
+/* =========================================================
+   Main function: runs all demos
+   ========================================================= */
+int main() {
+    demo_bind_copy();   // bind with copied value
+    demo_bind_ref();    // bind with reference
+    demo_data();        // vector::data()
+    demo_fstream();     // file stream
+    demo_to_string();   // string conversions
+
+    return 0;
+}
+```
