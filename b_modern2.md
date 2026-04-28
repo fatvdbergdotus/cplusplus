@@ -197,6 +197,8 @@ int main() {
 ```
 
 ## Conversion operator
+An explicit conversion operator in C++ is a way to define how an object can be converted to another type—but only when you ask for it explicitly. It prevents the compiler from doing automatic (implicit) conversions behind your back.
+
 ```cpp
 #include <iostream>
 using namespace std;
@@ -348,5 +350,124 @@ int main() {
 }
 ```
 
+## Inheritence
+
+```cpp
+#include <iostream>
+using namespace std;
+
+/*
+    =========================
+    1. Base Class with Constructor
+    =========================
+*/
+class Refrigerator {
+    int temperature;
+    bool door_open;
+    bool power_on;
+
+public:
+    // Constructor using initializer list
+    Refrigerator(int temp, bool open, bool power)
+        : temperature(temp), door_open(open), power_on(power) {
+        cout << "Refrigerator constructor\n";
+    }
+};
+
+/*
+    =========================
+    2. Derived Class inheriting constructor
+    =========================
+*/
+class SuperFridge : public Refrigerator {
+public:
+    // Inherit base class constructor directly
+    using Refrigerator::Refrigerator;
+};
+
+/*
+    =========================
+    3. final class example
+    =========================
+*/
+class NoKids final {
+    // This class cannot be inherited
+};
+
+// Uncommenting below will cause a compilation error
+/*
+class Child : public NoKids {
+};
+*/
+
+/*
+    =========================
+    4. final function example
+    =========================
+*/
+class Base {
+public:
+    virtual void f() {
+        cout << "Base f()\n";
+    }
+};
+
+class Derived : public Base {
+public:
+    void f() final {   // Cannot be overridden further
+        cout << "Derived f() (final)\n";
+    }
+};
+
+// Uncommenting below will cause an error
+/*
+class Derived2 : public Derived {
+public:
+    void f() { }  // ERROR: cannot override final function
+};
+*/
+
+/*
+    =========================
+    5. override keyword example
+    =========================
+*/
+class Vehicle {
+public:
+    virtual void accelerate() {
+        cout << "Vehicle accelerating\n";
+    }
+};
+
+class Plane : public Vehicle {
+public:
+    void accelerate() override {  // Correct override
+        cout << "Plane accelerating\n";
+    }
+
+    // This would cause an error because it doesn't match base signature
+    // void accelerate(int height) override;
+};
+
+/*
+    =========================
+    Main Function
+    =========================
+*/
+int main() {
+    // Constructor inheritance demo
+    SuperFridge sf(4, false, true);
+
+    // Virtual + override demo
+    Plane p;
+    p.accelerate();
+
+    // Final function demo
+    Derived d;
+    d.f();
+
+    return 0;
+}
+```
 
 
