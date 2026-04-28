@@ -510,3 +510,57 @@ int main() {
 // ===== END SOURCE: stored_lambda.cc =====
 
 ```
+
+## C++ 14
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// ---- From generalized.cc ----
+void run_generalized() {
+    auto add_two = [y = 2](int x) { return x + y; };
+
+    cout << "[generalized]" << endl;
+    cout << "Calling add_two(2) gives " << add_two(2) << endl;
+    cout << "Calling add_two(5) gives " << add_two(5) << endl;
+    cout << endl;
+}
+
+// ---- From generalized_init_capture.cc ----
+void run_generalized_init_capture() {
+    int z = 1;
+    auto add_z_plus1 = [y = z + 1](int x) { return x + y; };
+
+    cout << "[generalized_init_capture]" << endl;
+    cout << "Calling add_z_plus1(2) gives " << add_z_plus1(2) << endl;
+    cout << "Calling add_z_plus1(5) gives " << add_z_plus1(5) << endl;
+    cout << endl;
+}
+
+// ---- From generic.cc ----
+void run_generic() {
+    string str1{"Hello, "};
+    string str2{"World!"};
+
+    auto func = [](auto x, auto y) { return x + y; };
+
+    cout << "[generic]" << endl;
+    cout << "Calling func(2, 5) gives " << func(2, 5) << endl;
+    cout << "Calling func(3.141, 4.2) gives " << func(3.141, 4.2) << endl;
+    cout << R"(Calling func(str1, str2) gives ")" 
+         << func(str1, str2) << R"(")" << endl;
+    cout << endl;
+}
+
+// ---- Single main ----
+int main() {
+    run_generalized();
+    run_generalized_init_capture();
+    run_generic();
+
+    return 0;
+}
+```
+
