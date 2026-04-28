@@ -293,49 +293,166 @@ int main() {
 ## Enums
 
 ```cpp
-
-// ===== FILE: class_enum.cc =====
 #include <iostream>
+#include <vector>
+#include <string>
 
 using namespace std;
 
-enum class suits { clubs, diamonds, hearts, spades };
-enum class face_value { two = 2, three, /* ... */ king, ace };
+// Enum for task status
+enum class Status {
+    TODO,
+    IN_PROGRESS,
+    DONE
+};
 
-int main() {
-	//int i = suits::hearts;                                  // Error - cannot implicitly convert to int
-	int i = static_cast<int>(suits::hearts);                // suit implicitly converted to int
-	
-	//...
-	
-	//if (i == face_value::two)                                       // Error - no match for operator ==
-	if (i == static_cast<int>(face_value::two))             // face_value implicitly converted to int
-		cout << "???\n";                  // This shouldn't be possible!
+// Enum for task priority
+enum class Priority {
+    LOW,
+    MEDIUM,
+    HIGH
+};
+
+// Enum for user actions
+enum class Action {
+    ADD,
+    COMPLETE,
+    LIST,
+    EXIT
+};
+
+// Convert enums to string
+string toString(Status s) {
+    switch (s) {
+        case Status::TODO: return "TODO";
+        case Status::IN_PROGRESS: return "IN_PROGRESS";
+        case Status::DONE: return "DONE";
+    }
+    return "UNKNOWN";
 }
 
-// ===== FILE: enum.cc =====
-#include <iostream>
-
-using namespace std;
-
-int main() {
-	enum primary_colours {red, yellow, blue};
-	enum peppers {red, orange, yellow, green};  // Error - redeclaration
+string toString(Priority p) {
+    switch (p) {
+        case Priority::LOW: return "LOW";
+        case Priority::MEDIUM: return "MEDIUM";
+        case Priority::HIGH: return "HIGH";
+    }
+    return "UNKNOWN";
 }
 
-// ===== FILE: enum_conv.cc =====
-#include <iostream>
+// Task structure
+struct Task {
+    int id;
+    string name;
+    Status status;
+    Priority priority;
+};
 
-using namespace std;
-
-enum suits { clubs, diamonds, hearts, spades };
-enum face_value { two = 2, three, /* ... , */ king, ace };
-
-int main() {
-	int i = hearts;                // suit implicitly converted to int
-	//...
-	if (i == two)                  // face_value implicitly converted to int
-		cout << "???\n";           // This shouldn't be possible - but it is!
+// Print a task
+void printTask(const Task& task) {
+    cout << "[" << task.id << "] "
+         << task.name
+         << " | Status: " << toString(task.status)
+         << " | Priority: " << toString(task.priority)
+         << endl;
 }
 
+// List all tasks
+void listTasks(const vector<Task>& tasks) {
+    if (tasks.empty()) {
+        cout << "No tasks available.\n";
+        return;
+    }
+
+    for (const auto& task : tasks) {
+        printTask(task);
+    }
+}
+
+// Add a new task
+void addTask(vector<Task>& tasks, int& nextId) {
+    string name;
+    int priorityInput;
+
+    cout << "Enter task name: ";
+    cin.ignore();
+    getline(cin, name);
+
+    cout << "Priority (0=LOW, 1=MEDIUM, 2=HIGH): ";
+    cin >> priorityInput;
+
+    Priority p = Priority::LOW;
+    if (priorityInput == 1) p = Priority::MEDIUM;
+    else if (priorityInput == 2) p = Priority::HIGH;
+
+    Task t { nextId++, name, Status::TODO, p };
+    tasks.push_back(t);
+
+    cout << "Task added.\n";
+}
+
+// Mark task as complete
+void completeTask(vector<Task>& tasks) {
+    int id;
+    cout << "Enter task ID to complete: ";
+    cin >> id;
+
+    for (auto& task : tasks) {
+        if (task.id == id) {
+            task.status = Status::DONE;
+            cout << "Task marked as DONE.\n";
+            return;
+        }
+    }
+
+    cout << "Task not found.\n";
+}
+
+// Convert user input to Action enum
+Action getAction(int input) {
+    switch (input) {
+        case 1: return Action::ADD;
+        case 2: return Action::COMPLETE;
+        case 3: return Action::LIST;
+        default: return Action::EXIT;
+    }
+}
+
+// Main program
+int main() {
+    vector<Task> tasks;
+    int nextId = 1;
+
+    while (true) {
+        cout << "\n--- Task Manager ---\n";
+        cout << "1. Add Task\n";
+        cout << "2. Complete Task\n";
+        cout << "3. List Tasks\n";
+        cout << "4. Exit\n";
+        cout << "Choose: ";
+
+        int choice;
+        cin >> choice;
+
+        Action action = getAction(choice);
+
+        switch (action) {
+            case Action::ADD:
+                addTask(tasks, nextId);
+                break;
+
+            case Action::COMPLETE:
+                completeTask(tasks);
+                break;
+
+            case Action::LIST:
+                listTasks(tasks);
+                break;
+
+            case Action::EXIT:
+                cout << "Goodbye!\n";
+                return 0;
+        }
+    }
+}
 ```
