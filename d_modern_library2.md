@@ -1,6 +1,10 @@
 # Modern C++ Libraries
 
 ## Std::array
+std::array is preferred over C-style arrays because it keeps the array’s size as part of its type, making code safer and easier to use, especially when passing arrays to functions. Unlike raw arrays, it provides useful features like .size(), .at() for bounds-checked access, and compatibility with standard algorithms such as std::sort, while still having no performance overhead since it’s stored on the stack. It also supports direct copying and assignment, which C-style arrays do not. Overall, std::array gives you the efficiency of traditional arrays with the safety and convenience of modern C++.
+
+You need to provide the 5 in std::array<int, 5> because the size is part of the type itself, not just a runtime value. This means the compiler must know the exact number of elements at compile time so it can allocate the right amount of memory and enable features like .size() and safe copying. In fact, std::array<int, 5> and std::array<int, 10> are completely different types, not just arrays of different lengths. Without specifying the size, the compiler wouldn’t know how much space to reserve or how the object should behave, so the template requires it explicitly.
+
 ```cpp
 #include <iostream>
 #include <array>
