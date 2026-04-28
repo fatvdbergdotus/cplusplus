@@ -136,3 +136,45 @@ int main() {
     return 0;
 }
 ```
+
+```cpp
+// -------- celsius + fahrenheit --------
+class Celsius {
+    long double temperature;
+public:
+    explicit Celsius(long double temperature) : temperature(temperature) {}
+
+    long double toFahrenheit() const {
+        return (temperature * 9.0 / 5.0) + 32.0;
+    }
+
+    void print() const {
+        cout << temperature << " Celsius\n";
+    }
+
+    void printFahrenheit() const {
+        cout << toFahrenheit() << " Fahrenheit\n";
+    }
+};
+
+// Celsius literal
+Celsius operator "" _C(long double celsius) {
+    return Celsius(celsius);
+}
+
+// Fahrenheit literal (converts to Celsius internally)
+Celsius operator "" _F(long double fahrenheit) {
+    return Celsius((fahrenheit - 32.0) * 5.0 / 9.0);
+}
+
+int main() {
+    auto tempC = 100.0_C;
+    tempC.print();             // 100 Celsius
+    tempC.printFahrenheit();   // 212 Fahrenheit
+
+    auto tempFromF = 212.0_F;
+    tempFromF.print();         // 100 Celsius
+
+    return 0;
+}
+```
