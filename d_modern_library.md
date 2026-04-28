@@ -181,29 +181,38 @@ int main() {
 
 using namespace std;
 
+// A simple class representing a refrigerator
 class refrigerator {
-    int temperature;
-    bool door_open;
-    bool power_on;
+    int temperature;   // temperature inside the fridge
+    bool door_open;    // whether the door is open
+    bool power_on;     // whether the fridge has power
+
 public:
+    // Constructor to initialize all fields
     refrigerator(int temp, bool open, bool power)
         : temperature(temp), door_open(open), power_on(power) {}
 
+    // Function to print the state of the refrigerator
     void print() const {
         cout << "Temperature = " << temperature;
-        cout << boolalpha;
+        cout << boolalpha; // print bools as true/false instead of 1/0
         cout << ", door_open = " << door_open;
         cout << ", power_on = " << power_on;
     }
 };
 
+// Demonstrates insert() vs emplace() with vector
 void test_insert_emplace() {
     vector<refrigerator> vec;
 
+    // Create an object first, then insert (copy happens)
     refrigerator fridge(2, false, true);
     vec.insert(vec.begin(), fridge);
 
+    // Insert a temporary object (move may happen)
     vec.insert(vec.end(), refrigerator(3, false, true));
+
+    // Construct object directly in-place (no extra copy)
     vec.emplace(vec.end(), 5, false, false);
 
     cout << "Insert / emplace test:\n";
@@ -213,13 +222,18 @@ void test_insert_emplace() {
     }
 }
 
+// Demonstrates push_back() vs emplace_back()
 void test_push_back_emplace_back() {
     vector<refrigerator> vec;
 
+    // push_back with existing object (copy)
     refrigerator fridge(2, false, true);
     vec.push_back(fridge);
 
+    // push_back with temporary (move may happen)
     vec.push_back(refrigerator(3, false, true));
+
+    // Construct directly inside the vector (most efficient)
     vec.emplace_back(5, false, false);
 
     cout << "\nPush_back / emplace_back test:\n";
@@ -230,6 +244,7 @@ void test_push_back_emplace_back() {
 }
 
 int main() {
+    // Run both demonstrations
     test_insert_emplace();
     test_push_back_emplace_back();
     return 0;
