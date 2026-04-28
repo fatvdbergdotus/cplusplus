@@ -1,3 +1,5 @@
+(c) 2026 Freek van den Berg. All rights reserved.
+
 # C++ manual
 
 - A. Traditional C++ [1](a_traditional.md) [2](a_traditional2.md) [3](a_traditional3.md) [4](a_traditional4.md)

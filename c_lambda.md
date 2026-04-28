@@ -1,3 +1,5 @@
+(c) 2026 Freek van den Berg. All rights reserved.
+
 # Lambda expressions
 In a C++ lambda, the capture clause [], the parameter list (), and the function body {} each play a distinct role: the capture clause specifies which variables from the surrounding scope are accessible inside the lambda (either by value like [x], by reference like [&x], or more broadly with [=] or [&]), the parameter list defines the inputs the lambda accepts just like a normal function (e.g., (int a, int b)), and the body contains the actual logic that runs when the lambda is invoked, optionally returning a value; together, they let you create a compact, inline function that can both use external context and process new inputs at the same time.
 

@@ -1,3 +1,5 @@
+(c) 2026 Freek van den Berg. All rights reserved.
+
 # Traditional C++
 ## C++ Parameter Passing: Value vs Pointer vs Reference
 ### 1. Pass by Value

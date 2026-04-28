@@ -1,3 +1,5 @@
+(c) 2026 Freek van den Berg. All rights reserved.
+
 # Traditional C++
 
 ## Container adapter (containers built on other containers)
