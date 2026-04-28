@@ -376,62 +376,106 @@ using namespace std::placeholders;
 
 /*
     ============================================================
-    COMMON MATCH FUNCTIONS
+    SECTION 1: BASIC MATCH FUNCTIONS
     ============================================================
+
+    These are reusable functions that define "matching logic".
+    Later, we will pass them into other functions in different ways.
 */
 
-// Simple match function (used in function pointer + std::function)
+// Simple match function
+// Returns true if the string equals "two"
 bool match_simple(const string& test) {
     return test == "two";
 }
 
-// Generic match function (used with bind and lambda capture)
+// More flexible match function
+// Takes an extra parameter so we can compare against any value
 bool match_with_value(const string& text, const string& value) {
     return text == value;
 }
 
 /*
     ============================================================
-    COUNT FUNCTIONS
+    SECTION 2: COUNT FUNCTIONS
     ============================================================
+
+    These functions loop through a vector of strings and count how
+    many elements satisfy a given "match condition".
+
+    The key idea:
+    → We don't hardcode the condition
+    → We pass it as a FUNCTION
 */
 
-// Version using raw function pointer
+
+// ------------------------------------------------------------
+// 2.1 FUNCTION POINTER VERSION (C-style)
+// ------------------------------------------------------------
+// Accepts a pointer to a function as a parameter
+// Syntax: bool (*match_ptr)(const string&)
+//
+// Limitations:
+// - Can only accept plain functions (no lambdas with captures, etc.)
+// - Less flexible than modern approaches
 int count_strings_fp(vector<string>& texts, bool (*match_ptr)(const string&)) {
     int tally = 0;
+
+    // Loop through all strings
     for (auto text : texts) {
+        // Call the function pointer
         if (match_ptr(text)) {
             ++tally;
         }
     }
+
     return tally;
 }
 
-// Version using std::function (more flexible)
+
+// ------------------------------------------------------------
+// 2.2 std::function VERSION (modern, flexible)
+// ------------------------------------------------------------
+// std::function is a wrapper that can hold:
+// - function pointers
+// - lambdas
+// - functors
+// - bind expressions
+//
+// Much more flexible than raw function pointers
 int count_strings_func(vector<string>& texts, function<bool(const string&)> match_ptr) {
     int tally = 0;
+
     for (auto text : texts) {
         if (match_ptr(text)) {
             ++tally;
         }
     }
+
     return tally;
 }
+
 
 /*
     ============================================================
-    MAIN DEMO
+    SECTION 3: MAIN DEMONSTRATION
     ============================================================
 */
 
 int main() {
+
+    // Sample data
     vector<string> texts = {"one", "two", "three", "two", "four", "two", "three"};
+
 
     /*
         ------------------------------------------------------------
-        1. FUNCTION POINTER
+        3.1 FUNCTION POINTER
         ------------------------------------------------------------
-        Old-school C-style function pointer
+
+        - Old-school C-style approach
+        - We pass a function name → automatically converted to pointer
+        - Only works with regular functions (no captures, no objects)
     */
     cout << "[Function Pointer] Count: ";
     cout << count_strings_fp(texts, match_simple) << endl;
@@ -439,9 +483,11 @@ int main() {
 
     /*
         ------------------------------------------------------------
-        2. std::function (wrapper)
+        3.2 std::function
         ------------------------------------------------------------
-        More flexible than raw function pointers
+
+        - Same logic as above, but more flexible
+        - std::function can wrap many callable types
     */
     cout << "[std::function] Count: ";
     cout << count_strings_func(texts, match_simple) << endl;
@@ -449,9 +495,20 @@ int main() {
 
     /*
         ------------------------------------------------------------
-        3. std::bind
+        3.3 std::bind
         ------------------------------------------------------------
-        Bind second parameter ("two") to create a unary function
+
+        Problem:
+        match_with_value requires TWO parameters:
+            (text, value)
+
+        But count_strings_func expects a function that takes ONE parameter:
+            (text)
+
+        Solution:
+        → Use std::bind to "fix" the second argument
+
+        _1 = placeholder for first argument passed later
     */
     auto match_two_bind = bind(match_with_value, _1, "two");
 
@@ -461,9 +518,15 @@ int main() {
 
     /*
         ------------------------------------------------------------
-        4. LAMBDA (inline function)
+        3.4 LAMBDA (anonymous function)
         ------------------------------------------------------------
-        Anonymous function defined directly in place
+
+        - Defined inline
+        - No need for a separate function
+        - Very common in modern C++
+
+        Syntax:
+        [] (parameters) { body }
     */
     cout << "[Lambda] Count: ";
     cout << count_strings_func(texts,
@@ -475,9 +538,15 @@ int main() {
 
     /*
         ------------------------------------------------------------
-        5. LAMBDA WITH CAPTURE
+        3.5 LAMBDA WITH CAPTURE
         ------------------------------------------------------------
-        Capture external variable (value = "two")
+
+        Capture allows a lambda to "remember" external variables
+
+        [value] → capture by value
+        [&value] → capture by reference
+
+        This is the modern replacement for std::bind in most cases
     */
     string value = "two";
 
@@ -488,6 +557,19 @@ int main() {
         }
     ) << endl;
 
+
+    /*
+        ============================================================
+        FINAL NOTES
+        ============================================================
+
+        Best practices (modern C++):
+
+        ✔ Prefer lambdas over std::bind
+        ✔ Prefer std::function over raw function pointers when flexibility is needed
+        ✔ Use function pointers only when simplicity/performance is critical
+
+    */
 
     return 0;
 }
