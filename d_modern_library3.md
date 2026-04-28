@@ -130,3 +130,69 @@ int main() {
     return 0;
 }
 ```
+
+## Mathematical types
+
+```cpp
+#include <iostream>     // For input/output
+#include <complex>      // For std::complex
+#include <cmath>        // For math functions (optional but good practice)
+
+using namespace std;
+using namespace std::literals; // Enables complex literals like 1.0i
+
+int main() {
+    // Declare a complex number (will be filled from user input)
+    complex<double> p;
+
+    // Initialize another complex number q = 3 + 4i
+    complex<double> q{3.0, 4.0};
+
+    /*
+    // Alternative manual input method (commented out)
+    double real, imag;
+    cout << "Enter the real part: ";
+    cin >> real;
+    cout << "Enter the imaginary part: ";
+    cin >> imag;
+    complex<double> p{real, imag};
+    */
+
+    // Ask user to input a complex number in format (real, imaginary)
+    cout << "Enter a complex number, e.g. (1.5, 2.7)\n";
+    cin >> p;
+
+    // Display the entered number
+    cout << "Number entered is " << p << endl;
+
+    // Access real and imaginary parts
+    cout << "Real part: " << p.real()
+         << ", imaginary part: " << p.imag() << endl;
+
+    // Compare with q = (3, 4)
+    cout << p << " is "
+         << ((p == q) ? "" : "not ")
+         << "equal to (3.0, 4.0)" << endl;
+
+    // Arithmetic operations
+    cout << "Adding (3, 4) gives: " << (p + q) << endl;
+    cout << "Multiplying by (3, 4) gives: " << (p * q) << endl;
+
+    // Magnitude (absolute value)
+    cout << "Magnitude: " << abs(p) << endl;
+
+    // Phase angle (argument in radians)
+    cout << "Phase angle: " << arg(p) << endl;
+
+    // Complex conjugate
+    cout << "Conjugate: " << conj(p) << endl;
+
+    // Power (square)
+    cout << "Square: " << pow(p, 2.0) << endl;
+
+    // Complex sine
+    cout << "Sine: " << sin(p) << endl;
+
+    return 0;
+}
+```
