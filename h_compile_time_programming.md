@@ -226,3 +226,28 @@ int main() {                          // program entry point
     return 0;                         // successful exit
 }
 ```
+
+## Constant expression
+```cpp
+#include <iostream>              // Include input/output stream library
+
+using namespace std;             // Use standard namespace to avoid std:: prefix
+
+int main() {                     // Entry point of the program
+    int x, y;                   // Declare two integer variables (not constant yet)
+
+    cout << "Enter i: ";        // Prompt user to enter value for i
+    cin >> x;                   // Read user input into variable x
+
+    cout << "\nEnter j: ";      // Prompt user to enter value for j
+    cin >> y;                   // Read user input into variable y
+
+    const int i{x}, j{y};       // Define constants i and j initialized with x and y
+                                // These are now constant expressions
+
+    int arr[i + j];             // Declare array with size (i + j)
+                                // Array size must be a constant expression (in standard C++ this is NOT strictly valid unless compiler supports VLAs)
+
+    return 0;                   // End of program
+}
+```
