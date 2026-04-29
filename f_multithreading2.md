@@ -1,6 +1,8 @@
 # Multithreading
 
 ## Condition Variables
+This program demonstrates how threads coordinate using a std::condition_variable to safely share data between a writer and a reader. A global mutex protects shared variables (sdata and condition_flag), while the condition variable lets one thread sleep until another signals it. In the first example, the reader simply calls cv.wait(lock) and resumes when notified, but this approach can miss signals or wake spuriously. In the second example, the reader uses cv.wait(lock, predicate), which repeatedly checks a condition (condition_flag) and only proceeds when it becomes true—making it reliable even if notifications happen early or spuriously. The writer thread simulates work with a delay, updates the shared data under a lock, sets the condition flag (in the second case), and then calls notify_one() to wake the reader. Together, both examples show why predicate-based waiting is the safer and recommended pattern for thread
+
 ```cpp
 #include <iostream>              // For input/output (cout)
 #include <thread>                // For std::thread
