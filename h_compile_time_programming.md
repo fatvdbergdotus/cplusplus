@@ -115,6 +115,8 @@ In C++, the extern keyword is used to declare a variable or function that is def
 
 Template bloat in C++ refers to the increase in binary size and compile time caused by templates being instantiated multiple times for different types (and sometimes redundantly across translation units), since the compiler generates separate copies of the same template code for each type it’s used with—e.g., vector<int>, vector<double>, etc.—which can lead to large executables and slower builds; this can be mitigated using techniques like extern template to centralize instantiations, reducing unnecessary duplication, or by limiting template usage in widely included headers.
 
+See also: [misc_template_features](./misc_template_features)
+
 ```cpp
 // ==============================
 // Combined single C++ file
