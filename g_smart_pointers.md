@@ -298,5 +298,31 @@ int main() {
 
 ## Shared pointer
 ```cpp
+#include <iostream>   // Includes input/output stream library for cout
+#include <memory>     // Includes smart pointers like shared_ptr
 
+using namespace std;  // Allows using standard library names without std:: prefix
+
+int main() {
+    // Create a shared_ptr that manages an int initialized to 36
+    auto ptr{make_shared<int>(36)};
+    
+    // Print the value pointed to by ptr
+    cout << "shared_ptr's data is " << *ptr << endl;
+    
+    // Copy the shared_ptr (both ptr and ptr2 now share ownership)
+    auto ptr2 = ptr;
+    
+    // Print the value again (same underlying data)
+    cout << "Copied shared_ptr's data is " << *ptr << endl;
+    
+    // Declare an empty shared_ptr
+    shared_ptr<int> ptr3;
+    
+    // Assign ptr to ptr3 (now ptr, ptr2, and ptr3 share ownership)
+    ptr3 = ptr;
+    
+    // Print the value again
+    cout << "Assigned shared_ptr's data is " << *ptr << endl;
+}
 ```
