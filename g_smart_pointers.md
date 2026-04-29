@@ -1,3 +1,5 @@
+(c) 2026 Freek van den Berg. All rights reserved.
+
 # Smart pointers
 A smart pointer is an object in languages like C++ that behaves like a regular pointer but also manages the lifetime of dynamically allocated memory automatically, helping prevent leaks and dangling pointers. Instead of requiring the programmer to manually delete memory, smart pointers use techniques like RAII (Resource Acquisition Is Initialization) to ensure resources are released when the pointer goes out of scope. Common types include std::unique_ptr for exclusive ownership, std::shared_ptr for shared ownership with reference counting, and std::weak_ptr for non-owning references that avoid circular dependencies. By encapsulating memory management logic, smart pointers make code safer, cleaner, and less error-prone.
 
