@@ -100,6 +100,8 @@ int main() {
 ```
 
 ## Mutex
+std::mutex with manual lock()/unlock() gives you the most basic, low-level control but is error-prone because you must remember to unlock it in all cases (including exceptions), otherwise you risk deadlocks; std::lock_guard is a lightweight, scope-based wrapper that automatically locks on creation and unlocks on destruction, making it the safest and simplest choice for straightforward critical sections; std::unique_lock is also RAII-based like lock_guard but more flexible, allowing you to manually unlock/relock, defer locking, or use advanced features like try_lock, making it ideal for more complex synchronization scenarios where you need control without sacrificing safety.
+
 ```cpp
 #include <iostream>      // For std::cout
 #include <thread>        // For std::thread
@@ -180,3 +182,161 @@ int main() {
     return 0;                                   // Exit program
 }
 ```
+
+## Deadlock and livelock
+
+```cpp
+#include <thread>      // For std::thread
+#include <mutex>       // For std::mutex, std::timed_mutex
+#include <iostream>    // For std::cout
+#include <chrono>      // For sleep durations
+
+using namespace std;
+using namespace std::literals; // Enables 10ms, 1s, etc.
+
+// ====================== GLOBAL MUTEXES ======================
+mutex m1, m2;                 // Normal mutexes (for deadlock demos)
+timed_mutex tm1, tm2;         // Timed mutexes (for livelock demos)
+
+// ====================== DEADLOCK EXAMPLE ======================
+void deadlock_func1() {
+    cout << "[Deadlock] Thread 1 locking m1...\n";       // Log action
+    unique_lock<mutex> lk1(m1);                          // Lock m1
+
+    this_thread::sleep_for(50ms);                        // Simulate work
+
+    cout << "[Deadlock] Thread 1 locking m2...\n";       // Try second lock
+    unique_lock<mutex> lk2(m2);                          // Wait for m2 (deadlock risk)
+}
+
+void deadlock_func2() {
+    cout << "[Deadlock] Thread 2 locking m2...\n";       // Log action
+    unique_lock<mutex> lk1(m2);                          // Lock m2
+
+    this_thread::sleep_for(50ms);                        // Simulate work
+
+    cout << "[Deadlock] Thread 2 locking m1...\n";       // Try second lock
+    unique_lock<mutex> lk2(m1);                          // Wait for m1 (deadlock risk)
+}
+
+void run_deadlock() {
+    thread t1(deadlock_func1);                           // Start thread 1
+    thread t2(deadlock_func2);                           // Start thread 2
+
+    t1.join();                                           // Wait for t1
+    t2.join();                                           // Wait for t2
+}
+
+// ====================== LIVELOCK EXAMPLE ======================
+void livelock_func1() {
+    this_thread::sleep_for(10ms);                        // Small delay
+    bool locked = false;                                 // Track success
+
+    while (!locked) {                                    // Keep trying
+        lock_guard<timed_mutex> lk(tm1);                 // Lock tm1
+        this_thread::sleep_for(1s);                      // Simulate work
+
+        cout << "[Livelock] After you!\n";               // Polite conflict
+
+        locked = tm2.try_lock_for(5ms);                  // Try locking tm2
+    }
+}
+
+void livelock_func2() {
+    bool locked = false;                                 // Track success
+
+    while (!locked) {                                    // Keep trying
+        lock_guard<timed_mutex> lk(tm2);                 // Lock tm2
+        this_thread::sleep_for(1s);                      // Simulate work
+
+        cout << "[Livelock] No, after you!\n";           // Polite conflict
+
+        locked = tm1.try_lock_for(5ms);                  // Try locking tm1
+    }
+}
+
+void run_livelock() {
+    thread t1(livelock_func1);                           // Start thread 1
+    thread t2(livelock_func2);                           // Start thread 2
+
+    t1.join();                                           // Wait for t1
+    t2.join();                                           // Wait for t2
+}
+
+// ====================== NO DEADLOCK (ADOPT LOCK) ======================
+void no_deadlock_adopt_func() {
+    lock(m1, m2);                                        // Lock both safely
+
+    unique_lock<mutex> lk1(m1, adopt_lock);              // Take ownership
+    unique_lock<mutex> lk2(m2, adopt_lock);              // Take ownership
+
+    cout << "[Fix] No deadlock using adopt_lock\n";       // Log result
+}
+
+void run_no_deadlock_adopt() {
+    thread t1(no_deadlock_adopt_func);                   // Start thread 1
+    thread t2(no_deadlock_adopt_func);                   // Start thread 2
+
+    t1.join();                                           // Wait
+    t2.join();                                           // Wait
+}
+
+// ====================== NO DEADLOCK (DEFER LOCK) ======================
+void no_deadlock_defer_func() {
+    unique_lock<mutex> lk1(m1, defer_lock);              // Don't lock yet
+    unique_lock<mutex> lk2(m2, defer_lock);              // Don't lock yet
+
+    lock(lk1, lk2);                                      // Lock both safely
+
+    cout << "[Fix] No deadlock using defer_lock\n";       // Log result
+}
+
+void run_no_deadlock_defer() {
+    thread t1(no_deadlock_defer_func);                   // Start thread
+    thread t2(no_deadlock_defer_func);                   // Start thread
+
+    t1.join();                                           // Wait
+    t2.join();                                           // Wait
+}
+
+// ====================== NO LIVELOCK ======================
+void no_livelock_func() {
+    lock(tm1, tm2);                                      // Lock both safely
+
+    unique_lock<timed_mutex> lk1(tm1, adopt_lock);       // Own tm1
+    unique_lock<timed_mutex> lk2(tm2, adopt_lock);       // Own tm2
+
+    this_thread::sleep_for(1s);                          // Simulate work
+
+    cout << "[Fix] No livelock\n";                        // Log result
+}
+
+void run_no_livelock() {
+    thread t1(no_livelock_func);                         // Start thread
+    thread t2(no_livelock_func);                         // Start thread
+
+    t1.join();                                           // Wait
+    t2.join();                                           // Wait
+}
+
+// ====================== MAIN ======================
+int main() {
+    cout << "\n--- Deadlock Demo (may hang) ---\n";
+    // run_deadlock();   // Uncomment carefully (will deadlock)
+
+    cout << "\n--- Livelock Demo ---\n";
+    // run_livelock();   // Uncomment carefully (may loop)
+
+    cout << "\n--- Fix Deadlock (adopt_lock) ---\n";
+    run_no_deadlock_adopt();                             // Safe execution
+
+    cout << "\n--- Fix Deadlock (defer_lock) ---\n";
+    run_no_deadlock_defer();                             // Safe execution
+
+    cout << "\n--- Fix Livelock ---\n";
+    run_no_livelock();                                   // Safe execution
+
+    return 0;                                            // Exit program
+}
+```
+
