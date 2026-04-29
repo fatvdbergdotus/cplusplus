@@ -206,3 +206,74 @@ int main() {
     return 0;
 }
 ```
+
+## Promises and futures
+```cpp
+#include <future>      // For std::promise and std::future
+#include <iostream>    // For input/output
+#include <thread>      // For std::thread
+#include <exception>   // For exception handling
+
+using namespace std;   // Avoid std:: prefix for simplicity
+
+// ---------- PRODUCER (SUCCESS CASE) ----------
+void produce_success(promise<int>& px) {              // Function that sets a value in promise
+    int x{42};                                        // Value to send
+    this_thread::sleep_for(1s);                        // Simulate work (1 second delay)
+    cout << "[SUCCESS] Promise sets value: " << x << endl; // Print status
+    px.set_value(x);                                  // Store value in shared state
+}
+
+// ---------- PRODUCER (EXCEPTION CASE) ----------
+void produce_exception(promise<int>& px) {            // Function that sets an exception
+    try {
+        int x{42};                                    // Dummy value
+        this_thread::sleep_for(1s);                    // Simulate work
+        throw out_of_range("Oops! Something went wrong"); // Force an exception
+        px.set_value(x);                              // (Won’t execute)
+    }
+    catch (...) {                                     // Catch any exception
+        px.set_exception(current_exception());         // Store exception in shared state
+    }
+}
+
+// ---------- CONSUMER ----------
+void consume(future<int>& fx) {                       // Function that reads from future
+    cout << "Future calling get()..." << endl;        // Indicate waiting for result
+    try {
+        int x = fx.get();                             // Wait and retrieve value OR throw exception
+        cout << "Future received value." << endl;     // If success
+        cout << "Result: " << x << endl;              // Print result
+    }
+    catch (exception& e) {                            // Catch exception from promise
+        cout << "Exception caught: " << e.what() << endl; // Print error message
+    }
+}
+
+// ---------- MAIN ----------
+int main() {
+    cout << "=== SUCCESS CASE ===" << endl;
+
+    promise<int> p1;                                  // Create promise object
+    future<int> f1 = p1.get_future();                 // Get associated future
+
+    thread t1(consume, ref(f1));                      // Start consumer thread
+    thread t2(produce_success, ref(p1));              // Start producer thread (success)
+
+    t1.join();                                        // Wait for consumer to finish
+    t2.join();                                        // Wait for producer to finish
+
+    cout << "\n=== EXCEPTION CASE ===" << endl;
+
+    promise<int> p2;                                  // New promise for exception case
+    future<int> f2 = p2.get_future();                 // Get future
+
+    thread t3(consume, ref(f2));                      // Start consumer thread
+    thread t4(produce_exception, ref(p2));            // Start producer thread (exception)
+
+    t3.join();                                        // Wait for consumer
+    t4.join();                                        // Wait for producer
+
+    return 0;                                         // End program
+}
+```
