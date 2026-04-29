@@ -359,3 +359,103 @@ int main() {
     return 0;
 }
 ```
+
+## Random number algorithms
+```cpp
+// random_number_algorithms_sequential.cpp
+// Combines:
+// 1. Bernoulli distribution example
+// 2. Drunkard walk animation (limited steps)
+// 3. Shuffle algorithm demo
+
+#include <random>
+#include <algorithm>
+#include <vector>
+#include <iostream>
+#include <string>
+#include <chrono>
+#include <thread>
+
+using namespace std;
+
+// Shared random engine
+static mt19937 mt(random_device{}());
+
+// --------------------------------------------------
+// 1. Bernoulli Distribution Demo
+// --------------------------------------------------
+void runBernoulli() {
+    cout << "\n--- Bernoulli Demo ---\n";
+
+    bernoulli_distribution berni(0.5);
+
+    for (int i = 0; i < 5; ++i) {
+        if (berni(mt))
+            cout << "Your subjects are grateful for your wise and benevolent rule\n";
+        else
+            cout << "The peasants are revolting!\n";
+    }
+}
+
+// --------------------------------------------------
+// 2. Drunkard Walk Demo (FINITE version)
+// Note: limited steps so program continues
+// --------------------------------------------------
+void runDrunkard() {
+    cout << "\n--- Drunkard Walk Demo ---\n";
+
+    bernoulli_distribution berni;
+    int x = 20;
+    const int WIDTH = 40;
+    int sign = 1;
+
+    for (int step = 0; step < 60; ++step) {
+        sign = berni(mt) ? 1 : -1;
+
+        if (x <= 1) sign = 1;
+        if (x >= WIDTH) sign = -1;
+
+        x += sign;
+
+        cout << string(x, ' ') << '.'
+             << string(WIDTH - x, ' ')
+             << "\r" << flush;
+
+        this_thread::sleep_for(80ms);
+    }
+
+    cout << endl; // move to next line after animation
+}
+
+// --------------------------------------------------
+// 3. Shuffle Demo
+// --------------------------------------------------
+void runShuffle() {
+    cout << "\n--- Shuffle Demo ---\n";
+
+    vector<int> vec{3, 1, 4, 1, 5, 9};
+
+    for (int i = 0; i < 5; ++i) {
+        shuffle(vec.begin(), vec.end(), mt);
+
+        for (auto v : vec)
+            cout << v << " ";
+
+        cout << endl;
+
+        this_thread::sleep_for(500ms);
+    }
+}
+
+// --------------------------------------------------
+// Main: run everything sequentially
+// --------------------------------------------------
+int main() {
+    runBernoulli();
+    runDrunkard();
+    runShuffle();
+
+    cout << "\nAll demos completed.\n";
+    return 0;
+}
+```
