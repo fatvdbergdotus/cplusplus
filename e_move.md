@@ -381,3 +381,52 @@ int main() {
     return 0;                // End program
 }
 ```
+
+## Perfect forwarding
+This single C++ program demonstrates perfect forwarding by defining three overloaded versions of a function g that handle a modifiable lvalue, a const lvalue, and an rvalue, respectively. A template function f takes a forwarding reference (T&&) and passes its argument to g using std::forward, which preserves whether the original argument was an lvalue or rvalue. In main, different kinds of arguments—regular objects, const objects, and moved objects—are passed to f, showing how the correct overload of g is selected each time. Overall, it illustrates how C++ templates can maintain the exact nature of arguments, avoiding unnecessary copies and enabling efficient, flexible code.
+
+```cpp
+#include <iostream>              // Include standard input/output library
+#include <utility>               // Required for std::forward and std::move
+
+using namespace std;             // Avoid writing std:: repeatedly
+
+class X { };                     // Simple empty class used for demonstration
+
+// Function overload for modifiable lvalue reference
+void g(X& x) {
+    std::cout << "Modifiable version of g\n"; // Called when argument is non-const lvalue
+}
+
+// Function overload for const lvalue reference
+void g(const X& x) {
+    std::cout << "Immutable version of g\n";  // Called when argument is const lvalue
+}
+
+// Function overload for rvalue reference
+void g(X&& x) {
+    std::cout << "Move version of g\n";       // Called when argument is rvalue (temporary or moved)
+}
+
+// Template function using perfect forwarding
+template <class T>
+void f(T&& x) {                               // T&& is a forwarding (universal) reference
+    g(std::forward<T>(x));                    // Forward x preserving its value category (lvalue/rvalue)
+}
+
+int main() {
+    X x;                                      // Create a normal (modifiable) object
+    const X cx;                               // Create a const object
+
+    cout << "Lvalue\n";                       // Label output
+    f(x);                                     // Pass lvalue → calls g(X&)
+
+    cout << "Const lvalue\n";                 // Label output
+    f(cx);                                    // Pass const lvalue → calls g(const X&)
+
+    cout << "Rvalue\n";                       // Label output
+    f(std::move(x));                          // Convert x to rvalue → calls g(X&&)
+
+    return 0;                                 // End of program
+}
+```
