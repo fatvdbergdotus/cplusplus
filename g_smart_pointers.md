@@ -326,3 +326,43 @@ int main() {
     cout << "Assigned shared_ptr's data is " << *ptr << endl;
 }
 ```
+
+## Weak pointer
+```cpp
+#include <iostream>   // for std::cout, std::endl
+#include <memory>     // for std::shared_ptr, std::weak_ptr, std::make_shared
+
+using namespace std;  // avoid writing std:: repeatedly (not recommended in large projects)
+
+int main() {
+
+    // Create a shared_ptr that owns an integer with value 36
+    auto ptr{make_shared<int>(36)};   // reference count = 1
+
+    // Print the value stored in shared_ptr
+    cout << "shared_ptr's data is " << *ptr << endl;
+
+    // Create a weak_ptr that observes ptr (does NOT increase reference count)
+    weak_ptr<int> wptr = ptr;         // reference count still = 1
+
+    // Reset ptr, destroying the managed object (since ref count goes to 0)
+    ptr = nullptr;                   // object deleted, wptr becomes expired
+
+    // Try to convert weak_ptr back to shared_ptr safely
+    shared_ptr<int> sp1 = wptr.lock();  // lock() returns nullptr if object is gone
+
+    // Check if the object is still valid
+    if (sp1) {                         // true if object still exists
+        cout << "shared_ptr's data is " << *sp1 << endl;
+    }
+    else {
+        cout << "shared_ptr not available" << endl;  // expected path here
+    }
+
+    // Attempt to directly construct shared_ptr from weak_ptr
+    // This will throw std::bad_weak_ptr if the object is already destroyed
+    shared_ptr<int> sp2(wptr);        // unsafe if expired!
+
+    return 0;                         // indicate successful program execution
+}
+```
