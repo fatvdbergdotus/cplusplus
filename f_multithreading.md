@@ -46,6 +46,9 @@ int main() {
     thread t3{ hello_ref, cref(str) };        // Pass reference using std::cref
     t3.join();                               // Wait for thread to finish
 
+    // std::cref is a helper function from the C++ standard library (<functional>)
+    // that lets you pass an argument by reference to things like std::thread, which normally copy arguments.
+
     return 0;                                // End program
 }
 ```
