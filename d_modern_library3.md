@@ -363,23 +363,25 @@ int main() {
 ## Random number algorithms
 ```cpp
 // random_number_algorithms_sequential.cpp
-// Combines:
-// 1. Bernoulli distribution example
-// 2. Drunkard walk animation (limited steps)
-// 3. Shuffle algorithm demo
+// This program demonstrates three random-based algorithms in sequence:
+// 1. Bernoulli distribution (true/false randomness)
+// 2. Drunkard's walk (random movement simulation)
+// 3. Shuffle algorithm (random permutation of a list)
 
-#include <random>
-#include <algorithm>
-#include <vector>
-#include <iostream>
-#include <string>
-#include <chrono>
-#include <thread>
+#include <random>      // For random number generation
+#include <algorithm>   // For shuffle()
+#include <vector>      // For using std::vector
+#include <iostream>    // For input/output
+#include <string>      // For string manipulation
+#include <chrono>      // For timing (delays)
+#include <thread>      // For sleep_for()
 
 using namespace std;
 
-// Shared random engine
+// Create a Mersenne Twister random number generator
+// Seeded with a non-deterministic random device for better randomness
 static mt19937 mt(random_device{}());
+
 
 // --------------------------------------------------
 // 1. Bernoulli Distribution Demo
@@ -387,45 +389,63 @@ static mt19937 mt(random_device{}());
 void runBernoulli() {
     cout << "\n--- Bernoulli Demo ---\n";
 
+    // Bernoulli distribution generates true/false outcomes
+    // Probability = 0.5 means 50% chance of true, 50% false
     bernoulli_distribution berni(0.5);
 
+    // Run the experiment 5 times
     for (int i = 0; i < 5; ++i) {
-        if (berni(mt))
+
+        // Generate a random boolean value
+        if (berni(mt)) {
             cout << "Your subjects are grateful for your wise and benevolent rule\n";
-        else
+        } else {
             cout << "The peasants are revolting!\n";
+        }
     }
 }
 
+
 // --------------------------------------------------
 // 2. Drunkard Walk Demo (FINITE version)
-// Note: limited steps so program continues
 // --------------------------------------------------
 void runDrunkard() {
     cout << "\n--- Drunkard Walk Demo ---\n";
 
+    // Random boolean to decide direction (left or right)
     bernoulli_distribution berni;
-    int x = 20;
-    const int WIDTH = 40;
-    int sign = 1;
 
+    int x = 20;            // Starting position (middle of screen)
+    const int WIDTH = 40;  // Width of the "world"
+    int sign = 1;          // Direction: +1 (right), -1 (left)
+
+    // Run for a fixed number of steps so program doesn't get stuck
     for (int step = 0; step < 60; ++step) {
+
+        // Randomly choose direction
         sign = berni(mt) ? 1 : -1;
 
+        // Prevent moving outside boundaries
         if (x <= 1) sign = 1;
         if (x >= WIDTH) sign = -1;
 
+        // Update position
         x += sign;
 
+        // Print the drunkard as a dot ('.') at position x
+        // Spaces are used to shift the dot horizontally
         cout << string(x, ' ') << '.'
              << string(WIDTH - x, ' ')
-             << "\r" << flush;
+             << "\r" << flush;  // '\r' returns cursor to start (animation effect)
 
+        // Pause briefly so movement is visible
         this_thread::sleep_for(80ms);
     }
 
-    cout << endl; // move to next line after animation
+    // Move to next line after animation finishes
+    cout << endl;
 }
+
 
 // --------------------------------------------------
 // 3. Shuffle Demo
@@ -433,29 +453,39 @@ void runDrunkard() {
 void runShuffle() {
     cout << "\n--- Shuffle Demo ---\n";
 
+    // Create a vector with some numbers
     vector<int> vec{3, 1, 4, 1, 5, 9};
 
+    // Shuffle and print the vector multiple times
     for (int i = 0; i < 5; ++i) {
+
+        // Randomly reorder elements using the same RNG
         shuffle(vec.begin(), vec.end(), mt);
 
+        // Print shuffled result
         for (auto v : vec)
             cout << v << " ";
 
         cout << endl;
 
+        // Pause to make changes visible
         this_thread::sleep_for(500ms);
     }
 }
 
+
 // --------------------------------------------------
-// Main: run everything sequentially
+// Main Function
 // --------------------------------------------------
 int main() {
+
+    // Run all demos one after another
     runBernoulli();
     runDrunkard();
     runShuffle();
 
     cout << "\nAll demos completed.\n";
+
     return 0;
 }
 ```
