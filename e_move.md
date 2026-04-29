@@ -208,7 +208,8 @@ int main() {
 }
 ```
 
-## Move operators
+## Move operators (Copy constructor, move constructor, copy assignmen operator, move assignment operator)
+In C++, the copy constructor and copy assignment operator create or update objects by duplicating data from another existing object (an lvalue), while the move constructor and move assignment operator improve efficiency by transferring resources from temporary or explicitly moved objects (rvalues) instead of copying them; the copy constructor is used when a new object is initialized from another, whereas the copy assignment operator is used when an already existing object is assigned new values, and similarly, the move constructor initializes a new object by “stealing” resources (like memory) from a temporary object, while the move assignment operator replaces the contents of an existing object by taking over those resources, leaving the source object in a valid but typically empty state—this distinction is crucial for performance, especially when working with large or resource-heavy objects.
 ```cpp
 #include <iostream>              // Include input-output stream library
 
