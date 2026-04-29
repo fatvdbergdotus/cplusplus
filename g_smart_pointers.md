@@ -94,3 +94,126 @@ int main() {
     return 0;           // Indicate successful execution
 }
 ```
+
+## Unique pointer appications
+```cpp
+#include <iostream>      // Provides std::cout for console output
+#include <memory>        // Provides smart pointers like std::unique_ptr
+
+/// ===== Simulated C-style Networking API =====
+struct destination { /* Represents a remote endpoint (details omitted) */ };
+
+struct connection { /* Represents an active connection (details omitted) */ };
+
+// Opens a connection to a destination and returns it by value
+connection connect(destination dest) {
+    std::cout << "Connecting\n";   // Log that a connection is being established
+    connection conn;               // Create a connection object
+    return conn;                   // Return it (copy or move)
+}
+
+// Closes a connection
+void disconnect(connection conn) {
+    std::cout << "Disconnecting\n"; // Log that the connection is closing
+}
+/// ===== End of C-style API =====
+
+
+// --- Example 1: Incorrect use of std::unique_ptr ---
+void get_data_bad(const destination& dest) {
+    connection conn = connect(dest);     // Create a connection on the stack
+
+    // PROBLEM:
+    // unique_ptr assumes ownership of a heap-allocated object.
+    // Here we pass the address of a stack variable → leads to undefined behavior
+    // when unique_ptr tries to delete it.
+    std::unique_ptr<connection> ptr(&conn);
+
+    std::cout << "Getting data...\n";    // Simulate work
+}   // ptr goes out of scope → tries to delete stack memory →  BUG
+
+
+// --- Example 2: Custom deleter (still problematic design) ---
+
+// Lambda that defines how to properly "close" a connection
+auto end_connection = [](connection* conn) {
+    disconnect(*conn);  // Call API cleanup function
+};
+
+void get_data_custom_deleter(const destination& d) {
+    connection conn = connect(d);   // Stack-allocated connection
+
+    // Uses unique_ptr with a custom deleter
+    // This avoids calling delete, but still manages a stack object → risky design
+    std::unique_ptr<connection, decltype(end_connection)> p(&conn, end_connection);
+
+    std::cout << "Getting data...\n";  // Simulate work
+}   // Calls end_connection, but does NOT delete memory (safe-ish but awkward)
+
+
+// --- Example 3: Proper use of polymorphism with unique_ptr ---
+
+#include <vector>   // Needed for std::vector
+
+using namespace std;  // Avoids std:: prefix (not recommended in headers, okay in examples)
+
+// Abstract base class
+class Shape {
+public:
+    virtual void draw() = 0;        // Pure virtual function → must be implemented
+    virtual ~Shape() = default;     // Virtual destructor for safe polymorphic deletion
+};
+
+// Derived class: Circle
+class Circle : public Shape {
+public:
+    void draw() override {          // Override base class method
+        cout << "I'm a Circle!\n";  // Print shape type
+    }
+};
+
+// Derived class: Triangle
+class Triangle : public Shape {
+public:
+    void draw() override {
+        cout << "I'm a Triangle!\n";
+    }
+};
+
+// Derived class: Square
+class Square : public Shape {
+public:
+    void draw() override {
+        cout << "I'm a Square!\n";
+    }
+};
+
+
+// --- Main demonstrating correct modern C++ usage ---
+int main() {
+    destination dest;   // Create a destination object
+
+    // Demonstrate problematic patterns (for learning only)
+    get_data_bad(dest);               //  Undefined behavior
+    get_data_custom_deleter(dest);    //  Works but not ideal design
+
+    // Correct usage of unique_ptr with polymorphism
+    vector<unique_ptr<Shape>> shapes;  // Vector of owning smart pointers
+
+    // Create objects safely on heap and transfer ownership into vector
+    shapes.emplace_back(make_unique<Circle>());
+    shapes.emplace_back(make_unique<Triangle>());
+    shapes.emplace_back(make_unique<Square>());
+
+    // Iterate and call virtual function → runtime polymorphism
+    for (auto& it : shapes)
+        it->draw();
+
+    return 0;  // Indicate successful execution
+}
+```
+
+## Shared pointer
+```cpp
+
+```
