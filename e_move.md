@@ -99,71 +99,111 @@ int main() {
 ```
 
 # Lvalues and Rvalues
+An lvalue is an expression that refers to a persistent object with a specific memory location—you can take its address and it typically appears on the left side of an assignment (like a named variable int x). An rvalue, on the other hand, is a temporary value that does not have a stable memory location and usually appears on the right side of an assignment (like 5 or x + 1). The key difference is that lvalues represent objects you can modify and refer to repeatedly, while rvalues represent temporary results that are used briefly and then discarded.
+
 ```cpp
-#include <iostream>                     // Include input/output stream library
+#include <iostream>                         // Provides std::cout, std::endl for console output
 
-using namespace std;                   // Avoid std:: prefix for convenience
+using namespace std;                        // Allows us to write cout instead of std::cout
 
-// ---------- SECTION 1: LVALUE REFERENCE BASICS ----------
-void lvalue_demo() {                   // Function to demonstrate lvalue reference behavior
-    // int& x = 3;                    // ERROR: cannot bind non-const lvalue reference to rvalue (3)
-    const int& x = 3;                 // OK: const lvalue reference can bind to rvalue
-    cout << "lvalue_demo: x = " << x << endl; // Print value
+// ==========================================================
+// SECTION 1: LVALUE REFERENCE BASICS
+// ==========================================================
+
+void lvalue_demo() {                        // Function to demonstrate how lvalue references behave
+
+    // int& x = 3;                          // ERROR:
+                                            // 3 is an rvalue (temporary value, no memory address you can modify)
+                                            // Non-const lvalue references (int&) can ONLY bind to lvalues
+
+    const int& x = 3;                       // VALID:
+                                            // const lvalue references CAN bind to rvalues
+                                            // The compiler creates a temporary variable behind the scenes
+                                            // and binds 'x' to it safely (read-only)
+
+    cout << "lvalue_demo: x = " << x << endl; // Prints the value stored in the temporary (3)
 }
 
-// ---------- SECTION 2: FUNCTION OVERLOADING (Lvalue vs Rvalue) ----------
-class Test { };                        // Simple empty class
+// ==========================================================
+// SECTION 2: FUNCTION OVERLOADING WITH LVALUES & RVALUES
+// ==========================================================
 
-void func(Test& test) {                // Overload for non-const lvalue reference
-    cout << "lvalue argument\n";       // Prints when lvalue is passed
+class Test { };                              // Simple empty class (no members needed for this demo)
+
+// -------- Different overloads depending on value category --------
+
+// 1. Non-const lvalue reference
+void func(Test& test) {
+    cout << "lvalue argument\n";             // Called when passing a modifiable named object (lvalue)
 }
 
-void func(const Test& test) {          // Overload for const lvalue reference
-    cout << "const lvalue argument\n";// Prints when const lvalue is passed
+// 2. Const lvalue reference
+void func(const Test& test) {
+    cout << "const lvalue argument\n";       // Called when passing const objects OR when no better match exists
 }
 
-void func(Test&& test) {               // Overload for rvalue reference
-    cout << "rvalue argument\n";      // Prints when rvalue is passed
+// 3. Rvalue reference
+void func(Test&& test) {
+    cout << "rvalue argument\n";             // Called when passing temporary objects (rvalues)
 }
 
-void overload_demo() {                 // Function to demonstrate overload resolution
-    Test test;                        // Create non-const object (lvalue)
-    const Test ctest;                 // Create const object (const lvalue)
+void overload_demo() {
+    Test test;                               // 'test' is an lvalue (it has a name and memory location)
+    const Test ctest;                        // 'ctest' is a const lvalue (cannot be modified)
 
-    cout << "Calling func(test): ";   // Message before call
-    func(test);                       // Calls lvalue overload
+    cout << "Calling func(test): ";
+    func(test);                              // Matches Test& (best match: non-const lvalue reference)
 
-    cout << "Calling func(ctest): ";  // Message before call
-    func(ctest);                      // Calls const lvalue overload
+    cout << "Calling func(ctest): ";
+    func(ctest);                             // Matches const Test&
+                                             // Cannot bind to Test& because object is const
 
-    cout << "Calling func(Test()): "; // Message before call
-    func(Test());                     // Calls rvalue overload (temporary object)
+    cout << "Calling func(Test()): ";
+    func(Test());                            // Test() creates a temporary object → rvalue
+                                             // Matches Test&& (rvalue reference)
+
+    // IMPORTANT NOTE:
+    // If the rvalue overload (Test&&) didn't exist,
+    // the const Test& version would accept the rvalue instead.
 }
 
-// ---------- SECTION 3: RVALUE REFERENCE BASICS ----------
-void rvalue_ref_demo() {               // Function to demonstrate rvalue references
-    int y{2};                         // Define an lvalue variable
+// ==========================================================
+// SECTION 3: RVALUE REFERENCES
+// ==========================================================
 
-    // func(y);                      // ERROR: cannot bind rvalue reference to lvalue
+void rvalue_ref_demo() {
+    int y{2};                                // 'y' is an lvalue (named variable)
 
-    auto func_int = [](int&& x) {     // Lambda with rvalue reference parameter
-        cout << "rvalue_ref_demo: x = " << x << endl; // Print value
+    // func(y);                              // If func expects int&&, this fails:
+                                             // rvalue references (int&&) cannot bind to lvalues directly
+
+    // Lambda function that accepts an rvalue reference
+    auto func_int = [](int&& x) {             // 'x' is an rvalue reference parameter
+        cout << "rvalue_ref_demo: x = " << x << endl;
     };
 
-    func_int(2);                      // OK: 2 is an rvalue
+    func_int(2);                             // 2 is an rvalue → perfectly matches int&&
+
+    // IMPORTANT CONCEPT:
+    // Even though 'x' is declared as int&&,
+    // INSIDE the function it becomes an lvalue (because it has a name!)
 }
 
-// ---------- MAIN FUNCTION ----------
-int main() {                          // Entry point of the program
-    cout << "=== Lvalue Demo ===\n";  // Section header
-    lvalue_demo();                    // Run lvalue example
+// ==========================================================
+// MAIN FUNCTION (PROGRAM ENTRY POINT)
+// ==========================================================
 
-    cout << "\n=== Overload Demo ===\n"; // Section header
-    overload_demo();                  // Run overload example
+int main() {
 
-    cout << "\n=== Rvalue Ref Demo ===\n"; // Section header
-    rvalue_ref_demo();                // Run rvalue reference example
+    cout << "=== Lvalue Demo ===\n";
+    lvalue_demo();                           // Demonstrates binding rules for lvalue references
 
-    return 0;                         // Indicate successful execution
+    cout << "\n=== Overload Demo ===\n";
+    overload_demo();                         // Shows how C++ chooses function overloads
+
+    cout << "\n=== Rvalue Ref Demo ===\n";
+    rvalue_ref_demo();                       // Demonstrates rvalue reference usage
+
+    return 0;                                // Indicates successful execution
 }
 ```
