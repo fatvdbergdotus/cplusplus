@@ -268,3 +268,69 @@ int main() {                              // Program entry point
     return 0;                             // End program successfully
 }
 ```
+
+## Asynchronous threads
+```cpp
+#include <iostream>
+#include <thread>
+#include <future>
+
+// ===== FROM async.cc =====
+int compute() {
+    return 42;
+}
+
+void run_async_example() {
+    std::cout << "[async example]\n";
+    std::future<int> result = std::async(compute);
+    std::cout << result.get() << std::endl;
+}
+
+
+// ===== FROM async_launch_policy.cc =====
+int work() {
+    return 10;
+}
+
+void run_launch_policy_example() {
+    std::cout << "[launch policy example]\n";
+    auto f1 = std::async(std::launch::async, work);
+    auto f2 = std::async(std::launch::deferred, work);
+
+    std::cout << f1.get() << std::endl;
+    std::cout << f2.get() << std::endl;
+}
+
+
+// ===== FROM packaged_task.cc =====
+int add(int a, int b) {
+    return a + b;
+}
+
+void run_packaged_task_example() {
+    std::cout << "[packaged_task example]\n";
+
+    std::packaged_task<int(int,int)> task(add);
+    std::future<int> result = task.get_future();
+
+    std::thread t(std::move(task), 2, 3);
+    t.join();
+
+    std::cout << result.get() << std::endl;
+}
+
+
+// ===== SINGLE ENTRY POINT =====
+int main() {
+    run_async_example();
+    std::cout << "-----------------\n";
+
+    run_launch_policy_example();
+    std::cout << "-----------------\n";
+
+    run_packaged_task_example();
+    std::cout << "-----------------\n";
+
+    return 0;
+}
+```
