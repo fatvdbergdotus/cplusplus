@@ -326,3 +326,58 @@ int main() {  // Entry point of the program
 }  
 ```
 
+## Forwarding references
+This merged C++ program demonstrates how references behave and how template forwarding works: it first shows reference collapsing, where a reference to a reference (int_ref&) ultimately behaves as a single lvalue reference, allowing variables like rr to safely refer to i, and then contrasts this with a template function using a forwarding (universal) reference (T&&), which adapts based on the argument type—deducing T as an lvalue reference when given lvalues and as a non-reference type for rvalues (like when using std::move), illustrating how C++ preserves value categories during template argument deduction.
+
+```cpp
+#include <iostream>          // Include input-output stream library
+#include <utility>           // Include for std::move
+
+using namespace std;         // Use standard namespace
+
+// ----------- Part 1: Reference behavior -----------
+
+// Function taking an lvalue reference to int
+void func_ref(int& x) {      
+    cout << "func_ref called with argument int&" << endl; // Print message
+}
+
+// ----------- Part 2: Template forwarding reference -----------
+
+// Simple class for demonstration
+class Test {};               
+
+// Template function using forwarding (universal) reference
+template <class T>
+void func_forward(T&& x) {   
+    cout << "func_forward called" << endl; // Print message
+}
+
+// ----------- Main function -----------
+
+int main() {
+
+    // ----------- Reference collapsing demo -----------
+
+    // int& & x = y;         // INVALID: reference to reference (not allowed directly)
+
+    using int_ref = int&;    // Alias: int_ref is a reference to int
+
+    int i{99};               // Declare integer i with value 99
+    int_ref j{i};            // j is a reference to i
+    int_ref& rr{j};          // rr is a reference to j (reference collapsing happens)
+
+    func_ref(rr);            // Call function with reference
+
+    // ----------- Forwarding reference demo -----------
+
+    Test test;               // Create Test object
+    Test& rtest{test};       // Create reference to Test object
+
+    func_forward(test);      // Pass lvalue → T deduced as Test&
+    func_forward(rtest);     // Pass lvalue reference → still lvalue
+    func_forward(std::move(test)); // Pass rvalue → T deduced as Test
+
+    return 0;                // End program
+}
+```
