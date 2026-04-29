@@ -97,3 +97,73 @@ int main() {
     return 0; // End program
 }
 ```
+
+# Lvalues and Rvalues
+```cpp
+#include <iostream>                     // Include input/output stream library
+
+using namespace std;                   // Avoid std:: prefix for convenience
+
+// ---------- SECTION 1: LVALUE REFERENCE BASICS ----------
+void lvalue_demo() {                   // Function to demonstrate lvalue reference behavior
+    // int& x = 3;                    // ERROR: cannot bind non-const lvalue reference to rvalue (3)
+    const int& x = 3;                 // OK: const lvalue reference can bind to rvalue
+    cout << "lvalue_demo: x = " << x << endl; // Print value
+}
+
+// ---------- SECTION 2: FUNCTION OVERLOADING (Lvalue vs Rvalue) ----------
+class Test { };                        // Simple empty class
+
+void func(Test& test) {                // Overload for non-const lvalue reference
+    cout << "lvalue argument\n";       // Prints when lvalue is passed
+}
+
+void func(const Test& test) {          // Overload for const lvalue reference
+    cout << "const lvalue argument\n";// Prints when const lvalue is passed
+}
+
+void func(Test&& test) {               // Overload for rvalue reference
+    cout << "rvalue argument\n";      // Prints when rvalue is passed
+}
+
+void overload_demo() {                 // Function to demonstrate overload resolution
+    Test test;                        // Create non-const object (lvalue)
+    const Test ctest;                 // Create const object (const lvalue)
+
+    cout << "Calling func(test): ";   // Message before call
+    func(test);                       // Calls lvalue overload
+
+    cout << "Calling func(ctest): ";  // Message before call
+    func(ctest);                      // Calls const lvalue overload
+
+    cout << "Calling func(Test()): "; // Message before call
+    func(Test());                     // Calls rvalue overload (temporary object)
+}
+
+// ---------- SECTION 3: RVALUE REFERENCE BASICS ----------
+void rvalue_ref_demo() {               // Function to demonstrate rvalue references
+    int y{2};                         // Define an lvalue variable
+
+    // func(y);                      // ERROR: cannot bind rvalue reference to lvalue
+
+    auto func_int = [](int&& x) {     // Lambda with rvalue reference parameter
+        cout << "rvalue_ref_demo: x = " << x << endl; // Print value
+    };
+
+    func_int(2);                      // OK: 2 is an rvalue
+}
+
+// ---------- MAIN FUNCTION ----------
+int main() {                          // Entry point of the program
+    cout << "=== Lvalue Demo ===\n";  // Section header
+    lvalue_demo();                    // Run lvalue example
+
+    cout << "\n=== Overload Demo ===\n"; // Section header
+    overload_demo();                  // Run overload example
+
+    cout << "\n=== Rvalue Ref Demo ===\n"; // Section header
+    rvalue_ref_demo();                // Run rvalue reference example
+
+    return 0;                         // Indicate successful execution
+}
+```
