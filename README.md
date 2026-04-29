@@ -7,7 +7,7 @@
 - C. Lambda expressions [1](c_lambda.md)
 - D. Modern C++ Library features [1](d_modern_library.md) [2](d_modern_library2.md) [3](d_modern_library3.md)
 - E. Move semantics [1](e_move.md)
-- [F. Multithreading](f_multithreading.md)
+- F. Multithreading [1](f_multithreading.md)
 - [G. Smart pointers](g_smart_pointers.md)
 - [H. Compile time programming](h_compile_time_programming.md)
 - [I. Modern C++ programming style](i_modern_programming_style.md)
