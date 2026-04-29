@@ -54,6 +54,8 @@ int main() {
 ```
 
 ## Shared data
+The problem is that std::cout is a shared global object, and when multiple threads write to it at the same time without synchronization, their output operations can interleave unpredictably. A single cout << ... statement is actually several smaller write steps, and the CPU may switch between threads in the middle of those steps, causing characters from different threads to mix together. This creates a race condition where the final output becomes garbled and inconsistent, even though the program doesn’t crash. To avoid this, access to cout must be synchronized (e.g., with a mutex) so only one thread writes at a time.
+
 ```cpp
 #include <iostream>      // For standard input/output (cout)
 #include <thread>        // For std::thread
