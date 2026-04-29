@@ -213,6 +213,89 @@ int main() {
 }
 ```
 
+## Interface/Implementation Separation
+```cpp
+#include <iostream>              // for std::cout
+#include <memory>                // for std::unique_ptr
+
+// ===================== Date (formerly Date.h) =====================
+
+// Concrete implementation class (hidden in pImpl normally)
+class Date {
+    int day;                    // stores day
+    int month;                  // stores month
+    int year;                   // stores year
+
+public:
+    // Constructor initializes all members
+    Date(int day, int month, int year) : day(day), month(month), year(year) {}
+
+    // Setter for day
+    void set_day(int d) { 
+        day = d;                // assign new day
+    }
+
+    // Print date in DD/MM/YYYY format
+    void print() { 
+        std::cout << day << "/" << month << "/" << year; // output formatted date
+    }
+};
+
+// ===================== Handle (formerly Handle.h + Handle.cpp) =====================
+
+// Forward declaration is not needed anymore since Date is above,
+// but kept conceptually for pImpl understanding
+// class Date;
+
+// Handle class using pImpl idiom
+class Handle {
+    std::unique_ptr<Date> body; // pointer to implementation (Date)
+
+public:
+    // Constructor: creates the hidden implementation
+    Handle(int day, int month, int year) {
+        body = std::make_unique<Date>(day, month, year); // allocate Date safely
+    }
+
+    // Destructor (default is enough because unique_ptr cleans up)
+    ~Handle() = default;
+
+    // Move constructor (defaulted for efficiency)
+    Handle(Handle&&) noexcept = default;
+
+    // Move assignment operator (defaulted)
+    Handle& operator=(Handle&&) noexcept = default;
+
+    // Forward set_day to implementation
+    void set_day(int day) {
+        body->set_day(day);     // delegate to Date
+    }
+
+    // Forward print to implementation
+    void print() {
+        body->print();          // delegate to Date
+    }
+};
+
+// ===================== Client (formerly Client.cpp) =====================
+
+int main() {
+    // Date date(16, 11, 2019); // direct usage (commented out in original)
+
+    Handle date(16, 11, 2019); // create Handle object (pImpl wrapper)
+
+    date.print();              // print initial date
+    std::cout << "\n";         // newline
+
+    date.set_day(17);          // modify day through Handle
+
+    date.print();              // print updated date
+    std::cout << "\n";         // newline
+
+    return 0;                  // successful execution
+}
+```
+
 ## Shared pointer
 ```cpp
 
