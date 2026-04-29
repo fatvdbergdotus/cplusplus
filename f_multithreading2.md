@@ -107,3 +107,102 @@ int main() {
     return 0;                                // Program finished
 }
 ```
+
+## One producer, multiple consumers
+```cpp
+#include <iostream>              // For cout
+#include <thread>                // For threads
+#include <mutex>                 // For mutex
+#include <condition_variable>    // For condition_variable
+#include <queue>                 // For queue (shared buffer)
+#include <vector>                // For multiple consumers
+#include <chrono>                // For sleep
+
+using namespace std;
+using namespace std::chrono;
+
+// ================= SHARED DATA =================
+
+queue<int> buffer;               // Shared buffer
+const unsigned int MAX_SIZE = 5; // Max buffer size
+
+mutex mtx;                       // Protects buffer
+condition_variable cv;           // Synchronization
+
+bool done = false;               // Signals producer finished
+
+// ================= PRODUCER =================
+
+void producer() {
+    for (int i = 1; i <= 20; ++i) {       // Produce 20 items
+        unique_lock<mutex> lock(mtx);     // Lock mutex
+
+        // Wait if buffer is full
+        cv.wait(lock, [] {
+            return buffer.size() < MAX_SIZE;
+        });
+
+        buffer.push(i);                   // Add item
+        cout << "Produced: " << i << endl;
+
+        lock.unlock();                   // Unlock before notify
+        cv.notify_all();                 // Wake up all consumers
+        this_thread::sleep_for(300ms);   // Simulate work
+    }
+
+    // Signal completion
+    {
+        lock_guard<mutex> lg(mtx);
+        done = true;                     // No more items coming
+    }
+    cv.notify_all();                     // Wake all consumers to exit
+}
+
+// ================= CONSUMER =================
+
+void consumer(int id) {
+    while (true) {
+        unique_lock<mutex> lock(mtx);     // Lock mutex
+
+        // Wait until buffer has data OR producer is done
+        cv.wait(lock, [] {
+            return !buffer.empty() || done;
+        });
+
+        if (buffer.empty() && done) {
+            // No more work to do
+            cout << "Consumer " << id << " exiting\n";
+            return;
+        }
+
+        int item = buffer.front();        // Get item
+        buffer.pop();                     // Remove item
+
+        cout << "Consumer " << id << " consumed: " << item << endl;
+
+        lock.unlock();                    // Unlock before notify
+        cv.notify_all();                  // Wake producer/others
+
+        this_thread::sleep_for(500ms);    // Simulate processing
+    }
+}
+
+// ================= MAIN =================
+
+int main() {
+    thread p(producer);                  // One producer
+
+    vector<thread> consumers;
+    for (int i = 1; i <= 3; ++i) {       // Create 3 consumers
+        consumers.emplace_back(consumer, i);
+    }
+
+    p.join();                            // Wait producer
+
+    for (auto &c : consumers) {
+        c.join();                        // Wait all consumers
+    }
+
+    return 0;
+}
+```
