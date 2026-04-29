@@ -288,3 +288,39 @@ int main() {
     test6 = Test();                       // Move assignment
 }
 ```
+
+## Move-only types and RAII
+```cpp
+#include <iostream>   // For input/output (std::cout, std::endl)
+#include <vector>     // For std::vector container
+#include <string>     // For std::string type
+
+using namespace std;  // Avoid writing std:: everywhere (not recommended in large projects)
+
+int main() {  // Entry point of the program
+
+    vector<string> strings(5);  // Create a vector of 5 empty strings
+
+    cout << "Capture by reference" << endl;  // Print header
+
+    // Lambda capturing 'strings' by reference
+    [&strings]() {  // Capture 'strings' by reference so we access the original vector
+        cout << "Count in lambda = " << strings.size() << endl;  // Print size inside lambda
+    }();  // Immediately invoke the lambda
+
+    cout << endl << "After calling lambda, count = " << strings.size() << endl;  
+    // Print size again outside lambda (should be unchanged)
+
+    cout << endl << "Capture by move" << endl;  // Print header for move example
+
+    // Lambda capturing 'strings' by move
+    [vs = std::move(strings)]() {  // Move 'strings' into 'vs' (lambda owns it now)
+        cout << "Count in lambda = " << vs.size() << endl;  // Print size of moved data
+    }();  // Immediately invoke the lambda
+
+    cout << endl << "After calling lambda, count = " << strings.size() << endl << endl;  
+    // Print size of original vector after move (likely 0 or unspecified but valid)
+
+}  
+```
+
