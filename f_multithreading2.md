@@ -271,66 +271,107 @@ int main() {                              // Program entry point
 
 ## Asynchronous threads
 ```cpp
-#include <iostream>
-#include <thread>
-#include <future>
+#include <iostream>      // Provides std::cout for console output
+#include <thread>        // Provides std::thread for multithreading
+#include <future>        // Provides std::async, std::future, std::packaged_task
 
 // ===== FROM async.cc =====
-int compute() {
-    return 42;
+
+// Simple function that returns a value
+int compute() {                     // Function definition
+    return 42;                     // Returns constant value 42
 }
 
-void run_async_example() {
-    std::cout << "[async example]\n";
-    std::future<int> result = std::async(compute);
-    std::cout << result.get() << std::endl;
+// Wrapper function (replaces original main)
+void run_async_example() {          // Function to demonstrate std::async
+    std::cout << "[async example]\n"; // Print section header
+
+    // Launch compute() asynchronously
+    std::future<int> result = std::async(compute); 
+    // std::async starts compute() possibly on another thread
+    // result is a future that will hold the return value
+
+    std::cout << result.get() << std::endl; 
+    // get() blocks until result is ready, then returns 42
 }
+
 
 
 // ===== FROM async_launch_policy.cc =====
-int work() {
-    return 10;
+
+// Function used for async execution
+int work() {                       // Function definition
+    return 10;                     // Returns constant value 10
 }
 
-void run_launch_policy_example() {
-    std::cout << "[launch policy example]\n";
-    auto f1 = std::async(std::launch::async, work);
-    auto f2 = std::async(std::launch::deferred, work);
+// Wrapper function for launch policy demo
+void run_launch_policy_example() { // Demonstrates async launch policies
+    std::cout << "[launch policy example]\n"; // Print section header
 
-    std::cout << f1.get() << std::endl;
-    std::cout << f2.get() << std::endl;
+    // Force execution in a new thread
+    auto f1 = std::async(std::launch::async, work); 
+    // std::launch::async guarantees immediate execution on a new thread
+
+    // Defer execution until result is requested
+    auto f2 = std::async(std::launch::deferred, work); 
+    // std::launch::deferred delays execution until get() is called
+
+    std::cout << f1.get() << std::endl; 
+    // Waits for thread to finish and prints 10
+
+    std::cout << f2.get() << std::endl; 
+    // Executes work() here (no thread) and prints 10
 }
+
 
 
 // ===== FROM packaged_task.cc =====
-int add(int a, int b) {
-    return a + b;
+
+// Function that adds two integers
+int add(int a, int b) {            // Function takes two ints
+    return a + b;                 // Returns their sum
 }
 
-void run_packaged_task_example() {
-    std::cout << "[packaged_task example]\n";
+// Wrapper function for packaged_task demo
+void run_packaged_task_example() { // Demonstrates manual async control
+    std::cout << "[packaged_task example]\n"; // Print section header
 
-    std::packaged_task<int(int,int)> task(add);
-    std::future<int> result = task.get_future();
+    // Wrap function into a packaged_task
+    std::packaged_task<int(int,int)> task(add); 
+    // task now holds the function add()
 
-    std::thread t(std::move(task), 2, 3);
-    t.join();
+    // Get future linked to this task
+    std::future<int> result = task.get_future(); 
+    // result will receive the return value of add()
 
-    std::cout << result.get() << std::endl;
+    // Run task on a separate thread
+    std::thread t(std::move(task), 2, 3); 
+    // std::move transfers ownership of task to the thread
+    // Executes add(2, 3) inside the thread
+
+    t.join(); 
+    // Wait for thread to finish before continuing
+
+    std::cout << result.get() << std::endl; 
+    // Retrieve result (5) from future and print it
 }
+
 
 
 // ===== SINGLE ENTRY POINT =====
-int main() {
-    run_async_example();
-    std::cout << "-----------------\n";
 
-    run_launch_policy_example();
-    std::cout << "-----------------\n";
+// Program starts here
+int main() {                       // Main function (entry point)
 
-    run_packaged_task_example();
-    std::cout << "-----------------\n";
+    run_async_example();           // Run first example
+    std::cout << "-----------------\n"; // Separator
 
-    return 0;
+    run_launch_policy_example();   // Run second example
+    std::cout << "-----------------\n"; // Separator
+
+    run_packaged_task_example();   // Run third example
+    std::cout << "-----------------\n"; // Separator
+
+    return 0;                      // Indicate successful execution
 }
 ```
