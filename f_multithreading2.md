@@ -208,6 +208,8 @@ int main() {
 ```
 
 ## Promises and futures
+This program demonstrates how C++ uses std::promise and std::future to safely pass results between threads: a producer thread sets either a value or an exception inside a promise, while a consumer thread retrieves it through the associated future. In the success case, the producer computes a value (42) and stores it with set_value, which the consumer later accesses using get(). In the exception case, the producer throws an error but captures it with set_exception, allowing the consumer to handle it gracefully when calling get() without crashing the program. This pattern is useful for asynchronous programming because it cleanly separates work (producer) from result handling (consumer) while ensuring proper synchronization and error propagation between threads.
+
 ```cpp
 #include <future>      // For std::promise and std::future
 #include <iostream>    // For input/output
