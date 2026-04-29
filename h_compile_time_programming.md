@@ -111,6 +111,10 @@ int main() {
 ```
 
 ## Various Template Functions
+In C++, the extern keyword is used to declare a variable or function that is defined in another translation unit (source file), allowing multiple files to share the same entity without creating duplicate definitions; for example, writing extern int x; in a header tells the compiler that x exists elsewhere, while exactly one source file must contain the actual definition int x = 5;, otherwise you’ll get linker errors, and although functions are implicitly extern by default, extern becomes especially useful with global variables and advanced cases like extern template, where it prevents redundant template instantiations across files, reducing compile time and binary size.
+
+Template bloat in C++ refers to the increase in binary size and compile time caused by templates being instantiated multiple times for different types (and sometimes redundantly across translation units), since the compiler generates separate copies of the same template code for each type it’s used with—e.g., vector<int>, vector<double>, etc.—which can lead to large executables and slower builds; this can be mitigated using techniques like extern template to centralize instantiations, reducing unnecessary duplication, or by limiting template usage in widely included headers.
+
 ```cpp
 // ==============================
 // Combined single C++ file
