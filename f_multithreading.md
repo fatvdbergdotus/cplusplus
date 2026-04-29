@@ -340,3 +340,74 @@ int main() {
 }
 ```
 
+## Atomic types
+```cpp
+#include <thread>      // For std::thread (multithreading support)
+#include <iostream>    // For std::cout (console output)
+#include <vector>      // For std::vector (dynamic array of threads)
+#include <atomic>      // For std::atomic (thread-safe variables)
+
+using namespace std;   // Avoids writing std:: everywhere (not always recommended in large projects)
+
+// ----------------------
+// NON-ATOMIC VERSION
+// ----------------------
+
+int counter_non_atomic{0};  // Shared counter (NOT thread-safe)
+
+// Function executed by each thread (non-atomic version)
+void task_non_atomic() {
+    for (int i = 0; i < 100'000; ++i)  // Loop 100,000 times
+        ++counter_non_atomic;          // Increment shared counter (data race!)
+}
+
+// ----------------------
+// ATOMIC VERSION
+// ----------------------
+
+atomic<int> counter_atomic{0};  // Thread-safe counter using atomic
+
+// Function executed by each thread (atomic version)
+void task_atomic() {
+    for (int i = 0; i < 100'000; ++i)  // Loop 100,000 times
+        ++counter_atomic;              // Atomic increment (safe)
+}
+
+// ----------------------
+// MAIN FUNCTION
+// ----------------------
+
+int main() {
+
+    // -------- NON-ATOMIC TEST --------
+    {
+        vector<thread> tasks;  // Container to store threads
+
+        for (int i = 0; i < 10; ++i)               // Create 10 threads
+            tasks.push_back(thread{task_non_atomic}); // Start each thread
+
+        for (auto& t : tasks)  // Wait for all threads to finish
+            t.join();
+
+        cout << "Non-atomic counter result: "
+             << counter_non_atomic << endl;  // Likely incorrect due to race conditions
+    }
+
+    // -------- ATOMIC TEST --------
+    {
+        vector<thread> tasks;  // Container to store threads
+
+        for (int i = 0; i < 10; ++i)           // Create 10 threads
+            tasks.push_back(thread{task_atomic}); // Start each thread
+
+        for (auto& t : tasks)  // Wait for all threads to finish
+            t.join();
+
+        cout << "Atomic counter result: "
+             << counter_atomic << endl;  // Correct result (should be 1,000,000)
+    }
+
+    return 0;  // Program ends successfully
+}
+```
+
