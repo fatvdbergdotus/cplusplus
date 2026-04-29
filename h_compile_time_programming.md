@@ -228,6 +228,8 @@ int main() {                          // program entry point
 ```
 
 ## Constant expression
+const and constexpr both create immutable values in C++, but they differ in when the value must be known: const means a variable cannot be changed after initialization, yet its value can be determined at runtime (e.g., from user input), while constexpr requires the value to be fully known and evaluated at compile time, making it suitable for contexts like array sizes, template parameters, and compile-time computations; in short, const is about read-only, whereas constexpr is about compile-time constant with stronger guarantees.
+
 ```cpp
 #include <iostream>              // Include input/output stream library
 
