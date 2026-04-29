@@ -208,74 +208,63 @@ int main() {
 ```
 
 ## Promises and futures
-This program demonstrates how C++ uses std::promise and std::future to safely pass results between threads: a producer thread sets either a value or an exception inside a promise, while a consumer thread retrieves it through the associated future. In the success case, the producer computes a value (42) and stores it with set_value, which the consumer later accesses using get(). In the exception case, the producer throws an error but captures it with set_exception, allowing the consumer to handle it gracefully when calling get() without crashing the program. This pattern is useful for asynchronous programming because it cleanly separates work (producer) from result handling (consumer) while ensuring proper synchronization and error propagation between threads.
 
 ```cpp
-#include <future>      // For std::promise and std::future
-#include <iostream>    // For input/output
-#include <thread>      // For std::thread
-#include <exception>   // For exception handling
+#include <iostream>     // Allows printing to console (cout)
+#include <thread>       // Enables use of std::thread
+#include <future>       // Provides std::promise and std::future
+#include <exception>    // Supports exception handling
 
-using namespace std;   // Avoid std:: prefix for simplicity
+using namespace std;    // Avoid writing std:: everywhere
 
-// ---------- PRODUCER (SUCCESS CASE) ----------
-void produce_success(promise<int>& px) {              // Function that sets a value in promise
-    int x{42};                                        // Value to send
-    this_thread::sleep_for(1s);                        // Simulate work (1 second delay)
-    cout << "[SUCCESS] Promise sets value: " << x << endl; // Print status
-    px.set_value(x);                                  // Store value in shared state
+// ---------- SUCCESS CASE ----------
+void producer_success(promise<int> p) {   // Function that sends a value
+    p.set_value(42);                      // Store value (42) in the promise
 }
 
-// ---------- PRODUCER (EXCEPTION CASE) ----------
-void produce_exception(promise<int>& px) {            // Function that sets an exception
-    try {
-        int x{42};                                    // Dummy value
-        this_thread::sleep_for(1s);                    // Simulate work
-        throw out_of_range("Oops! Something went wrong"); // Force an exception
-        px.set_value(x);                              // (Won’t execute)
-    }
-    catch (...) {                                     // Catch any exception
-        px.set_exception(current_exception());         // Store exception in shared state
+// ---------- EXCEPTION CASE ----------
+void producer_exception(promise<int> p) { // Function that sends an exception
+    try {                                 // Start try block
+        throw runtime_error("Error from producer"); // Create and throw error
+    } catch (...) {                       // Catch any exception
+        p.set_exception(current_exception()); // Store exception in promise
     }
 }
 
-// ---------- CONSUMER ----------
-void consume(future<int>& fx) {                       // Function that reads from future
-    cout << "Future calling get()..." << endl;        // Indicate waiting for result
-    try {
-        int x = fx.get();                             // Wait and retrieve value OR throw exception
-        cout << "Future received value." << endl;     // If success
-        cout << "Result: " << x << endl;              // Print result
+int main() {                              // Program entry point
+
+    // ===== WITHOUT EXCEPTION =====
+    cout << "=== Success case ===" << endl; // Print section header
+
+    promise<int> p1;                      // Create a promise object
+    future<int> f1 = p1.get_future();     // Get future linked to promise
+
+    thread t1(producer_success, move(p1)); // Start thread, move promise into it
+
+    try {                                 // Try to get result
+        cout << "Result: " << f1.get() << endl; // Wait for value (returns 42)
+    } catch (exception& e) {              // Catch if something goes wrong
+        cout << "Exception: " << e.what() << endl; // Print error message
     }
-    catch (exception& e) {                            // Catch exception from promise
-        cout << "Exception caught: " << e.what() << endl; // Print error message
+
+    t1.join();                            // Wait for thread to finish
+
+    // ===== WITH EXCEPTION =====
+    cout << "\n=== Exception case ===" << endl; // Print section header
+
+    promise<int> p2;                      // Create another promise
+    future<int> f2 = p2.get_future();     // Get its future
+
+    thread t2(producer_exception, move(p2)); // Start thread that throws
+
+    try {                                 // Try to get result
+        cout << "Result: " << f2.get() << endl; // This will throw exception
+    } catch (exception& e) {              // Catch exception from future
+        cout << "Caught exception: " << e.what() << endl; // Print error
     }
-}
 
-// ---------- MAIN ----------
-int main() {
-    cout << "=== SUCCESS CASE ===" << endl;
+    t2.join();                            // Wait for thread to finish
 
-    promise<int> p1;                                  // Create promise object
-    future<int> f1 = p1.get_future();                 // Get associated future
-
-    thread t1(consume, ref(f1));                      // Start consumer thread
-    thread t2(produce_success, ref(p1));              // Start producer thread (success)
-
-    t1.join();                                        // Wait for consumer to finish
-    t2.join();                                        // Wait for producer to finish
-
-    cout << "\n=== EXCEPTION CASE ===" << endl;
-
-    promise<int> p2;                                  // New promise for exception case
-    future<int> f2 = p2.get_future();                 // Get future
-
-    thread t3(consume, ref(f2));                      // Start consumer thread
-    thread t4(produce_exception, ref(p2));            // Start producer thread (exception)
-
-    t3.join();                                        // Wait for consumer
-    t4.join();                                        // Wait for producer
-
-    return 0;                                         // End program
+    return 0;                             // End program successfully
 }
 ```
