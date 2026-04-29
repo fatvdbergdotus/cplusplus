@@ -207,3 +207,83 @@ int main() {
     return 0;                                // Indicates successful execution
 }
 ```
+
+## Move operators
+```cpp
+#include <iostream>              // Include input-output stream library
+
+using namespace std;             // Avoid writing std:: everywhere
+
+class MyClass {};                // Empty helper class (used as a member)
+
+// Class demonstrating copy & move semantics
+class Test {
+  private:
+    int i{0};                   // Integer member initialized to 0
+    MyClass m;                  // Object of MyClass
+
+  public:
+    Test() = default;           // Default constructor (compiler-generated)
+
+    // Copy constructor
+    Test(const Test& other)     // Takes const reference to another Test object
+        : i(other.i),           // Copy integer value
+          m(other.m)            // Copy MyClass object
+    {
+        cout << "Copy constructor called" << endl; // Debug message
+    }
+
+    // Move constructor
+    Test(Test&& other) noexcept // Takes rvalue reference (temporary object)
+        : i(other.i),           // BUG FIXED: should copy from other.i (original had i(i))
+          m(std::move(other.m)) // Move MyClass object instead of copying
+    {
+        cout << "Move constructor called" << endl; // Debug message
+    }
+
+    // Copy assignment operator
+    Test& operator=(const Test& other) {   // Assign from lvalue
+        cout << "Copy assignment operator called" << endl;
+
+        if (this != &other) {              // Avoid self-assignment
+            i = other.i;                  // Copy integer
+            m = other.m;                 // Copy object
+        }
+        return *this;                     // Return current object
+    }
+
+    // Move assignment operator
+    Test& operator=(Test&& other) noexcept { // Assign from rvalue
+        cout << "Move assignment operator called" << endl;
+
+        if (this != &other) {              // Avoid self-assignment
+            i = other.i;                  // Transfer integer value
+            m = std::move(other.m);       // Move object instead of copying
+        }
+        return *this;                     // Return current object
+    }
+};
+
+int main() {
+    Test test;                            // Default constructor
+
+    cout << "Copying: ";
+    Test test2 = test;                    // Calls copy constructor
+
+    cout << "Moving temporary: ";
+    Test test3 = Test();                  // Temporary → move constructor
+
+    cout << "Moving rvalue ref: ";
+    Test test4(std::move(test));          // Explicit move using std::move
+
+    cout << endl;
+
+    Test test5;
+    cout << "Assigning: ";
+    test5 = test;                         // Copy assignment
+
+    Test test6;
+    cout << "Assigning from temporary: ";
+    test6 = Test();                       // Move assignment
+}
+```
