@@ -290,6 +290,8 @@ int main() {
 ```
 
 ## Move-only types and RAII
+std::move is a C++ utility that casts an object to an rvalue reference, signaling that its resources can be safely “moved” rather than copied; it doesn’t move anything by itself, but enables move constructors or move assignment operators to transfer ownership of internal data (like dynamically allocated memory) from one object to another, making the operation much faster than copying—after this, the original object remains valid but in an unspecified (often empty) state and shouldn’t be relied on for its previous value.
+
 ```cpp
 #include <iostream>   // For input/output (std::cout, std::endl)
 #include <vector>     // For std::vector container
