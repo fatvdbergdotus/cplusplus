@@ -98,3 +98,85 @@ int main() {
     return 0;
 }
 ```
+
+## Mutex
+```cpp
+#include <iostream>      // For std::cout
+#include <thread>        // For std::thread
+#include <mutex>         // For std::mutex, lock_guard, unique_lock
+#include <chrono>        // For sleep durations
+
+using namespace std;     // Avoid std:: prefix (not recommended in large projects)
+
+mutex print_mutex;       // Global mutex shared by all threads
+
+// =======================
+// 1. Using raw mutex
+// =======================
+void print_mutex_func(string str) {                // Function using manual lock/unlock
+    for (int i = 0; i < 5; ++i) {                 // Loop 5 times
+        print_mutex.lock();                       // Lock the mutex (enter critical section)
+        cout << "[mutex] "                        // Identify method
+             << str[0] << str[1] << str[2]        // Print first 3 chars
+             << endl;                             // New line
+        print_mutex.unlock();                     // Unlock the mutex (leave critical section)
+        this_thread::sleep_for(chrono::milliseconds(50)); // Simulate work outside critical section
+    }
+}
+
+// =======================
+// 2. Using lock_guard
+// =======================
+void print_lock_guard_func(string str) {          // Function using lock_guard
+    for (int i = 0; i < 5; ++i) {                // Loop 5 times
+        lock_guard<mutex> lk(print_mutex);       // Automatically locks mutex
+        cout << "[lock_guard] "                  // Identify method
+             << str[0] << str[1] << str[2]
+             << endl;
+        // No manual unlock needed — happens automatically when lk goes out of scope
+        this_thread::sleep_for(chrono::milliseconds(50)); // Simulate work
+    }
+}
+
+// =======================
+// 3. Using unique_lock
+// =======================
+void print_unique_lock_func(string str) {        // Function using unique_lock
+    for (int i = 0; i < 5; ++i) {               // Loop 5 times
+        unique_lock<mutex> lk(print_mutex);     // Locks mutex (more flexible than lock_guard)
+        cout << "[unique_lock] "
+             << str[0] << str[1] << str[2]
+             << endl;
+        lk.unlock();                            // Manually unlock before end of scope
+        this_thread::sleep_for(chrono::milliseconds(50)); // Non-critical work
+        // lk will not relock automatically unless told to
+    }
+}
+
+// =======================
+// Main function
+// =======================
+int main() {
+    // Threads using raw mutex
+    thread t1(print_mutex_func, "abc");          // Start thread 1
+    thread t2(print_mutex_func, "def");          // Start thread 2
+
+    // Threads using lock_guard
+    thread t3(print_lock_guard_func, "ghi");     // Start thread 3
+    thread t4(print_lock_guard_func, "jkl");     // Start thread 4
+
+    // Threads using unique_lock
+    thread t5(print_unique_lock_func, "mno");    // Start thread 5
+    thread t6(print_unique_lock_func, "pqr");    // Start thread 6
+
+    // Wait for all threads to finish
+    t1.join();                                  // Join thread 1
+    t2.join();                                  // Join thread 2
+    t3.join();                                  // Join thread 3
+    t4.join();                                  // Join thread 4
+    t5.join();                                  // Join thread 5
+    t6.join();                                  // Join thread 6
+
+    return 0;                                   // Exit program
+}
+```
