@@ -109,3 +109,114 @@ int main() {
     return 0;                                   // program ends successfully
 }
 ```
+
+## Various Template Functions
+```cpp
+// ==============================
+// Combined single C++ file
+// Merged from misc_template_features
+// ==============================
+
+#include <iostream>          // for std::cout
+#include <typeinfo>          // for typeid
+#include <cassert>           // for static_assert alternative
+
+// ==============================
+// extern_template.h (merged)
+// ==============================
+
+// Template declaration for a generic function
+template <typename T>
+void func(T value); // declaration only
+
+// Explicit extern template declarations (avoid multiple instantiations)
+extern template void func<int>(int);     // tell compiler: defined elsewhere
+extern template void func<double>(double);
+
+// ==============================
+// extern_template_impls.cc (merged)
+// ==============================
+
+// Actual template definition
+template <typename T>
+void func(T value) {                     // define template
+    std::cout << "Value: " << value      // print value
+              << " type: "               // print type label
+              << typeid(T).name()       // runtime type info
+              << std::endl;             // newline
+}
+
+// Explicit instantiations (force generation here)
+template void func<int>(int);            // generate int version
+template void func<double>(double);     // generate double version
+
+// ==============================
+// extern_template1.cc (merged)
+// ==============================
+
+void use_func_int() {                   // function using int specialization
+    func<int>(42);                     // call template with int
+}
+
+// ==============================
+// extern_template2.cc (merged)
+// ==============================
+
+void use_func_double() {               // function using double specialization
+    func<double>(3.14);                // call template with double
+}
+
+// ==============================
+// extern_int1.cc (merged)
+// ==============================
+
+// Declare external integer
+extern int shared_int;                 // defined elsewhere
+
+void increment_int() {                 // function increments shared int
+    shared_int++;                     // increase value
+}
+
+// ==============================
+// extern_int2.cc (merged)
+// ==============================
+
+void print_int() {                     // function prints shared int
+    std::cout << "shared_int = "      // label
+              << shared_int           // value
+              << std::endl;           // newline
+}
+
+// ==============================
+// extern_int_impls.cc (merged)
+// ==============================
+
+// Define the shared integer
+int shared_int = 0;                   // initialize global variable
+
+// ==============================
+// static_assert.cc (merged)
+// ==============================
+
+// Compile-time assertion example
+static_assert(sizeof(int) >= 4,       // check int size
+              "int must be at least 4 bytes"); // error message
+
+// ==============================
+// Main function (added)
+// ==============================
+
+int main() {                          // program entry point
+
+    // --- Test extern template ---
+    use_func_int();                   // call int version
+    use_func_double();                // call double version
+
+    // --- Test extern int ---
+    print_int();                      // print initial value
+    increment_int();                  // increment
+    print_int();                      // print updated value
+
+    return 0;                         // successful exit
+}
+```
