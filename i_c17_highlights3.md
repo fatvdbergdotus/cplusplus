@@ -164,7 +164,7 @@ int main() {
 }
 ```
 
-## Optional Type
+## Optional Type (simulated)
 ```cpp
 #include <iostream>      // for input/output streams
 #include <string>        // for std::string
@@ -246,5 +246,89 @@ int main()
     }
 
     return 0;  // program end (never reached due to loop)
+}
+```
+
+## Optional Type 
+```cpp
+#include <iostream>     // For input/output (std::cout, std::cin)
+#include <string>       // For std::string
+#include <string_view>  // For std::string_view (lightweight string reference)
+#include <charconv>     // For std::from_chars (fast string → number conversion)
+#include <optional>     // For std::optional
+
+// Function: convert string to int safely using std::optional
+std::optional<int> str2int(std::string_view str)
+{
+    int x; // Variable to store parsed integer
+
+    // Try to convert string to integer
+    auto res = std::from_chars(str.data(), str.data() + str.size(), x);
+
+    // Check if conversion succeeded (no error code)
+    if (res.ec == std::errc{})
+        return x; // Return value wrapped in std::optional
+
+    return std::nullopt; // Return empty optional if conversion failed
+}
+
+int main()
+{
+    // ===== PART 1: Basic optional usage =====
+    std::optional<int> opt; // Create empty optional (no value)
+
+    opt = 42; // Assign a value → optional now contains 42
+
+    // Check if optional has a value
+    if (opt)
+        std::cout << *opt << '\n'; // Dereference to access value
+    else
+        std::cout << "opt is empty\n";
+
+    opt = {}; // Reset optional to empty state
+
+    if (opt)
+        std::cout << *opt << '\n';
+    else
+        std::cout << "opt is empty\n";
+
+    // ===== PART 2: Using optional as return value =====
+    std::string str; // Input string
+
+    while (true) // Infinite loop for repeated input
+    {
+        std::cout << "Please enter a number: ";
+        std::cin >> str; // Read user input
+
+        // Call conversion function and check result
+        if (auto result = str2int(str); result)
+            std::cout << "Extracted number " << *result << " from " << str << '\n';
+        else
+            std::cout << "Invalid number: " << str << '\n';
+
+        break; // Break loop so program doesn't run forever (for demo)
+    }
+
+    // ===== PART 3: value() and exception handling =====
+    std::optional<int> emptyOpt; // Empty optional
+
+    try
+    {
+        // Attempt to access value (will throw if empty)
+        std::cout << emptyOpt.value() << '\n';
+    }
+    catch (const std::bad_optional_access& e)
+    {
+        // Catch exception if optional has no value
+        std::cout << "Caught exception: " << e.what() << '\n';
+    }
+
+    // ===== PART 4: safer access methods =====
+    std::optional<int> safeOpt = 100; // Optional with value
+
+    if (safeOpt.has_value()) // Explicit check
+        std::cout << safeOpt.value() << '\n'; // Safe access
+
+    return 0; // End of program
 }
 ```
