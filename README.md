@@ -10,5 +10,4 @@
 - F. Multithreading [1](f_multithreading.md) [2](f_multithreading2.md)
 - G. Smart pointers [1](g_smart_pointers.md)
 - H. Compile time programming [1](h_compile_time_programming.md)
-- I. Modern C++ programming style [1](i_modern_programming_style.md)
-- J. C++ 17 highlights [1](j_c17_highlights.md)
+- I. C++ 17 highlights [1](j_c17_highlights.md)
