@@ -394,3 +394,77 @@ int main()
     return 0; // End program
 }
 ```
+
+## String view caveats
+```cpp
+#include <iostream>         // For std::cout
+#include <string>           // For std::string
+#include <string_view>      // For std::string_view
+#include <vector>           // For std::vector
+
+using namespace std::literals; // Enables "text"s literal for std::string
+
+// ---------- Example 1: Lifetime issues ----------
+std::string func()                  // Function returning a std::string
+{
+    // Beware of short-string optimization (SSO)
+    return std::string{"A string which contains many characters"}; // Returns temporary string
+}
+
+// ---------- Example 2: Class with std::string& ----------
+class ref_member_string {
+    std::string& str;               // Reference to std::string (must bind to existing object)
+public:
+    ref_member_string(std::string& str) : str(str) {} // Constructor binds reference
+};
+
+// ---------- Example 3: Class with std::string_view ----------
+class ref_member_view {
+    std::string_view str;           // Non-owning view of string data
+public:
+    ref_member_view(std::string_view str): str(str) {} // Stores view (no ownership)
+    void print() { std::cout << str << '\n'; }          // Prints viewed string
+};
+
+int main()
+{
+    // ==============================
+    // Example 1: Lifetime extension
+    // ==============================
+    const std::string& s = func();  // OK: const reference extends lifetime of temporary
+    std::cout << s << '\n';         // Safe: string still alive
+
+    // std::string_view sv = func(); // BAD: view refers to destroyed temporary
+    // std::cout << sv << '\n';      // Undefined behavior (dangling reference)
+
+    // ==============================
+    // Example 2: std::string reference member
+    // ==============================
+    std::string str{"test"};        // Create actual string object
+    ref_member_string rm_ok(str);   // OK: binds to existing variable
+
+    // ref_member_string rm_bad("test"s); // ERROR: temporary cannot bind to non-const reference
+
+    // ==============================
+    // Example 3: std::string_view member
+    // ==============================
+    ref_member_view rm_view{"Long string to initialize the class"s}; // Temporary string used
+    rm_view.print();               // Works (but risky if temporary destroyed too early)
+
+    // ==============================
+    // Example 4: vector of string_view
+    // ==============================
+    std::vector<std::string_view> words; // Vector storing string views (non-owning)
+
+    words.push_back("What are words worth?"s); // Temporary std::string created
+
+    // WARNING:
+    // After this line, the temporary string is destroyed,
+    // so the string_view inside the vector becomes dangling!
+
+    for (auto word : words)        // Iterate through vector
+        std::cout << word << '\n'; // Undefined behavior (dangling view)
+
+    return 0;                      // End of program
+}
+```
