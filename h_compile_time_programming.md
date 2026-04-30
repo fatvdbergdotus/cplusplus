@@ -284,3 +284,37 @@ constexpr double dist4 = miles_to_km(dist3);
     const size_t len = str.size() // ok - value of len cannot be changed after initialization
     constexpr size_t len = str.size() // Error - value not known at compile time
 ```
+
+## Template type deduction
+```cpp
+#include <iostream>              // Include input-output stream library for cout, endl
+
+using namespace std;             // Use standard namespace to avoid std:: prefix
+
+// Function template for finding maximum of two values
+template <class T>               // Define a template with a generic type T
+T Max(const T& t1, const T& t2)  // Function takes two const references of type T and returns T
+{
+    if (t1 > t2)                 // Compare first value with second
+        return t1;               // Return first value if it's greater
+    return t2;                   // Otherwise return second value
+}
+
+int main() {                     // Entry point of the program
+
+    cout << Max(7.0, 2.6)        // Call Max with double values (template deduced as double)
+         << endl;                // Print result and move to new line
+
+    /*
+    The compiler generates (instantiates) this function automatically:
+
+    double Max(const double& t1, const double& t2) {   // Specialized version for double
+        if (t1 > t2)                                   // Compare values
+            return t1;                                 // Return larger value
+        return t2;                                     // Return other value if not larger
+    }
+    */
+
+    return 0;                   // Indicate successful program execution
+}
+```
