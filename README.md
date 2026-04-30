@@ -11,3 +11,5 @@
 - G. Smart pointers [1](g_smart_pointers.md)
 - H. Compile time programming [1](h_compile_time_programming.md)
 - I. C++ 17 highlights [1](i_c17_highlights.md)
+
+See [Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for guidelines about how to use C++
