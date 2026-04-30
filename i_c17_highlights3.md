@@ -163,3 +163,88 @@ int main() {
     return 0; // Indicate successful program execution
 }
 ```
+
+## Optional Type
+```cpp
+#include <iostream>      // for input/output streams
+#include <string>        // for std::string
+#include <string_view>   // for std::string_view (non-owning string reference)
+#include <charconv>      // for std::from_chars (fast string-to-int conversion)
+#include <utility>       // for std::pair
+
+// =========================
+// VERSION 1: Using std::pair
+// =========================
+
+// Convert a string to an int using std::pair
+// first  -> parsed integer
+// second -> success flag
+std::pair<int, bool> str2int_pair(std::string_view str)
+{
+    int x;  // variable to store parsed integer
+
+    // Attempt to convert string to integer
+    auto res = std::from_chars(str.data(), str.data() + str.size(), x);
+
+    // Check if conversion succeeded (no error code)
+    if (res.ec == std::errc{})         
+        return std::pair(x, true);     // success
+
+    return std::pair(x, false);        // failure
+}
+
+
+// =========================
+// VERSION 2: Using pointer
+// =========================
+
+// Convert a string to int using pointer
+// Returns pointer to int if successful, nullptr otherwise
+int* str2int_pointer(std::string_view str)
+{
+    int x;  // variable to store parsed integer
+
+    // Attempt conversion
+    auto res = std::from_chars(str.data(), str.data() + str.size(), x);
+
+    // If successful, allocate memory and return pointer
+    if (res.ec == std::errc{})        
+        return new int(x);             // dynamic allocation
+
+    return nullptr;                   // failure case
+}
+
+
+// =========================
+// MAIN FUNCTION
+// =========================
+
+int main()
+{
+    std::string str;  // user input string
+
+    while (true) {  // infinite loop for repeated input
+        std::cout << "Enter a number: ";
+        std::cin >> str;
+
+        // -------- Using std::pair version --------
+        if (auto [num, success] = str2int_pair(str); success)
+            std::cout << "[PAIR] Parsed number: " << num << '\n';
+        else
+            std::cout << "[PAIR] Invalid number\n";
+
+        // -------- Using pointer version --------
+        if (int* px = str2int_pointer(str); px) {  // check if pointer is not null
+            std::cout << "[POINTER] Parsed number: " << *px << '\n';
+            delete px;  // free allocated memory (IMPORTANT)
+        }
+        else {
+            std::cout << "[POINTER] Invalid number\n";
+        }
+
+        std::cout << "------------------------\n";
+    }
+
+    return 0;  // program end (never reached due to loop)
+}
+```
