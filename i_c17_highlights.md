@@ -97,3 +97,68 @@ int main()
     return 0;                 // end program
 }
 ```
+
+## Structured bindings
+```cpp
+#include <iostream>              // For std::cout
+#include <tuple>                 // For std::tuple
+#include <string>                // For std::string
+#include <utility>               // For std::pair
+
+using namespace std::literals;   // Enables "text"s string literal
+
+// Define a struct for the struct example
+struct Numbers {
+    int x;                       // Integer member
+    double y;                    // Double member
+    std::string z;               // String member
+};
+
+int main()
+{
+    // =======================
+    // 1. std::pair example
+    // =======================
+
+    std::pair pr(1, 3.142);      // Create a pair<int, double> with values (1, 3.142)
+
+    auto [pi, pd] = pr;          // Structured binding: pi = 1, pd = 3.142
+
+    std::cout << "[pair] ";      // Label output
+    std::cout << "i = " << pi    // Print integer part
+              << ", d = " << pd  // Print double part
+              << '\n';           // New line
+
+    // =======================
+    // 2. struct example
+    // =======================
+
+    Numbers numbers{1, 2.0, "three"s}; // Initialize struct with values
+
+    // Structured binding (C++17)
+    auto [si, sd, ss] = numbers; // si=1, sd=2.0, ss="three"
+
+    std::cout << "[struct] ";    // Label output
+    std::cout << "i = " << si    // Print int
+              << ", d = " << sd  // Print double
+              << ", s = " << ss  // Print string
+              << '\n';           // New line
+
+    // =======================
+    // 3. std::tuple example
+    // =======================
+
+    std::tuple t = std::make_tuple(1, 2.0, "three"s); // Create tuple<int, double, string>
+
+    // Structured binding (C++17)
+    auto [ti, td, ts] = t;      // ti=1, td=2.0, ts="three"
+
+    std::cout << "[tuple] ";    // Label output
+    std::cout << "i = " << ti   // Print int
+              << ", d = " << td // Print double
+              << ", s = " << ts // Print string
+              << '\n';          // New line
+
+    return 0;                   // End program successfully
+}
+```
