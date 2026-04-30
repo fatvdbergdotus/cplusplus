@@ -10,6 +10,6 @@
 - F. Multithreading [1](f_multithreading.md) [2](f_multithreading2.md)
 - G. Smart pointers [1](g_smart_pointers.md)
 - H. Compile time programming [1](h_compile_time_programming.md)
-- I. C++ 17 highlights [1](i_c17_highlights.md)
+- I. C++ 17 highlights [1](i_c17_highlights.md) [2](i_c17_highlights2.md)
 
 See [Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for guidelines about how to use C++
