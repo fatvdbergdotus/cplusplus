@@ -338,10 +338,10 @@ int main()
 #include <string>          // For std::string
 #include <string_view>     // For std::string_view
 
-using namespace std::literals; // Enables "sv" literal for string_view
+using namespace std::literals; // Enables "sv" literal
 
-// Function that takes a string_view (non-owning, efficient)
-void greet(std::string_view person) // Accepts string_view instead of string
+// Function that takes a string_view (no copy, efficient)
+void greet(std::string_view person) // Accepts many string types
 {
     std::cout << "Hello, " << person << "\n"; // Print greeting
 }
@@ -350,42 +350,47 @@ int main()
 {
     // ===== 1. Basic string_view construction =====
 
-    std::string_view sv1{"Hello"}; // Construct from C-string literal
-    std::cout << "sv1: " << sv1 << "\n"; // Output sv1
+    std::string_view sv1{"Hello"}; // From string literal
+    std::cout << "sv1: " << sv1 << "\n"; // Print value
+    greet(sv1); // Use greet with string_view
 
-    std::string str{"World"}; // Create a std::string
-    std::string_view sv2{str}; // string_view referencing std::string
-    std::cout << "sv2: " << sv2 << "\n"; // Output sv2
+    std::string str{"World"}; // Create std::string
+    std::string_view sv2{str}; // View into string
+    std::cout << "sv2: " << sv2 << "\n"; // Print value
+    greet(str);  // Pass std::string (auto converts)
+    greet(sv2);  // Pass string_view directly
 
-    const char arr[] = "Hello, World!"; // C-style character array
-    std::string_view sv3(arr, 14); // Construct with pointer + length
-    std::cout << "sv3: " << sv3 << "\n"; // Output sv3
+    const char arr[] = "C-style string"; // Char array
+    std::string_view sv3(arr); // View from char array
+    std::cout << "sv3: " << sv3 << "\n"; // Print value
+    greet(arr); // Pass C-string
 
-    std::string str2{sv2}; // Convert string_view back to std::string
-    std::cout << "str2: " << str2 << "\n"; // Output converted string
+    // ===== 2. Using "sv" literal =====
 
-    // ===== 2. Passing string_view as function argument =====
-
-    greet("World"sv); // Pass string literal as string_view using "sv" suffix
+    greet("Literal example"sv); // Direct string_view literal
 
     // ===== 3. string_view interface operations =====
 
     std::string_view sv{"Hello, World!"}; // Create string_view
-    std::cout << "string view: " << sv << "\n"; // Print original
+    std::cout << "Original: " << sv << "\n"; // Print original
+    greet(sv); // Greet before modification
 
-    std::cout << "Removing 7 characters from front\n"; // Info message
-    sv.remove_prefix(7); // Remove first 7 characters ("Hello, ")
-    std::cout << "string view: " << sv << "\n"; // Now prints "World!"
+    std::cout << "Removing 7 characters from front\n"; // Info
+    sv.remove_prefix(7); // Remove "Hello, "
+    std::cout << "Now: " << sv << "\n"; // Should be "World!"
+    greet(sv); // Greet modified view
 
-    std::cout << "Removing 1 character from back\n"; // Info message
-    sv.remove_suffix(1); // Remove last character ('!')
-    std::cout << "string view: " << sv << "\n"; // Now prints "World"
+    std::cout << "Removing 1 character from back\n"; // Info
+    sv.remove_suffix(1); // Remove '!'
+    std::cout << "Now: " << sv << "\n"; // Should be "World"
+    greet(sv); // Greet final view
 
-    // Convert string_view to std::string safely
-    // NOTE: sv.data() alone may include old characters beyond view
-    std::string finalStr{sv.data(), sv.size()}; // Correct conversion
-    std::cout << "string: " << finalStr << "\n"; // Output final string
+    // ===== 4. Converting back to std::string =====
 
-    return 0; // End of program
+    std::string finalStr{sv.data(), sv.size()}; // Safe conversion
+    std::cout << "finalStr: " << finalStr << "\n"; // Print result
+    greet(finalStr); // Works with std::string too
+
+    return 0; // End program
 }
 ```
