@@ -241,6 +241,8 @@ int main() {
 ```
 
 ## If statements
+This merged C++17 program demonstrates how modern language features make code more concise and safer by limiting variable scope and improving readability: instead of declaring variables before an if, C++17 allows you to initialize them directly inside the if statement (e.g., iterators or search results), ensuring they only exist where needed; when working with containers like std::map, the program shows how insertion returns both an iterator and a success flag, which can be unpacked using structured bindings (auto [iter, success]) for clearer logic; it also compares older C++14 patterns with newer C++17 approaches for tasks like searching in strings, highlighting that the newer style reduces clutter while keeping checks (like avoiding invalid iterators or missing values) explicit and safe, ultimately leading to cleaner, more maintainable code.
+
 ```cpp
 #include <iostream>
 #include <vector>
