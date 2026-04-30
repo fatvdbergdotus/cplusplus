@@ -396,6 +396,8 @@ int main()
 ```
 
 ## String view caveats
+A dangling pointer is a pointer (or reference/view) that still points to a memory location that is no longer valid—usually because the object it pointed to has already been destroyed or deallocated.
+
 ```cpp
 #include <iostream>         // For std::cout
 #include <string>           // For std::string
