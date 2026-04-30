@@ -166,3 +166,74 @@ int main()
 ```
 
 ## Structured bindings and maps
+```cpp
+#include <iostream>              // For std::cout
+#include <map>                   // For std::map container
+#include <string>                // For std::string
+
+using namespace std::literals;   // Enables "text"s string literal
+
+// ----------- C++11/14 INSERT FUNCTION -----------
+void cpp14_insert(std::map<int, std::string>& m, int new_key, std::string new_val) {
+    // Insert returns pair<iterator, bool>
+    auto pr = m.insert({new_key, new_val});  // Try inserting key-value pair
+
+    if (pr.second)                           // Check if insertion succeeded
+        std::cout << "Inserted a new element\n";  // Success message
+    else {
+        auto el = pr.first;                  // Iterator to existing element
+        std::cout << "Insert failed ";       // Failure message
+        std::cout << "due to an element with key: " << el->first
+                  << " and value: " << el->second << '\n'; // Show conflicting element
+    }
+}
+
+// ----------- C++17 INSERT FUNCTION (STRUCTURED BINDINGS) -----------
+void cpp17_insert(std::map<int, std::string>& m, int new_key, std::string new_val) {
+    auto [iter, success] = m.insert({new_key, new_val}); // Structured binding
+
+    if (success)                                         // Check success
+        std::cout << "Inserted a new element\n";          // Success message
+    else {
+        auto [key, value] = *iter;                       // Unpack iterator result
+        std::cout << "Insert failed ";                   // Failure message
+        std::cout << "due to an element with key: " << key
+                  << " and value: " << value << '\n';    // Show conflicting element
+    }
+}
+
+// ----------- MAIN FUNCTION -----------
+int main() {
+    // Create a map with initial elements
+    std::map<int, std::string> m = {
+        {1, "Hello"s},
+        {2, "How are you?"s},
+        {3, "Goodbye"s}
+    };
+
+    // ----------- LOOP EXAMPLE C++11/14 -----------
+    std::cout << "Map elements (C++11/14):\n";  // Header output
+    for (auto el : m)                           // Iterate through map
+        std::cout << "Key = " << el.first       // Access key
+                  << ", Value = " << el.second  // Access value
+                  << '\n';                      // New line
+
+    // ----------- LOOP EXAMPLE C++17 -----------
+    std::cout << "Map elements (C++17):\n";     // Header output
+    for (auto [key, value] : m)                 // Structured binding unpack
+        std::cout << "Key = " << key            // Print key
+                  << ", Value = " << value      // Print value
+                  << '\n';                      // New line
+
+    // ----------- INSERT TESTS -----------
+    std::cout << "\nTesting insert (C++11/14):\n"; // Section header
+    cpp14_insert(m, 1, "Hello again"s);            // Duplicate key (fail)
+    cpp14_insert(m, 4, "New value"s);              // New key (success)
+
+    std::cout << "\nTesting insert (C++17):\n";    // Section header
+    cpp17_insert(m, 2, "Duplicate"s);              // Duplicate key (fail)
+    cpp17_insert(m, 5, "Another value"s);          // New key (success)
+
+    return 0;                                      // End program
+}
+```
