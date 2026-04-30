@@ -320,6 +320,8 @@ int main() {                     // Entry point of the program
 ```
 
 ## Auto type deduction
+decltype in C++ is a keyword that inspects an expression and yields its exact type without evaluating the expression, making it useful when you want precise type deduction rather than the simplified rules used by auto. Unlike auto, which may drop references and const qualifiers, decltype preserves them: for example, if you write int x = 5; decltype(x) a = x; then a is int, but decltype((x)) b = x; makes b an int& because (x) is an lvalue expression. It’s commonly used in templates and generic code, especially when the type depends on an expression (e.g., decltype(a + b)), or when you want to declare a variable or return type that exactly matches another expression’s type.
+
 ```cpp
 #include <iostream>
 #include <vector>
