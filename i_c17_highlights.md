@@ -166,6 +166,8 @@ int main()
 ```
 
 ## Structured bindings and maps
+This C++ program demonstrates how to use std::map to store key–value pairs and compares older C++11/14 techniques with newer C++17 features. It defines two insert functions: one uses the traditional std::pair return from map::insert to check if insertion succeeded, while the other uses structured bindings (a C++17 feature) to unpack the result more cleanly. In main, a map is initialized with a few entries, then printed twice—first using the older loop style with .first and .second, and then using structured bindings for clearer syntax. Finally, both insert functions are tested with duplicate and new keys to show how the map prevents duplicate keys and how each version reports success or failure, illustrating both backward-compatible and modern C++ approaches.
+
 ```cpp
 #include <iostream>              // For std::cout
 #include <map>                   // For std::map container
