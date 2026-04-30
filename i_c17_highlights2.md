@@ -225,3 +225,50 @@ int main()
 ```
 
 # Converting Numbers to Strings
+```cpp
+#include <iostream>      // for std::cout
+#include <charconv>      // for std::to_chars
+#include <system_error>  // for std::errc
+#include <string>        // for std::string
+
+// Function to test conversion of double values to string
+void test(double dbl)                      // define a function that takes a double
+{
+    const int size{100};                   // buffer size for conversion
+    char buf[size];                        // character buffer to hold result
+
+    auto res = std::to_chars(buf, buf + size, dbl); // convert double to char array
+
+    // Check if conversion failed due to insufficient buffer size
+    if (res.ec == std::errc::value_too_large) // error condition
+        std::cout << "value_too_large\n";     // print error message
+    else {
+        *(res.ptr) = '\0';                   // add null terminator to make it C-string
+        std::cout << "Result: " << buf << '\n'; // print converted result
+    }
+}
+
+int main()                                  // main entry point
+{
+    // -------- Integer conversion example --------
+    int number{42};                         // integer to convert
+    const int size{100};                    // buffer size
+    char buf[size];                         // buffer for integer conversion
+
+    auto res = std::to_chars(buf, buf + size, number); // convert int to chars
+
+    *(res.ptr) = '\0';                      // add null terminator
+    std::cout << "Integer Result (C-string): " << buf << '\n'; // print raw buffer
+
+    std::string result(buf, res.ptr - buf); // construct std::string from buffer
+    std::cout << "Integer Result (std::string): " << result << "\n"; // print string
+
+    // -------- Double conversion examples --------
+    test(3.14159);                          // test with a normal double
+
+    test(1.23456789012345678901234567890123456789012345678901234567890L);
+    // test with a very large precision number (may be truncated)
+
+    return 0;                               // indicate successful execution
+}
+```
