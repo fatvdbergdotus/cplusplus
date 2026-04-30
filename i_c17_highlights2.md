@@ -137,3 +137,91 @@ int main()                         // Entry point of the program
     std::cout << "Returned from func()\n"; // Print after func() completes
 }
 ```
+
+# Converting Strings to Numbers
+```cpp
+#include <iostream>      // For std::cout
+#include <charconv>      // For std::from_chars
+#include <string>        // For std::string
+#include <system_error>  // For std::errc
+
+// Function demonstrating error handling with from_chars
+void convert(const std::string& str) // Takes a string to convert
+{
+    std::cout << "str: " << str << '\n'; // Print input string
+
+    const char* const first = str.data();              // Pointer to beginning of string
+    const char* const last  = first + str.size();      // Pointer to end of string
+
+    int number{0}; // Variable to store parsed integer
+
+    auto res = std::from_chars(first, last, number); // Attempt conversion
+
+    if (res.ptr != last) // If parsing didn’t consume entire string
+        std::cout << "Error caused by character " << *(res.ptr) << '\n';
+
+    std::cout << "Parsed " << res.ptr - first << " chars\n"; // Show how many chars parsed
+
+    if (res.ec == std::errc::result_out_of_range) // If number too large/small
+        std::cout << "result_out_of_range: " << number << "\n";
+    else if (res.ec == std::errc::invalid_argument) // If no valid conversion possible
+        std::cout << "invalid_argument\n";
+    else
+        std::cout << "Result: " << number << '\n'; // Successful result
+
+    std::cout << '\n'; // Blank line for readability
+}
+
+int main()
+{
+    // ---------------------------
+    // Example 1: Integer parsing
+    // ---------------------------
+
+    std::string str1{"100"}; // String containing integer
+    std::cout << "str1: " << str1 << '\n';
+
+    int number1{0}; // Variable to store result
+
+    // Convert string to integer (base 10 by default)
+    auto res1 = std::from_chars(str1.data(), str1.data() + str1.size(), number1);
+
+    std::cout << "number1: " << number1 << '\n';
+
+    // Convert using base 16 (hexadecimal)
+    res1 = std::from_chars(str1.data(), str1.data() + str1.size(), number1, 16);
+
+    std::cout << "number1 (base 16): " << number1 << "\n\n";
+
+
+    // ---------------------------
+    // Example 2: Floating parsing
+    // ---------------------------
+
+    std::string str2{"3.14159"}; // String containing floating-point number
+    std::cout << "str2: " << str2 << '\n';
+
+    double number2{0.0}; // Variable to store double
+
+    // Specify format for floating-point parsing
+    auto format = std::chars_format::general;
+
+    // Convert string to double
+    auto res2 = std::from_chars(str2.data(), str2.data() + str2.size(), number2, format);
+
+    std::cout << "number2: " << number2 << "\n\n";
+
+
+    // ---------------------------
+    // Example 3: Error handling
+    // ---------------------------
+
+    convert("3875");       // Valid number
+    convert("387err5");    // Stops at invalid character
+    convert("Oops");       // Completely invalid input
+
+    return 0; // End of program
+}
+```
+
+# Converting Numbers to Strings
