@@ -318,3 +318,57 @@ int main() {                     // Entry point of the program
     return 0;                   // Indicate successful program execution
 }
 ```
+
+## Auto type deduction
+```cpp
+#include <iostream>
+#include <vector>
+
+int main() {
+    // Basic auto usage
+    auto x = 10;        // int
+    auto y = 3.14;      // double
+    auto z = 'A';       // char
+
+    // Expressions
+    auto sum = x + y;   // double
+
+    // Containers
+    std::vector<int> nums = {1, 2, 3, 4};
+
+    // Iterator with auto
+    for (auto it = nums.begin(); it != nums.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    // Range-based loop
+    for (auto n : nums) {
+        std::cout << n << " ";
+    }
+    std::cout << std::endl;
+
+    // References
+    auto& ref = x;  // reference to x
+    ref = 20;
+
+    // const behavior
+    const int a = 42;
+    auto normal = a;        // int (const dropped)
+    const auto constant = a; // const int
+
+    // decltype
+    decltype(x + y) result = x + y;  // double
+
+    // Output everything
+    std::cout << "x: " << x << std::endl;
+    std::cout << "y: " << y << std::endl;
+    std::cout << "z: " << z << std::endl;
+    std::cout << "sum: " << sum << std::endl;
+    std::cout << "result: " << result << std::endl;
+    std::cout << "normal: " << normal << std::endl;
+    std::cout << "constant: " << constant << std::endl;
+
+    return 0;
+}
+```
