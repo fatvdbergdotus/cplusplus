@@ -255,6 +255,8 @@ int main() {                     // Entry point of the program
 ```
 
 ### Constexpr functions
+constexpr in C++ allows computations to be performed at compile time rather than at runtime, which can significantly improve performance by eliminating repeated calculations and enabling better compiler optimizations. It also increases code safety by enforcing that certain values remain constant and valid during compilation, catching errors earlier instead of at runtime. Additionally, constexpr makes code more expressive and self-documenting by clearly indicating which functions and variables are intended to be constant expressions, while still allowing them to fall back to runtime evaluation when necessary, giving developers both efficiency and flexibility.
+
 ```cpp
 // Define a constexpr function that converts miles to kilometers
 constexpr double miles_to_km(double miles) { 
