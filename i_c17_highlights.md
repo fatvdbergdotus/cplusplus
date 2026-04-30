@@ -239,3 +239,128 @@ int main() {
     return 0;                                      // End program
 }
 ```
+
+## If statements
+```cpp
+#include <iostream>
+#include <vector>
+#include <map>
+#include <string>
+
+using namespace std::literals;
+
+// ------------------------------------------------------------
+// Example 1: Demonstrating C++17 if-initializer with iterators
+// ------------------------------------------------------------
+void vector_example()
+{
+    std::vector<int> vec = {1, 2, 3};
+
+    // C++17 feature:
+    // Declare and initialize 'iter' inside the if-statement.
+    // Scope of 'iter' is limited to this if block.
+    if (auto iter = vec.begin(); iter != vec.end()) {
+        // We safely dereference because we already checked it's not end()
+        std::cout << "First element of vec: " << *iter << '\n';
+    }
+}
+
+
+// ------------------------------------------------------------
+// Example 2: Inserting into a map and checking success
+// ------------------------------------------------------------
+void map_insert_example()
+{
+    std::map<int, std::string> m = { {1, "Hello"s} };
+
+    // insert() returns a pair:
+    // - iterator to element
+    // - bool indicating success of insertion
+    if (auto result = m.insert({2, "How are you?"s}); result.second) {
+        std::cout << "Insertion successful\n";
+    } else {
+        std::cout << "Insertion failed (key already exists)\n";
+    }
+}
+
+
+// ------------------------------------------------------------
+// Example 3: Structured bindings (C++17)
+// ------------------------------------------------------------
+void map_insert_binding_example()
+{
+    std::map<int, std::string> m = { {1, "hello"s} };
+
+    // Structured binding splits the returned pair into:
+    // iter  -> iterator to element
+    // success -> bool indicating insertion success
+    if (auto [iter, success] = m.insert({1, "goodbye"s}); success) {
+        std::cout << "Inserted new element\n";
+    } else {
+        std::cout << "Insert failed (duplicate key)\n";
+
+        // Access existing element via iterator
+        auto [key, value] = *iter;
+        std::cout << "Existing -> Key: " << key
+                  << ", Value: " << value << '\n';
+    }
+
+    // Range-based loop with structured bindings
+    std::cout << "All map elements:\n";
+    for (auto [key, value] : m) {
+        std::cout << key << " => " << value << '\n';
+    }
+}
+
+
+// ------------------------------------------------------------
+// Example 4: Searching characters in a string
+// ------------------------------------------------------------
+
+// C++14 style (separate variable + if)
+void find_cpp14(const std::string& str, char c)
+{
+    auto pos = str.find(c);  // find position of character
+
+    if (pos != std::string::npos) {
+        std::cout << "Found '" << c << "' at index " << pos << '\n';
+    } else {
+        std::cout << "Character '" << c << "' not found\n";
+    }
+}
+
+
+// C++17 style (if with initializer)
+void find_cpp17(const std::string& str, char c)
+{
+    // 'pos' exists only inside this if statement
+    if (auto pos = str.find(c); pos != std::string::npos) {
+        std::cout << "Found '" << c << "' at index " << pos << '\n';
+    } else {
+        std::cout << "Character '" << c << "' not found\n";
+    }
+}
+
+
+// ------------------------------------------------------------
+// Main function to run all examples
+// ------------------------------------------------------------
+int main()
+{
+    std::cout << "=== Vector Example ===\n";
+    vector_example();
+
+    std::cout << "\n=== Map Insert Example ===\n";
+    map_insert_example();
+
+    std::cout << "\n=== Map Structured Binding Example ===\n";
+    map_insert_binding_example();
+
+    std::cout << "\n=== String Search (C++14 vs C++17) ===\n";
+    std::string text = "Hello";
+    find_cpp14(text, 'l');
+    find_cpp17(text, 'o');
+
+    return 0;
+}
+```
