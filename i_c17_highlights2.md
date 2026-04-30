@@ -272,3 +272,63 @@ int main()                                  // main entry point
     return 0;                               // indicate successful execution
 }
 ```
+
+## String view
+std::string_view is a lightweight, non-owning view of a string introduced in C++17 that lets you refer to existing character data (like a std::string, string literal, or char array) without copying it; internally, it just stores a pointer to the data and a length, making it fast and efficient for read-only operations such as passing strings to functions or slicing substrings, but because it doesn’t own the memory, you must ensure the original data remains valid for as long as the string_view is used, otherwise you risk undefined behavior (dangling references).
+
+```cpp
+#include <iostream>
+#include <string>        // for std::string
+#include <string_view>   // for std::string_view
+
+// -----------------------------
+// Version 1: using std::string
+// -----------------------------
+// Takes a const reference to std::string
+// This may create a temporary std::string when passing string literals
+void greet_string(const std::string& person)
+{
+    std::cout << "[std::string] Hello, " << person << '\n';
+}
+
+// -----------------------------------
+// Version 2: using std::string_view
+// -----------------------------------
+// Takes a std::string_view (non-owning view of a string)
+// No allocation or copy when passing string literals
+void greet_string_view(std::string_view person)
+{
+    std::cout << "[string_view] Hello, " << person << '\n';
+}
+
+int main()
+{
+    // -----------------------------
+    // Calling std::string version
+    // -----------------------------
+    // "World" (const char*) is converted to a temporary std::string
+    // This involves allocation + copy
+    greet_string("World");
+
+    // -----------------------------
+    // Calling string_view version
+    // -----------------------------
+    // "World" is directly viewed (no allocation, no copy)
+    // string_view just points to existing memory
+    greet_string_view("World");
+
+    // -----------------------------
+    // Additional comparison example
+    // -----------------------------
+    std::string name = "Alice";
+
+    // No extra allocation here (already a std::string)
+    greet_string(name);
+
+    // string_view simply references the existing string data
+    greet_string_view(name);
+
+    return 0;
+}
+```
+
