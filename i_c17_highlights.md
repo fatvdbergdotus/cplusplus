@@ -164,3 +164,5 @@ int main()
     return 0;                   // End program successfully
 }
 ```
+
+## Structured bindings and maps
