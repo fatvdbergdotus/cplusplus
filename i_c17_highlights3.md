@@ -118,3 +118,48 @@ int main() {
     return 0;  // Program finished successfully
 }
 ```
+
+## Variant Type Applications
+This program demonstrates how to use std::variant as a type-safe way to store different data types in a single container. It defines a TokenVisitor struct with overloaded operator() functions, each handling a specific type (char, int, or double) and printing a corresponding message. In main, a Token alias is created for a variant that can hold those three types, and a std::vector is initialized with mixed values. The program then loops through each element and uses std::visit to automatically call the correct visitor function based on the actual type stored in the variant, demonstrating runtime polymorphism without inheritance.
+
+```cpp
+#include <iostream>   // For std::cout (console output)
+#include <variant>    // For std::variant (type-safe union)
+#include <vector>     // For std::vector (dynamic array)
+
+// Visitor struct to handle different types inside std::variant
+struct TokenVisitor {
+    // Called when the variant holds a char
+    void operator()(const char c) { 
+        std::cout << "Character: " << c << '\n'; 
+    }
+
+    // Called when the variant holds an int
+    void operator()(const int i) { 
+        std::cout << "Integer: " << i << '\n'; 
+    }
+
+    // Called when the variant holds a double
+    void operator()(const double d) { 
+        std::cout << "Floating-point: " << d << '\n'; 
+    }
+};
+
+int main() {
+    // Create an alias 'Token' for a variant that can hold char, int, or double
+    using Token = std::variant<char, int, double>;
+
+    // Create a vector of Token elements with mixed types
+    std::vector<Token> tokens = {42, 3.14159, 'Z', 99};
+
+    // Loop through each token in the vector
+    for (auto token : tokens) {
+
+        // std::visit applies the visitor to the currently held type in the variant
+        // It calls the correct overload of operator() based on the stored type
+        std::visit(TokenVisitor(), token);
+    }
+
+    return 0; // Indicate successful program execution
+}
+```
