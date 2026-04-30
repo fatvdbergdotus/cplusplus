@@ -1,6 +1,8 @@
 # C++ 17 highlights
 
 ## Switch statements
+The example shows how a C++17 switch statement with an initializer can be used to process characters in a string while keeping variables scoped neatly. The program loops through each character of a C-style string and, inside the switch, declares a temporary variable c (const char c = arr[i]) that exists only for that switch. It then checks whether c is a whitespace character (space ' ', tab '\t', or newline '\n'); if so, it increments a counter. Each case falls into the same action (incrementing), and break prevents unintended fallthrough. This approach keeps the code clean by avoiding extra variables outside the switch while clearly grouping conditions that share the same behavior.
+
 ```cpp
 #include <iostream>      // for std::cout
 #include <string>        // for std::string
