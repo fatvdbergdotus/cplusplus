@@ -102,3 +102,38 @@ int main() {
     return 0; // end program
 }
 ```
+
+## Copy elision
+```cpp
+#include <iostream>                 // Include input-output stream library for std::cout
+
+class Test {                       // Define a class named Test
+  public:
+    Test() {                       // Default constructor
+        std::cout << "Default constructor\n"; // Print when object is created
+    }
+    
+    // Copy constructor with side effect
+    Test(const Test& other) {      // Copy constructor (called when copying objects)
+        std::cout << "Copying\n";  // Print when a copy happens
+    }
+};
+
+// Function returning a temporary object
+Test func()                        // Function that returns a Test object
+{
+    return Test{};                 // Return a temporary Test object (prvalue)
+}
+
+int main()                         // Entry point of the program
+{
+    std::cout << "Calling func()\n"; // Print before calling func()
+    
+    // How many times is "Copying" printed out?
+    Test test = func();            // Initialize 'test' with return value of func()
+                                   // In C++17, copy elision is guaranteed here
+                                   // So NO copy constructor is called
+    
+    std::cout << "Returned from func()\n"; // Print after func() completes
+}
+```
