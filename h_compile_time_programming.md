@@ -254,6 +254,30 @@ int main() {                     // Entry point of the program
 }
 ```
 
+### Constexpr functions
+```cpp
+// Define a constexpr function that converts miles to kilometers
+constexpr double miles_to_km(double miles) { 
+    return miles * 1.602; // Multiply miles by conversion factor to get kilometers
+}
+
+// const return value expected - evaluated at compile time
+const double dist2 = miles_to_km(40); 
+// Since input is a constant literal, this is computed at compile time
+
+// Non-const return value expected - evaluated at runtime
+double dist1 = miles_to_km(40); 
+// Even though input is constant, result is stored in non-const variable → runtime evaluation allowed
+
+// Declare a non-const variable initialized at runtime
+double dist3{40}; 
+// This value is NOT a compile-time constant
+
+// constexpr return value but non-const argument - error
+constexpr double dist4 = miles_to_km(dist3);  
+// ERROR: dist3 is not a constant expression, so this cannot be evaluated at compile time
+```
+
 ```cpp
     const size_t len = str.size() // ok - value of len cannot be changed after initialization
     constexpr size_t len = str.size() // Error - value not known at compile time
