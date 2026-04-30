@@ -138,7 +138,7 @@ int main()                         // Entry point of the program
 }
 ```
 
-# Converting Strings to Numbers
+## Converting Strings to Numbers
 ```cpp
 #include <iostream>      // For std::cout
 #include <charconv>      // For std::from_chars
@@ -224,7 +224,7 @@ int main()
 }
 ```
 
-# Converting Numbers to Strings
+## Converting Numbers to Strings
 ```cpp
 #include <iostream>      // for std::cout
 #include <charconv>      // for std::to_chars
