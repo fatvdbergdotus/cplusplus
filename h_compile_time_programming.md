@@ -253,3 +253,8 @@ int main() {                     // Entry point of the program
     return 0;                   // End of program
 }
 ```
+
+```cpp
+    const size_t len = str.size() // ok - value of len cannot be changed after initialization
+    constexpr size_t len = str.size() // Error - value not known at compile time
+```
