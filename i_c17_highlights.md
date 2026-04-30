@@ -99,6 +99,8 @@ int main()
 ```
 
 ## Structured bindings
+Structured bindings are a C++17 feature that let you unpack multiple values from an object into separate variables in one line. Think of it as a clean way to “destructure” things like pairs, tuples, arrays, or structs.
+
 ```cpp
 #include <iostream>              // For std::cout
 #include <tuple>                 // For std::tuple
