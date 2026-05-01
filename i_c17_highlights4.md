@@ -148,6 +148,8 @@ int main() {
 ```
 
 ## Constexpr if statement
+std::is_same_v<T, U> is a C++17 compile-time utility from <type_traits> that evaluates to true if the two types T and U are exactly identical and false otherwise; it’s a shorthand for std::is_same<T, U>::value and is commonly used in templates to make decisions during compilation, especially with if constexpr, enabling different code paths depending on the type while avoiding compilation errors that would occur with a normal if.
+
 ```cpp
 #include <iostream>     // For std::cout
 #include <string>       // For std::string
