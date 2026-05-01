@@ -149,4 +149,115 @@ int main() {
 
 ## Constexpr if statement
 ```cpp
+#include <iostream>     // For std::cout
+#include <string>       // For std::string
+#include <type_traits>  // For std::is_same_v and std::enable_if_t
+
+// ============================================================
+// 1. Regular if (THIS WILL NOT COMPILE FOR ALL TYPES)
+// ============================================================
+
+namespace regular_if
+{
+    template<typename T>
+    std::string get_string(const T& arg)  // Generic function
+    {
+        // Normal if (evaluated at runtime, both branches must compile)
+        if (std::is_same_v<std::string, T>)   // Check if T is std::string
+            return arg;                       // ERROR if T is not string
+        else
+            return std::to_string(arg);       // ERROR if T is string
+    }
+}
+
+// ============================================================
+// 2. if constexpr (C++17 solution)
+// ============================================================
+
+namespace constexpr_if
+{
+    template<typename T>
+    std::string get_string(const T& arg)  // Generic function
+    {
+        // Compile-time if (only one branch is compiled)
+        if constexpr (std::is_same_v<std::string, T>)  // True if T == std::string
+            return arg;                                // Only compiled for string
+        else
+            return std::to_string(arg);                // Only compiled otherwise
+    }
+}
+
+// ============================================================
+// 3. SFINAE (Substitution Failure Is Not An Error)
+// ============================================================
+
+namespace sfinae
+{
+    // Enabled ONLY when T is NOT std::string
+    template<typename T, std::enable_if_t<!std::is_same_v<std::string, T>, int> = 0>
+    std::string get_string(const T& arg)   // Handles non-string types
+    {
+        return std::to_string(arg);        // Convert numeric types to string
+    }
+
+    // Enabled ONLY when T IS std::string
+    template<typename T, std::enable_if_t<std::is_same_v<std::string, T>, int> = 0>
+    std::string get_string(const T& arg)   // Handles std::string
+    {
+        return arg;                        // Return string directly
+    }
+}
+
+// ============================================================
+// 4. Template Specialization
+// ============================================================
+
+namespace specialization
+{
+    // General template (for non-string types)
+    template<typename T>
+    std::string get_string(const T& arg)
+    {
+        return std::to_string(arg);  // Convert to string
+    }
+
+    // Specialization for std::string
+    template<>
+    std::string get_string<std::string>(const std::string& arg)
+    {
+        return arg;  // Return string directly
+    }
+}
+
+// ============================================================
+// MAIN FUNCTION (demonstrates all methods)
+// ============================================================
+
+int main()
+{
+    int x{42};                          // Example integer
+    std::string str{"hello"};           // Example string
+
+    std::cout << "===== if constexpr =====\n";  // Section header
+    std::cout << constexpr_if::get_string(x) << '\n';    // Works for int
+    std::cout << constexpr_if::get_string(str) << '\n';  // Works for string
+
+    std::cout << "\n===== SFINAE =====\n";       // Section header
+    std::cout << sfinae::get_string(x) << '\n';   // Works for int
+    std::cout << sfinae::get_string(str) << '\n'; // Works for string
+
+    std::cout << "\n===== Specialization =====\n"; // Section header
+    std::cout << specialization::get_string(x) << '\n';   // Works for int
+    std::cout << specialization::get_string(str) << '\n'; // Works for string
+
+    // NOTE:
+    // regular_if version is NOT called because it would fail to compile
+    // Uncommenting below will likely cause compilation errors:
+    /*
+    std::cout << regular_if::get_string(x) << '\n';
+    std::cout << regular_if::get_string(str) << '\n';
+    */
+
+    return 0;  // Program finished successfully
+}
 ```
