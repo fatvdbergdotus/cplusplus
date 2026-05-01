@@ -12,4 +12,6 @@
 - H. Compile time programming [1](h_compile_time_programming.md)
 - I. C++ 17 highlights [1](i_c17_highlights.md) [2](i_c17_highlights2.md) [3](i_c17_highlights3.md) [4](i_c17_highlights4.md)
 
-See [Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for guidelines about how to use C++
+See [All overview](all.md) for a total manual (ideal for searching).
+
+See [Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for guidelines about how to use C++.
