@@ -1,0 +1,5 @@
+﻿  ConsoleApplication1.cpp
+D:\utwente.svn\github fatvdbergdotus\cplusplus\sokoban\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(139,22): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\utwente.svn\github fatvdbergdotus\cplusplus\sokoban\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(140,25): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\utwente.svn\github fatvdbergdotus\cplusplus\sokoban\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.cpp(170,22): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  ConsoleApplication1.vcxproj -> D:\utwente.svn\github fatvdbergdotus\cplusplus\sokoban\ConsoleApplication1\x64\Debug\ConsoleApplication1.exe
