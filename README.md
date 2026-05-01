@@ -12,6 +12,7 @@
 - H. Compile time programming [1](h_compile_time_programming.md)
 - I. C++ 17 highlights [1](i_c17_highlights.md) [2](i_c17_highlights2.md) [3](i_c17_highlights3.md) [4](i_c17_highlights4.md)
 - J. Small class example with virtual [1](j_class_example.md)
+- K. Projects [1](k_projects.md)
 
 See [All overview](all.md) for a total manual (ideal for searching).
 
