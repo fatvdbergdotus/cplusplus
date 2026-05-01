@@ -148,6 +148,7 @@ int main() {
 ```
 
 ## Constexpr if statement (simple)
+std::is_integral<T> is a compile-time type trait from the C++ standard library (in <type_traits>) that checks whether a given type T is an integral (whole-number) type, such as int, char, bool, or long; it provides the result as a constant boolean value via std::is_integral<T>::value (or the cleaner std::is_integral_v<T> in C++17+), which is commonly used in templates and if constexpr to enable or restrict code paths based on whether a type belongs to the family of integer types, while excluding non-integral types like float, double, classes, or pointers.
 
 ```cpp
 #include <iostream>
