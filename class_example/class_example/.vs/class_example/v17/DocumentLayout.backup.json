@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A868F413-C9A7-426A-A8EF-F98AE0DBC8D4}|class_example\\class_example.vcxproj|D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\class_example.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A868F413-C9A7-426A-A8EF-F98AE0DBC8D4}|class_example\\class_example.vcxproj|solutionrelative:class_example\\class_example.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A868F413-C9A7-426A-A8EF-F98AE0DBC8D4}|class_example\\class_example.vcxproj|D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\super_animal.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A868F413-C9A7-426A-A8EF-F98AE0DBC8D4}|class_example\\class_example.vcxproj|solutionrelative:class_example\\super_animal.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A868F413-C9A7-426A-A8EF-F98AE0DBC8D4}|class_example\\class_example.vcxproj|D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\animal.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A868F413-C9A7-426A-A8EF-F98AE0DBC8D4}|class_example\\class_example.vcxproj|solutionrelative:class_example\\animal.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A868F413-C9A7-426A-A8EF-F98AE0DBC8D4}|class_example\\class_example.vcxproj|D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\animal.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A868F413-C9A7-426A-A8EF-F98AE0DBC8D4}|class_example\\class_example.vcxproj|solutionrelative:class_example\\animal.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A868F413-C9A7-426A-A8EF-F98AE0DBC8D4}|class_example\\class_example.vcxproj|D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\super_animal.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A868F413-C9A7-426A-A8EF-F98AE0DBC8D4}|class_example\\class_example.vcxproj|solutionrelative:class_example\\super_animal.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "animal.cpp",
+              "DocumentMoniker": "D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\animal.cpp",
+              "RelativeDocumentMoniker": "class_example\\animal.cpp",
+              "ToolTip": "D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\animal.cpp",
+              "RelativeToolTip": "class_example\\animal.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-05-01T10:31:33.847Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "super_animal.cpp",
+              "DocumentMoniker": "D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\super_animal.cpp",
+              "RelativeDocumentMoniker": "class_example\\super_animal.cpp",
+              "ToolTip": "D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\super_animal.cpp",
+              "RelativeToolTip": "class_example\\super_animal.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-05-01T10:28:03.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "animal.h",
+              "DocumentMoniker": "D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\animal.h",
+              "RelativeDocumentMoniker": "class_example\\animal.h",
+              "ToolTip": "D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\animal.h",
+              "RelativeToolTip": "class_example\\animal.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-05-01T10:27:52.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "super_animal.h",
+              "DocumentMoniker": "D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\super_animal.h",
+              "RelativeDocumentMoniker": "class_example\\super_animal.h",
+              "ToolTip": "D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\super_animal.h",
+              "RelativeToolTip": "class_example\\super_animal.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-05-01T10:27:26.967Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "class_example.cpp",
+              "DocumentMoniker": "D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\class_example.cpp",
+              "RelativeDocumentMoniker": "class_example\\class_example.cpp",
+              "ToolTip": "D:\\utwente.svn\\github fatvdbergdotus\\cplusplus\\class_example\\class_example\\class_example\\class_example.cpp",
+              "RelativeToolTip": "class_example\\class_example.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-05-01T10:26:19.531Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
