@@ -68,6 +68,83 @@ int main() {
 
 ## Map emplace
 ```cpp
+#include <iostream>   // For std::cout
+#include <map>        // For std::map
+#include <string>     // For std::string
+
+// A simple class to demonstrate object construction behavior
+class refrigerator {
+    int temperature;   // Stores temperature
+    bool door_open;    // Indicates if door is open
+    bool power_on;     // Indicates if power is on
+
+public:
+    // Constructor
+    refrigerator(int temp, bool open, bool power)
+        : temperature(temp), door_open(open), power_on(power)
+    {
+        std::cout << "Constructor called\n"; // Prints when object is constructed
+    }
+
+    // Copy constructor
+    refrigerator(const refrigerator& other)
+        : temperature(other.temperature),
+          door_open(other.door_open),
+          power_on(other.power_on)
+    {
+        std::cout << "Copy constructor called\n"; // Prints when object is copied
+    }
+
+    // Function to print object state
+    void print() const {
+        std::cout << "Temp: " << temperature
+                  << ", Door: " << (door_open ? "Open" : "Closed")
+                  << ", Power: " << (power_on ? "On" : "Off") << "\n";
+    }
+};
+
+int main() {
+    // Create a map with string keys and refrigerator values
+    std::map<std::string, refrigerator> fridge_map;
+
+    std::cout << "=== Using emplace ===\n";
+
+    // emplace constructs the object before inserting
+    fridge_map.emplace(
+        "kitchen",                      // Key
+        refrigerator(5, false, true)   // Value (temporary object created first)
+    );
+
+    // If key already exists, emplace still constructs the object first
+    fridge_map.emplace(
+        "kitchen",                      // Same key (already exists)
+        refrigerator(10, true, false)  // Still constructs object (wasted work)
+    );
+
+    std::cout << "\n=== Using try_emplace ===\n";
+
+    // try_emplace constructs ONLY if key does not exist
+    fridge_map.try_emplace(
+        "garage",   // New key
+        2, true, true // Arguments forwarded to constructor (no temporary object)
+    );
+
+    // If key exists, try_emplace does NOT construct the object
+    fridge_map.try_emplace(
+        "garage",   // Existing key
+        8, false, false // Constructor NOT called here
+    );
+
+    std::cout << "\n=== Final Map Contents ===\n";
+
+    // Iterate through map and print contents
+    for (const auto& pair : fridge_map) {
+        std::cout << pair.first << " -> "; // Print key
+        pair.second.print();               // Print value
+    }
+
+    return 0; // End of program
+}
 ```
 
 ## Constexpr if statement
