@@ -365,7 +365,7 @@ void run_nested_example()
 template <typename T>
 constexpr void func_short_circuit()
 {
-    // ❌ Problem:
+    // Problem:
     // Even though this looks like a short-circuit condition,
     // BOTH sides must still be valid during compilation.
     // std::numeric_limits<T> must exist, or compilation fails.
@@ -380,7 +380,7 @@ void run_short_circuit_example()
 {
     func_short_circuit<int>(); // OK
 
-    // ⚠️ This would FAIL to compile if uncommented:
+    // This would FAIL to compile if uncommented:
     // func_short_circuit<std::string>();
     //
     // Reason:
