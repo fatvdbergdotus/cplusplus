@@ -147,6 +147,34 @@ int main() {
 }
 ```
 
+## Constexpr if statement (simple)
+
+```cpp
+#include <iostream>
+#include <type_traits>
+
+// Function template that behaves differently depending on type
+template <typename T>
+void printType(T value)
+{
+    if constexpr (std::is_integral<T>::value)
+    {
+        std::cout << "Integer: " << value << '\n';
+    }
+    else
+    {
+        std::cout << "Not an integer: " << value << '\n';
+    }
+}
+
+int main()
+{
+    printType(10);        // Integer
+    printType(3.14);      // Not an integer
+    printType("hello");   // Not an integer
+}
+```
+
 ## Constexpr if statement
 std::is_same_v<T, U> is a C++17 compile-time utility from <type_traits> that evaluates to true if the two types T and U are exactly identical and false otherwise; it’s a shorthand for std::is_same<T, U>::value and is commonly used in templates to make decisions during compilation, especially with if constexpr, enabling different code paths depending on the type while avoiding compilation errors that would occur with a normal if.
 
