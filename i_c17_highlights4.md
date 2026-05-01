@@ -263,3 +263,93 @@ int main()
     return 0;  // Program finished successfully
 }
 ```
+
+## Constexpr if statement (fibonacci)
+```cpp
+// ===== File: fibonacci_constexpr.cc =====
+#include <iostream>  // fibonacci_constexpr.cc
+
+template<int N>  // fibonacci_constexpr.cc
+constexpr int fibonacci()  // fibonacci_constexpr.cc
+{  // fibonacci_constexpr.cc
+	if constexpr (N > 1)  // fibonacci_constexpr.cc
+		return fibonacci<N-1>() + fibonacci<N-2>();  // fibonacci_constexpr.cc
+	return N;  // fibonacci_constexpr.cc
+}  // fibonacci_constexpr.cc
+
+int main()  // fibonacci_constexpr.cc
+{  // fibonacci_constexpr.cc
+	constexpr int n{10};  // fibonacci_constexpr.cc
+	std::cout << "The " << n << "th Fibonacci number is: " << fibonacci<n>() << '\n';  // fibonacci_constexpr.cc
+}  // fibonacci_constexpr.cc
+
+
+// ===== File: fibonacci_specialization.cc =====
+#include <iostream>  // fibonacci_specialization.cc
+
+// General case (N > 1)  // fibonacci_specialization.cc
+template <int N>  // fibonacci_specialization.cc
+int fibonacci()  // fibonacci_specialization.cc
+{  // fibonacci_specialization.cc
+	return fibonacci<N-1>() + fibonacci<N-2>();  // fibonacci_specialization.cc
+}  // fibonacci_specialization.cc
+
+// Specialization for N == 1  // fibonacci_specialization.cc
+template<>  // fibonacci_specialization.cc
+int fibonacci<1>()  // fibonacci_specialization.cc
+{  // fibonacci_specialization.cc
+	return 1;  // fibonacci_specialization.cc
+}  // fibonacci_specialization.cc
+
+// Specialization for N == 0  // fibonacci_specialization.cc
+template<>  // fibonacci_specialization.cc
+int fibonacci<0>()  // fibonacci_specialization.cc
+{  // fibonacci_specialization.cc
+	return 0;  // fibonacci_specialization.cc
+}  // fibonacci_specialization.cc
+
+int main()  // fibonacci_specialization.cc
+{  // fibonacci_specialization.cc
+	constexpr int n{10};  // fibonacci_specialization.cc
+	std::cout << "The " << n << "th Fibonacci number is: " << fibonacci<n>() << '\n';  // fibonacci_specialization.cc
+}  // fibonacci_specialization.cc
+
+
+// ===== File: nested.cc =====
+#include <string>  // nested.cc
+#include <limits>  // nested.cc
+
+template <typename T>  // nested.cc
+constexpr void func()  // nested.cc
+{  // nested.cc
+	// Must be integer, but not bool, char, etc  // nested.cc
+	if constexpr (std::is_integral<T>::value) {  // nested.cc
+		if constexpr (std::numeric_limits<T>::max() > 255) {  // nested.cc
+			// Do something ...  // nested.cc
+		}  // nested.cc
+	}  // nested.cc
+}  // nested.cc
+
+int main()  // nested.cc
+{  // nested.cc
+	func<std::string>();  // Compiles  // nested.cc
+}  // nested.cc
+
+
+// ===== File: short_circuit.cc =====
+#include <string>  // short_circuit.cc
+#include <limits>  // short_circuit.cc
+
+template <typename T>  // short_circuit.cc
+constexpr void func()  // short_circuit.cc
+{  // short_circuit.cc
+	// Must be integer, but not bool, char, etc  // short_circuit.cc
+	if constexpr (std::is_integral<T>::value && std::numeric_limits<T>::max() > 255) {  // short_circuit.cc
+	}  // short_circuit.cc
+}  // short_circuit.cc
+
+int main()  // short_circuit.cc
+{  // short_circuit.cc
+	func<std::string>();  // Substitution failure - numeric_limits does not support std::string  // short_circuit.cc
+}  // short_circuit.cc
+```
