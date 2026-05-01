@@ -337,46 +337,25 @@ int main()
 In C++, std::any (introduced in C++17) is a type-safe container that can hold a value of any copyable type without knowing the type at compile time. It’s useful when you need flexibility similar to dynamic typing, but still want safety—internally it stores the value along with its type information. You can check whether it contains a value using .has_value(), inspect the stored type with .type(), and safely extract the value using std::any_cast<T>(), which throws an exception if the type doesn’t match. Unlike void*, std::any preserves type information, making it safer, but it does come with some overhead compared to strongly typed alternatives.
 
 ```cpp
-// ===== Merged C++ Source File =====
-// Combined from multiple .cc files
+#include <iostream>   // for output
+#include <any>        // for std::any
+#include <string>     // for std::string
 
-#include <iostream>  // for std::cout, std::endl
-#include <typeinfo>  // for typeid
-#include <memory>    // for smart pointers
+int main() {
+    std::any value;                          // empty any container
 
-// ---------- any_cast.cc ----------
-void any_cast_example() {                     // function from any_cast.cc
-    std::cout << "any_cast example\n";        // print message
-}
+    value = 10;                              // store an int
+    std::cout << std::any_cast<int>(value)   // extract int safely
+              << std::endl;
 
-// ---------- any_cast_pointer.cc ----------
-void any_cast_pointer_example() {             // function from any_cast_pointer.cc
-    std::cout << "any_cast_pointer example\n"; // print message
-}
+    value = std::string("hello");             // store a string
+    std::cout << std::any_cast<std::string>(value)
+              << std::endl;
 
-// ---------- has_value.cc ----------
-bool has_value_example() {                    // function from has_value.cc
-    return true;                             // always returns true (placeholder)
-}
+    value = 3.14;                            // store a double
+    std::cout << std::any_cast<double>(value)
+              << std::endl;
 
-// ---------- type.cc ----------
-void type_example() {                         // function from type.cc
-    std::cout << typeid(int).name() << "\n";  // print type info for int
-}
-
-// ---------- void.cc ----------
-void void_example() {                         // function from void.cc
-    std::cout << "void example\n";            // print message
-}
-
-// ---------- main ----------
-int main() {                                  // program entry point
-    any_cast_example();                       // call function
-    any_cast_pointer_example();               // call function
-    has_value_example();                      // call function
-    type_example();                           // call function
-    void_example();                           // call function
-
-    return 0;                                 // successful exit
+    return 0;
 }
 ```
