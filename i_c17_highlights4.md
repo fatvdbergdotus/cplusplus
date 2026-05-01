@@ -266,90 +266,138 @@ int main()
 
 ## Constexpr if statement (fibonacci)
 ```cpp
-// ===== File: fibonacci_constexpr.cc =====
-#include <iostream>  // fibonacci_constexpr.cc
+// ===================== Example 1: constexpr Fibonacci (compile-time recursion) =====================
+#include <iostream>
 
-template<int N>  // fibonacci_constexpr.cc
-constexpr int fibonacci()  // fibonacci_constexpr.cc
-{  // fibonacci_constexpr.cc
-	if constexpr (N > 1)  // fibonacci_constexpr.cc
-		return fibonacci<N-1>() + fibonacci<N-2>();  // fibonacci_constexpr.cc
-	return N;  // fibonacci_constexpr.cc
-}  // fibonacci_constexpr.cc
+// Template-based Fibonacci computed at compile time using constexpr and if constexpr
+template<int N>
+constexpr int fibonacci_constexpr()
+{
+    // if constexpr ensures only the valid branch is compiled
+    if constexpr (N > 1)
+        // Recursive compile-time evaluation
+        return fibonacci_constexpr<N-1>() + fibonacci_constexpr<N-2>();
 
-int main()  // fibonacci_constexpr.cc
-{  // fibonacci_constexpr.cc
-	constexpr int n{10};  // fibonacci_constexpr.cc
-	std::cout << "The " << n << "th Fibonacci number is: " << fibonacci<n>() << '\n';  // fibonacci_constexpr.cc
-}  // fibonacci_constexpr.cc
+    // Base cases: fibonacci(0) = 0, fibonacci(1) = 1
+    return N;
+}
 
-
-// ===== File: fibonacci_specialization.cc =====
-#include <iostream>  // fibonacci_specialization.cc
-
-// General case (N > 1)  // fibonacci_specialization.cc
-template <int N>  // fibonacci_specialization.cc
-int fibonacci()  // fibonacci_specialization.cc
-{  // fibonacci_specialization.cc
-	return fibonacci<N-1>() + fibonacci<N-2>();  // fibonacci_specialization.cc
-}  // fibonacci_specialization.cc
-
-// Specialization for N == 1  // fibonacci_specialization.cc
-template<>  // fibonacci_specialization.cc
-int fibonacci<1>()  // fibonacci_specialization.cc
-{  // fibonacci_specialization.cc
-	return 1;  // fibonacci_specialization.cc
-}  // fibonacci_specialization.cc
-
-// Specialization for N == 0  // fibonacci_specialization.cc
-template<>  // fibonacci_specialization.cc
-int fibonacci<0>()  // fibonacci_specialization.cc
-{  // fibonacci_specialization.cc
-	return 0;  // fibonacci_specialization.cc
-}  // fibonacci_specialization.cc
-
-int main()  // fibonacci_specialization.cc
-{  // fibonacci_specialization.cc
-	constexpr int n{10};  // fibonacci_specialization.cc
-	std::cout << "The " << n << "th Fibonacci number is: " << fibonacci<n>() << '\n';  // fibonacci_specialization.cc
-}  // fibonacci_specialization.cc
+void run_constexpr_example()
+{
+    constexpr int n{10};  // evaluated at compile time
+    std::cout << "[constexpr] Fibonacci(" << n << ") = "
+              << fibonacci_constexpr<n>() << '\n';
+}
 
 
-// ===== File: nested.cc =====
-#include <string>  // nested.cc
-#include <limits>  // nested.cc
+// ===================== Example 2: Template Specialization Fibonacci =====================
+#include <iostream>
 
-template <typename T>  // nested.cc
-constexpr void func()  // nested.cc
-{  // nested.cc
-	// Must be integer, but not bool, char, etc  // nested.cc
-	if constexpr (std::is_integral<T>::value) {  // nested.cc
-		if constexpr (std::numeric_limits<T>::max() > 255) {  // nested.cc
-			// Do something ...  // nested.cc
-		}  // nested.cc
-	}  // nested.cc
-}  // nested.cc
+// General case: recursive template instantiation
+template <int N>
+int fibonacci_specialized()
+{
+    return fibonacci_specialized<N-1>() + fibonacci_specialized<N-2>();
+}
 
-int main()  // nested.cc
-{  // nested.cc
-	func<std::string>();  // Compiles  // nested.cc
-}  // nested.cc
+// Base case specialization: stops recursion at N = 1
+template<>
+int fibonacci_specialized<1>()
+{
+    return 1;
+}
+
+// Base case specialization: stops recursion at N = 0
+template<>
+int fibonacci_specialized<0>()
+{
+    return 0;
+}
+
+void run_specialization_example()
+{
+    constexpr int n{10};
+    std::cout << "[specialization] Fibonacci(" << n << ") = "
+              << fibonacci_specialized<n>() << '\n';
+}
 
 
-// ===== File: short_circuit.cc =====
-#include <string>  // short_circuit.cc
-#include <limits>  // short_circuit.cc
+// ===================== Example 3: Nested if constexpr =====================
+#include <string>
+#include <limits>
+#include <type_traits>
 
-template <typename T>  // short_circuit.cc
-constexpr void func()  // short_circuit.cc
-{  // short_circuit.cc
-	// Must be integer, but not bool, char, etc  // short_circuit.cc
-	if constexpr (std::is_integral<T>::value && std::numeric_limits<T>::max() > 255) {  // short_circuit.cc
-	}  // short_circuit.cc
-}  // short_circuit.cc
+// Demonstrates safe compile-time branching with nested if constexpr
+template <typename T>
+constexpr void func_nested()
+{
+    // First check: is T an integral type?
+    if constexpr (std::is_integral<T>::value)
+    {
+        // Second check: does T have a large range (greater than 255)?
+        if constexpr (std::numeric_limits<T>::max() > 255)
+        {
+            std::cout << "[nested] Large integral type\n";
+        }
+        else
+        {
+            std::cout << "[nested] Small integral type\n";
+        }
+    }
+    else
+    {
+        // This branch is compiled instead for non-integral types
+        std::cout << "[nested] Not an integral type\n";
+    }
+}
 
-int main()  // short_circuit.cc
-{  // short_circuit.cc
-	func<std::string>();  // Substitution failure - numeric_limits does not support std::string  // short_circuit.cc
-}  // short_circuit.cc
+void run_nested_example()
+{
+    func_nested<int>();        // integral, large
+    func_nested<bool>();       // integral, small
+    func_nested<std::string>(); // not integral (safe!)
+}
+
+
+// ===================== Example 4: Short-circuit pitfall =====================
+
+// Demonstrates why combining conditions in a single if constexpr can be dangerous
+template <typename T>
+constexpr void func_short_circuit()
+{
+    // ❌ Problem:
+    // Even though this looks like a short-circuit condition,
+    // BOTH sides must still be valid during compilation.
+    // std::numeric_limits<T> must exist, or compilation fails.
+    if constexpr (std::is_integral<T>::value &&
+                  std::numeric_limits<T>::max() > 255)
+    {
+        std::cout << "[short-circuit] Large integral type\n";
+    }
+}
+
+void run_short_circuit_example()
+{
+    func_short_circuit<int>(); // OK
+
+    // ⚠️ This would FAIL to compile if uncommented:
+    // func_short_circuit<std::string>();
+    //
+    // Reason:
+    // std::numeric_limits<std::string> is invalid,
+    // and template substitution fails BEFORE condition evaluation.
+}
+
+
+// ===================== Unified main =====================
+
+int main()
+{
+    run_constexpr_example();
+    run_specialization_example();
+    run_nested_example();
+    run_short_circuit_example();
+
+    return 0;
+}
 ```
