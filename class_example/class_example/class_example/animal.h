@@ -4,6 +4,7 @@ class animal :
     public super_animal
 {
 public:
-    void make_sound() override;
+    virtual void make_sound() override;
+    void make_sound_non_override();
 };
 

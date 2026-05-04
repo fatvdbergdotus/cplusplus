@@ -1,5 +1,5 @@
 ﻿  animal.cpp
   class_example.cpp
-  super_animal.cpp
+  dog.cpp
   Generating Code...
   class_example.vcxproj -> D:\utwente.svn\github fatvdbergdotus\cplusplus\class_example\class_example\x64\Debug\class_example.exe
