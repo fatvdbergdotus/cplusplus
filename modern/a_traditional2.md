@@ -5,6 +5,8 @@
 ## Container adapter (containers built on other containers)
 
 ### Queue (FIFO)
+This C++ program demonstrates the use of the std::queue container, which follows the First In, First Out (FIFO) principle, meaning the first element added is the first one removed. The program creates a queue of integers, adds elements using push(), and displays the queue size along with the first element using front() and the last element using back(). It then removes the front element with pop() and shows how the front and back values update afterward. The example highlights basic queue operations and how queues are commonly used for sequential processing in the order elements are inserted.
+
 ```cpp
 #include <queue>                        
 #include <iostream>
@@ -31,6 +33,8 @@ int main() {
 ```
 
 ### Stack (LIFO)
+This C++ program demonstrates the use of the std::stack container, which follows the Last In, First Out (LIFO) principle, meaning the most recently added element is removed first. The program creates a stack of integers, adds elements using push(), and accesses the top element with top(). It then removes the top element using pop() and displays the new top element afterward. The example illustrates basic stack operations and how stacks are useful for tasks such as undo operations, expression evaluation, and recursive processing.
+
 ```cpp
 #include <stack>                        
 #include <iostream>
@@ -54,6 +58,8 @@ int main() {
 ## Operator overloading
 
 ### Operator() is also known as Functor
+This example demonstrates operator overloading using the function call operator operator(), which allows an object to be used like a function. The evenp class defines operator()(int n) to check whether a number is even by returning true if the number is divisible by 2. In main(), an object named is_even is created and then called like a normal function using is_even(6). Because objects with operator() behave like functions, they are called functors or function objects. Functors are commonly used in algorithms and callbacks because they combine function behavior with object-oriented features such as storing state and customization.
+
 ```cpp
 #include <iostream>
 
@@ -74,6 +80,8 @@ int main() {
 ```
 
 ### Operators +, -, == and <<
+This example demonstrates operator overloading in a Point class, allowing objects to behave more naturally with standard operators. The + operator is overloaded to add the coordinates of two points, while the - operator subtracts them. The == operator compares two points to determine whether both their x and y values are equal. The << operator is overloaded as a friend function so Point objects can be printed directly using cout in a readable format like (x, y). In main(), these overloaded operators make expressions such as p1 + p2, p1 - p2, p1 == p2, and cout << p1 work similarly to built-in data types, improving code readability and usability.
+
 ```cpp
 #include <iostream>
 using namespace std;
