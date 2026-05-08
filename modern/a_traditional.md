@@ -45,6 +45,12 @@ int main() {
     func(&x);
     cout << "After calling func(), x = " << x << endl;
 }
+
+/* Possible output:
+Address of x is 0x61fe4c
+Address of y is 0x61fe4c
+After calling func(), x = 1
+*/
 ```
 
 ### 3. Pass by reference
@@ -64,6 +70,12 @@ int main() {
     func(x);
     cout << "After calling func(), x = " << x << endl;
 }
+
+/* Possible output:
+Address of x is 0x61fe4c
+Address of y is 0x61fe4c
+After calling func(), x = 1
+*/
 ```
 
 ## String versus Vectors
