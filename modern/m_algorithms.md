@@ -4,6 +4,8 @@ This document provides a comprehensive reference for the most commonly used algo
 
 The reference also highlights important concepts of modern C++ programming such as iterators, lambda expressions, ranges, and container manipulation. Algorithms like all_of(), find(), sort(), transform(), binary_search(), accumulate(), and iota() demonstrate how STL algorithms can simplify common programming tasks while improving readability and efficiency. Each example follows a consistent structure with explanatory comments and output verification, making the document useful as both a learning guide for beginners and a quick revision reference for intermediate programmers studying the C++ Standard Template Library (STL).
 
+See also [https://en.cppreference.com/cpp/algorithm](https://en.cppreference.com/cpp/algorithm)
+
 ## `all_of()`
 Checks if all elements satisfy a condition.
 
