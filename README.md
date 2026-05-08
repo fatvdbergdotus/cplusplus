@@ -22,5 +22,3 @@
 ## Programming style
 - L. Modern C++ Programming Style [1](modern/l_programming_style.md)
 - M. Algorithms [1](modern/m_algorithms.md)
-
-See [Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for guidelines about how to use C++.
