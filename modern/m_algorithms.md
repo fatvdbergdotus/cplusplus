@@ -1,5 +1,9 @@
 # Complete C++ `<algorithm>` and `<numeric>` Reference
 
+This document provides a comprehensive reference for the most commonly used algorithms in the C++ Standard Library, mainly from the <algorithm> and <numeric> headers. Each section explains the purpose of a specific algorithm, includes a complete runnable C++ example, demonstrates the required input data such as vectors or ranges, and shows the expected output in comments. The examples cover a wide variety of operations including searching, sorting, counting, transforming, replacing, removing, partitioning, merging, heap manipulation, permutations, minimum and maximum operations, and numeric computations. By using short and practical code snippets, the document makes it easier to understand how each algorithm works and when it should be used.
+
+The reference also highlights important concepts of modern C++ programming such as iterators, lambda expressions, ranges, and container manipulation. Algorithms like all_of(), find(), sort(), transform(), binary_search(), accumulate(), and iota() demonstrate how STL algorithms can simplify common programming tasks while improving readability and efficiency. Each example follows a consistent structure with explanatory comments and output verification, making the document useful as both a learning guide for beginners and a quick revision reference for intermediate programmers studying the C++ Standard Template Library (STL).
+
 ## `all_of()`
 Checks if all elements satisfy a condition.
 
