@@ -14,7 +14,12 @@
 - G. Smart pointers [1](modern/g_smart_pointers.md)
 - H. Compile time programming [1](modern/h_compile_time_programming.md)
 - I. C++ 17 highlights [1](modern/i_c17_highlights.md) [2](modern/i_c17_highlights2.md) [3](modern/i_c17_highlights3.md) [4](modern/i_c17_highlights4.md)
+
+## Projects
 - J. Small class example with virtual [1](modern/j_class_example.md)
-- K. Projects [1](modern/k_projects.md)
+- K. Other projects [1](modern/k_projects.md)
+
+## Programming style
+- L. Modern C++ Programming Style [1](modern/l_programming_style.md)
 
 See [Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for guidelines about how to use C++.
