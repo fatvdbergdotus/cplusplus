@@ -3,7 +3,7 @@
 # C++ manual
 
 ## Traditional C++
-- A. Traditional C++ [1](modern/a_traditional.md) [2](modern/a_traditional2.md) [3](modern/a_traditional3.md) [4](modern/a_traditional4.md)
+- A. Traditional C++ [1](traditional/a_traditional.md) [2](traditional/a_traditional2.md) [3](traditional/a_traditional3.md) [4](traditional/a_traditional4.md)
 
 ## Modern C++
 - B. Modern C++ features [1](modern/b_modern.md) [2](modern/b_modern2.md) [3](modern/b_modern3.md)
