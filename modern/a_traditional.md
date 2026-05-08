@@ -2,6 +2,8 @@
 
 # Traditional C++
 ## C++ Parameter Passing: Value vs Pointer vs Reference
+In C++, arguments can be passed to functions in three main ways: pass by value, pass by pointer, and pass by reference. In pass by value, the function receives a copy of the variable, so changes made inside the function do not affect the original variable, and the copied parameter has a different memory address. In pass by pointer, the function receives the variable’s memory address using a pointer, allowing it to directly modify the original variable through dereferencing (*), so both addresses match. In pass by reference, the function uses an alias to the original variable, meaning no copy is created and modifications inside the function directly affect the original variable while sharing the same address.
+
 ### 1. Pass by Value
 
 ```cpp
