@@ -20,6 +20,13 @@ int main() {
     cout << "Address of z is " << &z << endl;
     cout << "After calling func(), z = " << z << endl;
 }
+
+/* Possible output:
+Address of x is 0x61fe4c
+Address of y is 0x61fe20
+Address of z is 0x61fe48
+After calling func(), z = 2
+*/
 ```
 ### 2. Pass by pointer
 
