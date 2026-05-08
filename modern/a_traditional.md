@@ -275,6 +275,8 @@ int main() {
 ## Sequential containers (e.g., array)
 
 ### Deque
+This C++ program demonstrates how to use the std::deque container, which allows efficient insertion and removal of elements from both the front and back. The program creates an empty deque, adds elements using push_back() and push_front(), checks its size and whether it is empty, and prints the elements using iterators. It then sorts the deque with sort(), inserts a new element before a specific value using find() and insert(), removes the first element with erase(), and finally clears all elements using clear(). Throughout the program, iterators are used to traverse the deque, showing common operations and features of the STL deque container.
+
 ```cpp
 #include <deque>       // For std::deque container
 #include <iostream>    // For input/output (cout)
@@ -356,6 +358,8 @@ int main() {
 ```
 
 ### List
+This C++ program demonstrates the use of the std::list container, a doubly linked list that allows efficient insertion and deletion of elements. The program creates an empty list, adds elements to both the front and back using push_front() and push_back(), checks the size and whether the list is empty, and prints all elements using iterators. It then sorts the list with the list-specific sort() member function, inserts a new element before a found value using find() and insert(), removes the first element with erase(), and finally clears all elements using clear(). The example highlights common list operations and iterator traversal in the C++ Standard Template Library (STL).
+
 ```cpp
 #include <list>        // For std::list container
 #include <iostream>    // For input/output (cout)
@@ -440,6 +444,8 @@ int main() {
 ## Associative containers with a key (e.g., set and map)
 
 ### Set
+This C++ program demonstrates the use of the std::set container, which stores unique elements in sorted order. The program creates a set of integers, inserts several values, and prints them using iterators. It then attempts to insert the value 3 again, showing that sets automatically prevent duplicate elements by returning a pair from insert(), where the boolean value indicates whether the insertion succeeded. Afterward, the program removes the value 3 using erase(), prints the updated set, and tries inserting 3 once more, which now succeeds because the value no longer exists in the set. Overall, the example highlights important set operations such as insertion, duplicate checking, deletion, automatic sorting, and iterator traversal in the C++ STL.
+
 ```cpp
 #include <set>
 #include <iostream>
@@ -517,6 +523,7 @@ int main() {
 ```
 
 ### Map
+This C++ program demonstrates the use of the std::map container, which stores key-value pairs in sorted order by key. The program creates a map that associates student names (string) with scores (int), inserts elements using insert() and make_pair(), and prints all entries using iterators. It accesses values using the key with the [] operator, updates an existing value by assigning a new score, and adds a new key-value pair dynamically. The program also uses the find() function to search for a specific key and checks whether it exists before displaying the corresponding value. Overall, the example highlights common map operations such as insertion, access, modification, searching, and traversal in the C++ STL.
 
 ```cpp
 #include <map>
