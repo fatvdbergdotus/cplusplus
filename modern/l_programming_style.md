@@ -52,5 +52,14 @@ RAII (Resource Acquisition Is Initialization) is a C++ programming idiom where r
 - Use [range-for](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/i_c17_highlights.md) loops for typical iteration
 - To create a container of polymorphic objects, make the elements unique_ptr to the base clase
   - E.g., using AnimalList = std::vector<std::unique_ptr<Animal>>; AnimalList animals; animals.push_back(std::make_unique<Dog>()); animals.push_back(std::make_unique<Cat>());
+ 
+## Multithreading
+See [1](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/f_multithreading.md) and [2](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/f_multithreading2.md)
+- Protect your code from data races
+- Avoid sharing data unless essential
+- Always join() or detach() std::thread objects
+- Avoid deadlock and livelock
+- Avoid explicit use of std::thread and std::mutex
+  - use packaged_task or async(), use lock_guard or unique_lock()
 
 See also [https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for more guidelines about how to use C++.
