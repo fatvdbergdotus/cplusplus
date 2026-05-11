@@ -1,4 +1,4 @@
-# Modern C++ Programming Style gio
+# Modern C++ Programming Style guidelines
 
 Please keep the following guidelines in mind when programming in Modern C++:
 
