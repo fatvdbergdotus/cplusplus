@@ -30,5 +30,11 @@ RAII (Resource Acquisition Is Initialization) is a C++ programming idiom where r
 - [make_pair](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/d_modern_library.md)
 - [make_tuple](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/d_modern_library.md)
 
+## Class operators
+- Single-argument constructors should usually be made [explicit](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/e_move.md)
+- Use in-place initializers for members which have a sensible default value
+- Use delegating constructors to avoid duplicating code
+- If you want a default special member function, use [=default](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/g_smart_pointers.md)
+- If objects of the class should not be copied, [delete](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/b_modern2.md) the copy operators
 
 See also [https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for more guidelines about how to use C++.
