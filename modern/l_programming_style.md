@@ -5,7 +5,7 @@ Please keep the following guidelines in mind when programming in Modern C++:
 ## Higher level of abstraction
 - Use [Smart pointers](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/g_smart_pointers.md) instead of new/delete
 - Avoid use of explicit pointers and never use explicit new and delete calls.
-- Make use of [Algorithms](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/m_algorithms.md) (see also [https://en.cppreference.com/cpp/algorithm](https://en.cppreference.com/cpp/algorithm))
+- Make use of [Algorithms](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/m_algorithms.md) (see also [https://en.cppreference.com/cpp/algorithm](https://en.cppreference.com/cpp/algorithm)) and don't reinvent the wheel.
 
 RAII (Resource Acquisition Is Initialization) is a C++ programming idiom where resources such as memory, files, locks, or network connections are acquired in a constructor and automatically released in a destructor.
 
