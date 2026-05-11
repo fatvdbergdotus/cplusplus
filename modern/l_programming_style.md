@@ -16,6 +16,6 @@ Please keep the following guidelines in mind when programming in Modern C++:
 ## Initialize variables whne declaring them
 - Use the {} form for consistency, e.g., int x{42};
 - Use auto for types which are tedious to type or unknowable
-- Don't use [auto](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/i_c17_higlights.md) when the type name provides useful information
+- Don't use [auto](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/i_c17_highlights.md) when the type name provides useful information
 
 See also [https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for more guidelines about how to use C++.
