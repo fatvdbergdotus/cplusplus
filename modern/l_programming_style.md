@@ -22,10 +22,10 @@ Please keep the following guidelines in mind when programming in Modern C++:
 - E.g., [using](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/e_move.md) IntVector = vector<int>; IntVector nums = {1, 2, 3, 4};
 
 ## Use these functions
-- make_unique
-- make_shared
-- make_pair
-- make_tuple
+- [make_unique](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/g_smart_pointers.md)
+- [make_shared](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/g_smart_pointers.md)
+- [make_pair](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/d_modern_library.md)
+- [make_tuple](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/d_modern_library.md)
 
 
 See also [https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for more guidelines about how to use C++.
