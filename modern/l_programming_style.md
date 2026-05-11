@@ -37,4 +37,9 @@ RAII (Resource Acquisition Is Initialization) is a C++ programming idiom where r
 - If you want a default special member function, use [=default](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/g_smart_pointers.md)
 - If objects of the class should not be copied, [delete](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/b_modern2.md) the copy operators
 
+## Error handling
+- [Throw](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/f_multithreading2.md) an exception to indicate when a task cannot be performed, especially when a constructor fails
+- If a function does not throw, declare it [noexcept[(https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/b_modern3.md)
+- Avoid explicit try/catch blocks by putting resources inside an RAII class
+
 See also [https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for more guidelines about how to use C++.
