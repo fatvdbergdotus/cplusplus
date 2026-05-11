@@ -62,4 +62,13 @@ See [1](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/f_multithre
 - Avoid explicit use of std::thread and std::mutex
   - use packaged_task or async(), use lock_guard or unique_lock()
 
+## Parameters and functions
+- For built-in types, pass by value
+- For objects with one or two memebers of built-in type, pass by value
+- For arrays and larger structs, pass by const reference for an in parameter
+- For arrays and larger structs, pass by reference for an in-out parameter (not encouraged)
+- Return by value
+- Don't return pointers to allocated memory and never return a pointer or reference to a local variable
+- 
+
 See also [https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for more guidelines about how to use C++.
