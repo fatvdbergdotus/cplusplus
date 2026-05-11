@@ -30,5 +30,5 @@ This manual has mainly been generated for four purposes:
 
 ## A complete overview
 This section contains two links that provide a complete overview of all the material presented above. They allow you to easily browse and search through the code examples to quickly find relevant concepts, functions, and implementations.
-- [Traditional](traditional/all.md)
-- [Modern](modern/all.md)
+- [Traditional overview](traditional/all.md)
+- [Modern overview](modern/all.md)
