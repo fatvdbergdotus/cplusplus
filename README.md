@@ -29,6 +29,6 @@ This manual has mainly been generated for four purposes:
 - M. Algorithms [1](modern/m_algorithms.md)
 
 ## A complete overview
-This section contains two links to the complete overview of everything that is presented above.
+This section contains two links that provide a complete overview of all the material presented above. They allow you to easily browse and search through the code examples to quickly find relevant concepts, functions, and implementations.
 - [Traditional](traditional/all.md)
 - [Modern](modern/all.md)
