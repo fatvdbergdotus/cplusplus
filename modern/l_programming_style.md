@@ -5,7 +5,7 @@ Please keep the following guidelines in mind when programming in Modern C++:
 ## Higher level of abstraction
 - Use [Smart pointers](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/g_smart_pointers.md) instead of new/delete
 - Avoid use of explicit pointers and never use explicit new and delete calls.
-- Make use of [Algorithms](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/m_algorithms.md) (see also [https://en.cppreference.com/cpp/algorithm](https://en.cppreference.com/cpp/algorithm)) and don't reinvent the wheel.
+- Make use of [Algorithms](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/m_algorithms.md) (see also [https://en.cppreference.com/cpp/algorithm](https://en.cppreference.com/cpp/algorithm)) and don't reinvent the wheel. Customize them with lamdbda expressions.
 
 RAII (Resource Acquisition Is Initialization) is a C++ programming idiom where resources such as memory, files, locks, or network connections are acquired in a constructor and automatically released in a destructor.
 
@@ -45,5 +45,12 @@ RAII (Resource Acquisition Is Initialization) is a C++ programming idiom where r
 ## Inheritance
 - User [override](https://github.com/fatvdbergdotus/cplusplus/tree/main/class_example/class_example/class_example) keyword with virtual functions to avoid mistakes
 - Avoid large, complex hierarchies which are hard to understand and can be non-performant. Consider templates.
+
+## Containers
+- Use [std::vector](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/i_c17_highlights.md) as the default container
+- Use the () syntax to create a [vector](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/i_c17_highlights.md) with a given size and the {} syntax to initialize it with a list of values
+- Use [range-for](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/i_c17_highlights.md) loops for typical iteration
+- To create a container of polymorphic objects, make the elements unique_ptr to the base clase
+  - E.g., using AnimalList = std::vector<std::unique_ptr<Animal>>; AnimalList animals; animals.push_back(std::make_unique<Dog>()); animals.push_back(std::make_unique<Cat>());
 
 See also [https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for more guidelines about how to use C++.
