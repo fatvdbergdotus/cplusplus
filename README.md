@@ -19,6 +19,6 @@
 - J. Small class example with virtual [1](modern/j_class_example.md)
 - K. Other projects [1](modern/k_projects.md)
 
-## Programming style
+## Programming style guidelines
 - L. Modern C++ Programming Style [1](modern/l_programming_style.md)
 - M. Algorithms [1](modern/m_algorithms.md)
