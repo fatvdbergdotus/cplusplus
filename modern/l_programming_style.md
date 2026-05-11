@@ -42,4 +42,8 @@ RAII (Resource Acquisition Is Initialization) is a C++ programming idiom where r
 - If a function does not throw, declare it [noexcept[(https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/b_modern3.md)
 - Avoid explicit try/catch blocks by putting resources inside an RAII class
 
+## Inheritance
+- User [override](https://github.com/fatvdbergdotus/cplusplus/tree/main/class_example/class_example/class_example) keyword with virtual functions to avoid mistakes
+- Avoid large, complex hierarchies which are hard to understand and can be non-performant. Consider templates.
+
 See also [https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for more guidelines about how to use C++.
