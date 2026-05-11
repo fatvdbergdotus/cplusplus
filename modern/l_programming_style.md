@@ -18,4 +18,14 @@ Please keep the following guidelines in mind when programming in Modern C++:
 - Use auto for types which are tedious to type or unknowable
 - Don't use [auto](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/i_c17_highlights.md) when the type name provides useful information
 
+## Use type aliases to simplify complex types
+- E.g., [using]((https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/e_move.md) IntVector = vector<int>; IntVector nums = {1, 2, 3, 4};
+
+## Use these functions
+- make_unique
+- make_shared
+- make_pair
+- make_tuple
+
+
 See also [https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for more guidelines about how to use C++.
