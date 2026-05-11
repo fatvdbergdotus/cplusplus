@@ -19,7 +19,7 @@ Please keep the following guidelines in mind when programming in Modern C++:
 - Don't use [auto](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/i_c17_highlights.md) when the type name provides useful information
 
 ## Use type aliases to simplify complex types
-- E.g., [using]((https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/e_move.md) IntVector = vector<int>; IntVector nums = {1, 2, 3, 4};
+- E.g., [using](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/e_move.md) IntVector = vector<int>; IntVector nums = {1, 2, 3, 4};
 
 ## Use these functions
 - make_unique
