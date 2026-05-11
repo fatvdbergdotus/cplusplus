@@ -1,6 +1,11 @@
 (c) 2026 Freek van den Berg. All rights reserved.
 
 # C++ manual
+This manual has mainly been generated for four purposes:
+- To show that I have learned Modern C++
+- To show to others that I have learned Modern C++
+- To serve as a reference when I use Modern C++
+- To teach others Modern C++
 
 ## Traditional C++
 - A. Traditional C++ [1](traditional/a_traditional.md) [2](traditional/a_traditional2.md) [3](traditional/a_traditional3.md) [4](traditional/a_traditional4.md)
