@@ -71,6 +71,7 @@ See [1](https://github.com/fatvdbergdotus/cplusplus/blob/main/modern/f_multithre
 - For arrays and larger structs, pass by reference for an in-out parameter (not encouraged)
 - Return by value
 - Don't return pointers to allocated memory and never return a pointer or reference to a local variable
-- 
+
+
 
 See also [https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) for more guidelines about how to use C++.

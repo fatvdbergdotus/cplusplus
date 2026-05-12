@@ -27,3 +27,8 @@ This manual has mainly been generated for four purposes:
 ## Programming style guidelines
 - L. Modern C++ Programming Style [1](modern/l_programming_style.md)
 - M. Algorithms [1](modern/m_algorithms.md)
+
+## A complete overview
+This section contains two links that provide a complete overview of all the material presented above. They allow you to easily browse and search through the code examples to quickly find relevant concepts, functions, and implementations.
+- [Traditional overview](traditional/all.md)
+- [Modern overview](modern/all.md)
