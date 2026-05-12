@@ -61,7 +61,7 @@ int main(int nNumberofArgs, char* pszArgs[])
     return 0; 
 }
 ```
-
+## Compare input values yielding a boolean
 ```
  // BoolTest - compare variables input from the
 //            keyboard and store the results off
@@ -98,4 +98,78 @@ cin.ignore(10, '\n');
 cin.get();
 return 0;
 }
+
+// Example output:
+// Input value 1: 5
+// Input value 2: 5
+// The statement, 5 equals 5 is true
+// Press Enter to continue...
+```
+
+## Illustrate bitwise operators
+```
+ // BitTest - initialize two variables and output the
+//           results of applying the ~,& , | and ^
+//           operations
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+using namespace std;
+int main(int nNumberofArgs, char* pszArgs[])
+{
+    // set output format to hexadecimal
+    cout.unsetf(cout.dec);
+    cout.setf(cout.hex);
+    // initialize two arguments
+    int nArg1 = 0x78ABCDEF;
+    int nArg2 = 0x12345678;
+    // now perform each operation in turn
+    // first the unary NOT operator
+    cout << " nArg1 = 0x" << nArg1  << endl;
+    cout << "~nArg1 = 0x" << ~nArg1 << "\n" << endl;
+    cout << " nArg2 = 0x" << nArg2  << endl;
+    cout << "~nArg2 = 0x" << ~nArg2 << "\n" << endl;
+    // now the binary operators
+    cout << "  0x" << nArg1 << "\n"
+         << "& 0x" << nArg2 << "\n"
+         << "  ----------" << "\n"
+         << "  0x" << (nArg1 & nArg2) << "\n"
+         << endl;
+    cout << "  0x" << nArg1 << "\n"
+         << "| 0x" << nArg2 << "\n"
+         << "  ----------" << "\n"
+         << "  0x" << (nArg1 | nArg2) << "\n"
+         << endl;
+    cout << "  0x" << nArg1 << "\n"
+         << "^ 0x" << nArg2 << "\n"
+         << "  ----------" << "\n"
+         << "  0x" << (nArg1 ^ nArg2) << "\n"
+         << endl;
+    // wait until user is ready before terminating program
+    // to allow the user to see the program results
+    cout << "Press Enter to continue..." << endl;
+    cin.ignore(10, '\n');
+    cin.get();
+    return 0;
+}
+
+/*
+  nArg1 = 0x78abcdef
+~nArg1 = 0x87543210
+nArg2 = 0x12345678
+~nArg2 = 0xedcba987
+  0x78abcdef
+& 0x12345678
+  ----------
+  0x10204468
+  0x78abcdef
+| 0x12345678
+  ----------
+  0x7abfdfff
+  0x78abcdef
+^ 0x12345678
+  ----------
+  0x6a9f9b97
+Press Enter to continue...
+*/
 ```
