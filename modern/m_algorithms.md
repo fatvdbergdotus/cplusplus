@@ -1,3 +1,5 @@
+(c) 2026 Freek van den Berg. All rights reserved.
+
 # Complete C++ `<algorithm>` and `<numeric>` Reference
 
 This document provides a comprehensive reference for the most commonly used algorithms in the C++ Standard Library, mainly from the <algorithm> and <numeric> headers. Each section explains the purpose of a specific algorithm, includes a complete runnable C++ example, demonstrates the required input data such as vectors or ranges, and shows the expected output in comments. The examples cover a wide variety of operations including searching, sorting, counting, transforming, replacing, removing, partitioning, merging, heap manipulation, permutations, minimum and maximum operations, and numeric computations. By using short and practical code snippets, the document makes it easier to understand how each algorithm works and when it should be used.

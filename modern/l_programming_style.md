@@ -1,3 +1,5 @@
+(c) 2026 Freek van den Berg. All rights reserved.
+
 # Modern C++ Programming Style guidelines
 
 Please keep the following guidelines in mind when programming in Modern C++:
