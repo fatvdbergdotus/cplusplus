@@ -1,6 +1,6 @@
 # Simple example programs
 
-'''
+```
 //
 //  Conversion - Program to convert temperature from
 //             
@@ -36,4 +36,4 @@ cin >> celsius;
     cin.get();
     return 0;
 }
-'''
+```
