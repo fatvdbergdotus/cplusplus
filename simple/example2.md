@@ -44,7 +44,7 @@ int main(int nNumberofArgs, char* pszArgs[])
 ## For demo (input dependent times)
 
 ```cpp
- // ForDemo1 - input a loop count. Loop while
+// ForDemo1 - input a loop count. Loop while
 //           outputting astring arg number of times.
 #include <cstdio>
 #include <cstdlib>
