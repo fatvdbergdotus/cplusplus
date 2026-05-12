@@ -14,11 +14,11 @@ Fahrenheit = Celsius  * (212 - 32)/100 + 32
 using namespace std;
 int main(int nNumberofArgs, char* pszArgs[])
 {
-// enter the temperature in Celsius
-int celsius;
-cout << "Enter the temperature in Celsius:";
-cin >> celsius;
-// calculate conversion factor for Celsius
+    // enter the temperature in Celsius
+    int celsius;
+    cout << "Enter the temperature in Celsius:";
+    cin >> celsius;
+    // calculate conversion factor for Celsius
     // to Fahrenheit
     int factor;
     factor = 212 - 32;
