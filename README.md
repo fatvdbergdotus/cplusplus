@@ -32,3 +32,6 @@ This manual has mainly been generated for four purposes:
 This section contains two links that provide a complete overview of all the material presented above. They allow you to easily browse and search through the code examples to quickly find relevant concepts, functions, and implementations.
 - [Traditional overview](traditional/all.md)
 - [Modern overview](modern/all.md)
+
+## Simple example programs
+- Simple example programs [1](simple/example.md)
