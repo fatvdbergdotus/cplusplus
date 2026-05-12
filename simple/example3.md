@@ -321,4 +321,55 @@ accumulator += integerArray[i];
 }
 return accumulator;
 }
+
+/* POSSIBLE OUTPUT:
+This program sums values entered by the user
+Terminate the loop by entering a negative number
+Enter next number: 10
+Enter next number: 20
+Enter next number: 30
+Enter next number: 40
+Enter next number: -1
+The value of the array is:
+0: 10
+1: 20
+2: 30
+3: 40
+The sum is 100
+Press Enter to continue...
+*/
+```
+
+## Creating an array of characters
+```cpp
+// CharDisplay - output a character array to
+//               standard output, the MS-DOS window
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+using namespace std;
+// prototype declarations
+void displayCharArray(char charArray[], int sizeOfArray);
+int main(int nNumberofArgs, char* pszArgs[])
+{
+    char charMyName[]={'S', 't', 'e', 'p', 'h', 'e', 'n'};
+    displayCharArray(charMyName, 7);
+    cout << endl;
+    // wait until user is ready before terminating program
+    // to allow the user to see the program results
+    cout << "Press Enter to continue..." << endl;
+    cin.ignore(10, '\n');
+    cin.get();
+    return 0;
+}
+// displayCharArray - display an array of characters
+//                    by outputing one character at
+//                    a time
+void displayCharArray(char charArray[], int sizeOfArray)
+{
+    for(int i = 0; i< sizeOfArray; i++)
+    {
+        cout << charArray[i];
+    }
+}
 ```
