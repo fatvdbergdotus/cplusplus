@@ -1,10 +1,10 @@
 # Simple example programs
 
+## Celsius degrees into Fahrenheit
 ```
 //
 //  Conversion - Program to convert temperature from
-//             
-Celsius degrees into Fahrenheit:
+//               Celsius degrees into Fahrenheit:
 //             
 Fahrenheit = Celsius  * (212 - 32)/100 + 32
 //
