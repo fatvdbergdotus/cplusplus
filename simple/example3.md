@@ -144,3 +144,181 @@ int main(int nNumberofArgs, char* pszArgs[])
     return 0;
 }
 ```
+
+## Function demo with arguments
+
+```cpp
+// SquareDemo - demonstrate the use of a function
+//              
+which processes arguments
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+using namespace std;
+
+// square - returns the square of its argument
+//          doubleVar - the value to be squared
+//          returns - square of doubleVar
+double square(double doubleVar)
+{
+    return doubleVar * doubleVar;
+}
+
+// displayExplanation - prompt the user as to the rules
+//                      of the game
+void displayExplanation(void)
+{
+    cout << "This program sums the square of multiple\n"
+         << "series of numbers. Terminate each sequence\n"
+         << "by entering a negative number.\n"
+         << "Terminate the series by entering an\n"
+         << "empty sequence.\n"
+         << endl;
+    return;
+}
+
+// sumSquareSequence - accumulate the square of the number
+//               entered at the keyboard into a sequence
+//               until the user enters a negative number
+double sumSquareSequence(void)
+{
+    // loop forever
+    double accumulator = 0.0;
+    for(;;)
+    {
+        // fetch another number
+        double dValue = 0;
+        cout << "Enter next number: ";
+        cin  >> dValue;
+        // if it's negative...
+        if (dValue < 0)
+        {
+            // ...then exit from the loop
+            break;
+        }
+        // ...otherwise calculate the square
+        double value = square(dValue);
+        // now add the square to the
+        // accumulator
+        accumulator += value;
+    }
+    // return the accumulated value
+    return accumulator;
+}
+
+int main(int nNumberofArgs, char* pszArgs[])
+{
+    displayExplanation();
+    // Continue to accumulate numbers...
+    for(;;)
+    {
+        // sum a sequence of numbers entered from
+        // the keyboard
+        cout << "Enter next sequence" << endl;
+        double accumulatedValue = sumSquareSequence();
+        // terminate if the sequence is zero or negative
+        if (accumulatedValue <= 0.0)
+        {
+            break;
+        }
+        // now output the accumulated result
+        cout << "\nThe total of the values squared is "
+             << accumulatedValue << endl << endl;
+    }
+    // wait until user is ready before terminating program
+    // to allow the user to see the program results
+    cout << "Press Enter to continue..." << endl;
+    cin.ignore(10, '\n');
+    cin.get();
+    return 0;
+}
+```
+
+## Using an array
+```cpp
+// ArrayDemo - demonstrate the use of arrays
+//             by reading a sequence of integers
+//             and then displaying them and their sum
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+using namespace std;
+// prototype declarations
+int readArray(int integerArray[], int maxNumElements);
+int sumArray(int integerArray[], int numElements);
+void displayArray(int integerArray[], int numElements);
+int main(int nNumberofArgs, char* pszArgs[])
+{
+    // input the loop count
+    cout << "This program sums values entered "
+         << "by the user\n";
+    cout << "Terminate the loop by entering "
+         << "a negative number\n";
+    cout << endl;
+    // read numbers to be summed from the user into a
+    // local array
+    int inputValues[128];
+    int numberOfValues = readArray(inputValues, 128);
+    // now output the values and the sum of the values
+    displayArray(inputValues, numberOfValues);
+    cout << "The sum is "
+         << sumArray(inputValues, numberOfValues)
+         << endl;
+    // wait until user is ready before terminating program
+    // to allow the user to see the program results
+    cout << "Press Enter to continue..." << endl;
+    cin.ignore(10, '\n');
+    cin.get();
+    return 0;
+}
+// readArray - read integers from the operator into
+//             'integerArray' until operator enters neg.
+//             Return the number of elements stored.
+int readArray(int integerArray[], int maxNumElements)
+{
+    int numberOfValues;
+    for(numberOfValues = 0;
+        numberOfValues < maxNumElements;
+        numberOfValues++)
+    {
+        // fetch another number
+        int integerValue;
+        cout << "Enter next number: ";
+        cin  >> integerValue;
+        // if it's negative...
+        if (integerValue < 0)
+        {
+            // ...then exit
+            break;
+        }
+        // ... otherwise store the number
+        // into the  storage array
+        integerArray[numberOfValues] = integerValue;
+    }
+    // return the number of elements read
+    return numberOfValues;
+}
+// displayArray - display the members of an
+//                array of length sizeOfloatArray
+void displayArray(int integerArray[], int numElements)
+{
+    cout << "The value of the array is:" << endl;
+    for (int i = 0; i < numElements; i++)
+    {
+        cout << i << ": " << integerArray[i] << endl;
+    }
+}
+cout << endl;
+// sumArray - return the sum of the members of an
+//            
+integer array
+int sumArray(int integerArray[], int numElements)
+{
+int accumulator = 0;
+for (int i = 0; i < numElements; i++)
+{
+accumulator += integerArray[i];
+}
+return accumulator;
+}
+```
