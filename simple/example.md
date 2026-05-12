@@ -1,7 +1,7 @@
 # Simple example programs
 
 ## Celsius degrees into Fahrenheit
-```
+```cpp
 //
 //  Conversion - Program to convert temperature from
 //               Celsius degrees into Fahrenheit:
@@ -39,8 +39,8 @@ cin >> celsius;
 ```
 
 ## Starting point template
-```
-  //
+```cpp
+//
 //  Template - provides a template to be used as the 
 //             starting point
 //
@@ -62,7 +62,7 @@ int main(int nNumberofArgs, char* pszArgs[])
 }
 ```
 ## Compare input values yielding a boolean
-```
+```cpp
  // BoolTest - compare variables input from the
 //            keyboard and store the results off
 //            into a logical variable
@@ -88,15 +88,15 @@ int main(int nNumberofArgs, char* pszArgs[])
     b = nArg1 == nArg2;
     cout << "The statement, " << nArg1
          << " equals "        << nArg2
-<< " is "            
-<< endl;
-<< b
-// wait until user is ready before terminating program
-// to allow the user to see the program results
-cout << "Press Enter to continue..." << endl;
-cin.ignore(10, '\n');
-cin.get();
-return 0;
+         << " is "            
+         << endl;
+         << b
+    // wait until user is ready before terminating program
+    // to allow the user to see the program results
+    cout << "Press Enter to continue..." << endl;
+    cin.ignore(10, '\n');
+    cin.get();
+    return 0;
 }
 
 // Example output:
@@ -107,7 +107,7 @@ return 0;
 ```
 
 ## Illustrate bitwise operators
-```
+```cpp
  // BitTest - initialize two variables and output the
 //           results of applying the ~,& , | and ^
 //           operations
@@ -154,7 +154,7 @@ int main(int nNumberofArgs, char* pszArgs[])
 }
 
 /*
-  nArg1 = 0x78abcdef
+nArg1 = 0x78abcdef
 ~nArg1 = 0x87543210
 nArg2 = 0x12345678
 ~nArg2 = 0xedcba987
@@ -201,14 +201,14 @@ int main(int nNumberofArgs, char* pszArgs[])
     }
     else
     {
-}
-cout<< "Argument 1 is not greater than argument 2"
-<< endl;
-// wait until user is ready before terminating program
-// to allow the user to see the program results
-cout << "Press Enter to continue..." << endl;
-cin.ignore(10, '\n');
-cin.get();
-return 0;
+        cout<< "Argument 1 is not greater than argument 2"
+            << endl;
+    }
+    // wait until user is ready before terminating program
+    // to allow the user to see the program results
+    cout << "Press Enter to continue..." << endl;
+    cin.ignore(10, '\n');
+    cin.get();
+    return 0;
 }
 ```
