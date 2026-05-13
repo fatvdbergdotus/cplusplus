@@ -343,6 +343,7 @@ int main(int nNumberofArgs, char* pszArgs[])
     cin.get();
     return 0;
 }
+```
 
 ## Store data in a linked list of objects
 ```cpp
