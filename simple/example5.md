@@ -420,6 +420,20 @@ int main(int nNumberofArgs, char* pszArgs[])
     cin.get();
     return 0;
 }
+
+/* POSSIBLE OUTPUT:
+Read names of students
+Enter 'exit' for first name to exit
+Enter name:Randy
+Enter name:Loli
+Enter name:Bodi
+Enter name:exit
+Entries:
+Bodi
+Loli
+Randy
+Press Enter to continue...
+*/
 ```
 
 
