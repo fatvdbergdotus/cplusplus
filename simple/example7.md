@@ -178,6 +178,11 @@ Press Enter to continue...
 
 ### Deep copy
 ```cpp
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+using namespace std;
+
 class Person
 {
   public:
