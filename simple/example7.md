@@ -27,20 +27,20 @@ class Student
 // fn - receives its argument by value
 void fn(Student copy)
 {
-cout << "In function fn()" << endl;
+  cout << "In function fn()" << endl;
 }
 int main(int nNumberofArgs, char* pszArgs[])
 {
-Student scruffy("Scruffy", 1234);
-cout << "Calling fn()" << endl;
-fn(scruffy);
-cout << "Back in main()" << endl;
-// wait until user is ready before terminating program
-// to allow the user to see the program results
-cout << "Press Enter to continue..." << endl;
-cin.ignore(10, '\n');
-cin.get();
-return 0;
+  Student scruffy("Scruffy", 1234);
+  cout << "Calling fn()" << endl;
+  fn(scruffy);
+  cout << "Back in main()" << endl;
+  // wait until user is ready before terminating program
+  // to allow the user to see the program results
+  cout << "Press Enter to continue..." << endl;
+  cin.ignore(10, '\n');
+  cin.get();
+  return 0;
 }
 
 /*
