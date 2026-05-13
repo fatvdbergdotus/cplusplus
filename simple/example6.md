@@ -437,3 +437,130 @@ int main(int argcs, char* pArgs[])
     return 0;
 }
 ```
+
+## Constructing class members (counting class ID)
+```cpp
+//
+//  ConstructingMembers - a class may pass along arguments
+//                        
+to the members' constructors
+//
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+using namespace std;
+int nextStudentId = 1000; // first legal Student ID
+class StudentId
+{
+  public:
+    // default constructor assigns id's sequentially
+    StudentId()
+    {
+        value = nextStudentId++;
+        cout << "Take next student id " << value << endl;
+    }
+    // int constructor allows user to assign id
+    StudentId(int id)
+    {
+        value = id;
+        cout << "Assign student id " << value << endl;
+    }
+  protected:
+    int value;
+};
+class Student
+{
+  public:
+    Student(const char* pName)
+    {
+        cout << "constructing Student " << pName << endl;
+        name = pName;
+        semesterHours = 0;
+        gpa = 0.0;
+    }
+  // ...other public members...
+  protected:
+    string    name;
+    int       semesterHours;
+    double    gpa;
+    StudentId id;
+};
+int main(int argcs, char* pArgs[])
+{
+    // create a couple of students
+    Student s1("Jack");
+Student s2("Scruffy");
+// wait until user is ready before terminating program
+// to allow the user to see the program results
+cout << "Press Enter to continue..." << endl;
+cin.ignore(10, '\n');
+cin.get();
+return 0;
+}
+
+/* OUTPUT:
+Take next student id 1000
+constructing Student Jack
+Take next student id 1001
+constructing Student Scruffy
+Press Enter to continue...
+*/
+```
+
+## Constructing class members (arbitrary class ID)
+```cpp
+//  ConstructMembersWithInitializers - this program
+//          demonstrates what happens when a data member
+//          with an initializer is constructed
+//
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+using namespace std;
+class StudentId
+{
+  public:
+    StudentId(int id) : value(id)
+    {
+        cout << "id = " << value << endl;
+    }
+  protected:
+    int value;
+};
+int nextStudentId = 1000;
+class Student
+{
+  public:
+    Student(const char *pName, int ssId)
+      : name(pName), id(ssId)
+    {
+        cout << "constructing student " << pName << endl;
+    }
+    Student(const char *pName): name(pName)
+    {
+        cout << "constructing student " << pName << endl;
+    }
+  protected:
+    string name;
+    StudentId id = nextStudentId++;
+};
+int main(int argcs, char* pArgs[])
+{
+    Student s1("Jack", 1234);
+Student s2("Scruffy");
+// wait until user is ready before terminating program
+// to allow the user to see the program results
+cout << "Press Enter to continue..." << endl;
+cin.ignore(10, '\n');
+cin.get();
+return 0;
+}
+
+/* OUTPUT:
+id = 1234
+constructing student Jack
+id = 1000
+constructing student Scruffy
+Press Enter to continue..
+*/
+
