@@ -53,3 +53,57 @@ int main(int nNumberofArgs, char* pszArgs[])
     return 0;
 }
 ```
+
+## Class exampling: using a .h and .cpp file
+The Savings.h is as follows.
+
+```cpp
+// Savings - define a class that includes the ability
+//           to make a deposit
+class Savings
+{
+  public:
+    // define a member function deposit()
+    double deposit(double amount)
+    {
+        balance += amount;
+        return balance;
+    }
+    unsigned int accountNumber;
+    double  balance;
+};
+```
+
+The Saving.cpp is as follows.
+
+```cpp
+//
+//  SavingsClassInline - invoke a member function that's
+//                       both declared and defined within
+//                       the class Student
+//
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+using namespace std;
+#include "Savings.h"
+int main(int nNumberofArgs, char* pszArgs[])
+{
+    Savings s;
+    s.accountNumber = 123456;
+    s.balance = 0.0;
+    // now add something to the account
+    cout << "Depositing 10 to account "
+         << s.accountNumber << endl;
+    s.deposit(10);
+    cout << "Balance is " << s.balance << endl;
+    // wait until user is ready before terminating program
+    // to allow the user to see the program results
+    cout << "Press Enter to continue..." << endl;
+    cin.ignore(10, '\n');
+    cin.get();
+    return 0;
+}
+```
+
+
