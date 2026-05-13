@@ -120,8 +120,7 @@ Destructing Scruffy
 ## Creating Shallow Copies versus Deep Copies
 ```cpp
 //  ShallowCopy - performing a byte-by-byte (shallow) copy
-//              
-is not correct when the class holds assets
+//                is not correct when the class holds assets
 //
 #include <cstdio>
 #include <cstdlib>
