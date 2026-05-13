@@ -563,6 +563,7 @@ id = 1000
 constructing student Scruffy
 Press Enter to continue..
 */
+```
 
 ## Reconstructing the Order of Construction
 A static is only created once.
