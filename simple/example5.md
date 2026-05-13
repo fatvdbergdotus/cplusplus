@@ -353,10 +353,7 @@ int main(int nNumberofArgs, char* pszArgs[])
 #include <iostream>
 using namespace std;
 // NameDataSet - stores a person's name (these objects
-//               
-could easily store any other information
-//               
-desired).
+//               could easily store any other information desired).
 class NameDataSet
 {
 public:
