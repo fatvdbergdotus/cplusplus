@@ -34,4 +34,5 @@ This section contains two links that provide a complete overview of all the mate
 - [Modern overview](modern/all.md)
 
 ## Simple example programs
-- Simple example programs [1](simple/example.md) [2](simple/example2.md) [3](simple/example3.md) [4](simple/example4.md) [5](simple/example5.md) [6](simple/example6.md)
+- Simple example programs [1](simple/example.md) [2](simple/example2.md) [3](simple/example3.md) [4](simple/example4.md) [5](simple/example5.md) [6](simple/example6.md) [7](simple/example7.md)
+
