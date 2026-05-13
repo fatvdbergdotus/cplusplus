@@ -429,4 +429,11 @@ void concatString(char szTarget[], const char szSource[])
     // tack on the terminating null
     szTarget[targetIndex] = '\0';
 }
+
+/* EXAMPLE OUTPUT:
+Enter string #1:this is a string
+Enter string #2:THIS IS A STRING
+this is a string - THIS IS A STRING
+Press Enter to continue...
+*/
 ```
