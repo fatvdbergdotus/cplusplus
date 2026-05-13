@@ -118,6 +118,8 @@ Destructing Scruffy
 ```
 
 ## Creating Shallow Copies versus Deep Copies
+
+### Shallow copy
 ```cpp
 //  ShallowCopy - performing a byte-by-byte (shallow) copy
 //                is not correct when the class holds assets
@@ -169,6 +171,56 @@ int main(int argcs, char* pArgs[])
 Constructing This_is_a_very_long_name
 Destructing 0x3f2bb8 (This_is_a_very_long_name)
 Destructing 0x3f2bb8 (already destructed memory)
+Back in main()
+Press Enter to continue...
+*/
+```
+
+### Deep copy
+```cpp
+class Person
+{
+  public:
+    Person(const char *pN)
+    {
+        cout << "Constructing " << pN << endl;
+        pName = new string(pN);
+    }
+    Person(Person& person)
+    {
+        cout << "Copying " << *(person.pName) << endl;
+        pName = new string(*person.pName);
+    }
+    ~Person()
+    {
+        cout << "Destructing " << pName
+             << " (" << *pName << ")" << endl;
+        *pName = "already destructed memory";
+        // delete pName;
+    }
+protected:
+    string *pName;
+}
+
+int main(int argcs, char* pArgs[])
+{
+    cout << "Calling fn()" << endl;
+    fn();
+    cout << "Back in main()" << endl;
+    // wait until user is ready before terminating program
+    // to allow the user to see the program results
+    cout << "Press Enter to continue..." << endl;
+    cin.ignore(10, '\n');
+    cin.get();
+    return 0;
+}
+
+/* OUTPUT:
+Calling fn()
+Constructing This_is_a_very_long_name
+Copying This_is_a_very_long_name
+Destructing 0x9f2be0 (This_is_a_very_long_name)
+Destructing 0x9f2ba0 (This_is_a_very_long_name)
 Back in main()
 Press Enter to continue...
 */
