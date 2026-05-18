@@ -54,3 +54,33 @@ int main(int argcs, char* pArgs[])
   Press any key to continue...
 */
 ```
+
+## This keyword
+```cpp
+// NameDataSet - stores a person's name (these objects
+//               could easily store any other information
+//               desired).
+class NameDataSet
+{
+  public:
+    NameDataSet(string& refName)
+      : sName(refName), pNext(nullptr) {}
+    // add self to beginning of list
+    void add()
+    {
+        this->pNext = pHead;
+        pHead = this;
+    }
+    // access methods
+    static NameDataSet* first() { return pHead; }
+           NameDataSet* next()  { return pNext; }
+          const string& name()  { return sName; }
+  protected:
+    string sName;
+    // the link to the first and next member of list
+    static NameDataSet* pHead;
+    NameDataSet* pNext;
+};
+// allocate space for the head pointer
+NameDataSet* NameDataSet::pHead = nullptr;
+```
