@@ -674,3 +674,120 @@ int main(int nNumberofArgs, char* pszArgs[])
     return 0;
 }
 ```
+
+## Read and parse contents of a file
+```cpp
+// StringStream - read and parse the contents of a file
+#include <cstdio>
+#include <cstdlib>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+using namespace std;
+// parseAccountInfo - read a passed buffer as if it were
+//               
+an actual file - read the following
+//               
+//                
+//               
+format:
+name, account balance
+return true if all worked well
+bool parseString(const char* pString,
+char* pName, int arraySize,
+long& accountNum, double& balance)
+{
+// associate an istrstream object with the input
+// character string
+    istringstream inp(pString);
+    // read up to the comma separator
+    inp.getline(pName, arraySize, ',');
+    // now the account number
+    inp >> accountNum;
+    // and the balance
+    inp >> balance;
+    // return the error status
+    return !inp.fail();
+}
+int main(int nNumberofArgs, char* pszArgs[])
+{
+    // must provide filename
+    char szFileName[128];
+    cout << "Input name of file to parse:";
+    cin.getline(szFileName, 128);
+    // get a file stream
+    ifstream* pFileStream = new ifstream(szFileName);
+    if (!pFileStream->good())
+    {
+        cerr << "Can't open " << pszArgs[1] << endl;
+        return 0;
+    }
+    // read a line out of file, parse it and display
+    // results
+    for(int nLineNum = 1;;nLineNum++)
+    {
+        // read a buffer
+        char buffer[256];
+        pFileStream->getline(buffer, 256);
+        if (pFileStream->fail())
+        {
+            break;
+        }
+        cout << nLineNum << ":" << buffer << endl;
+        // parse the individual fields
+        char name[80];
+        long accountNum;
+        double balance;
+        bool result = parseString(buffer, name, 80,
+                                  accountNum, balance);
+        if (result == false)
+        {
+            cerr << "Error parsing string\n" << endl;
+            continue;
+        }
+        // output the fields we parsed out
+        cout << "Read the following fields:" << endl;
+        cout << "  name = " << name << "\n"
+             << "  account = " << accountNum << "\n"
+             << "  balance = " << balance << endl;
+        // put the fields back together in a different
+        // order (inserting the 'ends' makes sure the
+        // buffer is null terminated
+        ostringstream out;
+        out << name << ", "
+            << balance << " "
+            << accountNum << ends;
+        string oString = out.str();
+        cout << "Reordered fields: " << oString << endl;
+    }
+    cout << "Press Enter to continue..." << endl;
+    cin.ignore(10, '\n');
+    cin.get();
+    return 0;
+}
+
+/* POSSIBLE OUTPUT:
+ Input name of file to parse:Accounts.txt
+1:Chester, 12345 56.60
+Read the following fields:
+  name = Chester
+  account = 12345
+  balance = 56.6
+Reordered fields: Chester, 56.6 12345
+2:Arthur,  34567 67.50
+Read the following fields:
+  name = Arthur
+  account = 34567
+  balance = 67.5
+Reordered fields: Arthur, 67.5 34567
+3:Trudie,  56x78 78.90
+Error parsing string
+4:Valerie, 78901 89.10
+Read the following fields:
+  name = Valerie
+  account = 78901
+  balance = 89.1
+Reordered fields: Valerie, 89.1 78901
+Press Enter to continue ...
+*/
+```
