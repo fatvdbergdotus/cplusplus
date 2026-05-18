@@ -394,8 +394,8 @@ class MyContainer
 public:
 MyContainer(int nS, const char* pS) : nSize(nS)
 {
-pString = new char[nSize];
-strcpy(pString, pS);
+    pString = new char[nSize];
+    strcpy(pString, pS);
 }
 ~MyContainer()
 {
