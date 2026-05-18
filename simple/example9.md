@@ -3,8 +3,7 @@
 ## Simple try-catch
 ```cpp
 //  FactorialException - demonstrate exceptions using
-//                       
-a factorial function
+//  a factorial function
 //
 #include <cstdio>
 #include <cstdlib>
@@ -58,4 +57,10 @@ int main(int nNumberofArgs, char* pszArgs[])
     cin.get();
     return 0;
 }
+
+/* OUTPUT:
+Factorial of 3 is 6
+Factorial of -1 is Error occurred: Argument for factorial negative
+Press Enter to continue...
+*/
 ```
