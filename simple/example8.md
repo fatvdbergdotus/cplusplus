@@ -384,86 +384,172 @@ Press Enter to continue...
 ## Move operator demonstration
 ```cpp
 // DemoMoveOperator - demonstrate the move operator
-#include <cstdio>
-#include <cstdlib>
-#include <iostream>
-#include <cstring>
-using namespace std;
+
+#include <cstdio>      // Standard C input/output library
+#include <cstdlib>     // Standard utility functions
+#include <iostream>    // Provides cout, cin, endl
+#include <cstring>     // Provides strcpy, strncpy
+
+using namespace std;   // Avoids writing std:: repeatedly
+
+// Define class MyContainer
 class MyContainer
 {
 public:
+
+    // Constructor
+    // Initializes object with size and string
     MyContainer(int nS, const char* pS) : nSize(nS)
     {
+        // Allocate memory for character array
         pString = new char[nSize];
+
+        // Copy input string into allocated memory
         strcpy(pString, pS);
     }
+
+    // Destructor
+    // Frees dynamically allocated memory
     ~MyContainer()
     {
+        // Release memory
         delete pString;
+
+        // Prevent dangling pointer
         pString = nullptr;
     }
-    //copy constructor
+
+    // Copy constructor
+    // Creates deep copy of another object
     MyContainer(const MyContainer& s)
     {
+        // Call helper function to copy data
         copyIt(*this, s);
     }
+
+    // Copy assignment operator
+    // Handles assignment using copying
     MyContainer& operator=(MyContainer& s)
     {
+        // Delete existing memory
         delete pString;
+
+        // Copy data from source object
         copyIt(*this, s);
+
+        // Return current object
         return *this;
     }
-    // move constructor
+
+    // Move constructor
+    // Transfers ownership from temporary object
     MyContainer(MyContainer&& s)
     {
+        // Move resources from source object
         moveIt(*this, s);
     }
+
+    // Move assignment operator
+    // Handles assignment using move semantics
     MyContainer& operator=(MyContainer&& s)
     {
+        // Delete existing memory
         delete pString;
+
+        // Transfer ownership of resources
         moveIt(*this, s);
+
+        // Return current object
         return *this;
     }
-  protected:
+
+protected:
+
+    // Helper function for move operations
     static void moveIt(MyContainer& tgt, MyContainer& src)
     {
+        // Display move message
         cout << "Moving " << src.pString << endl;
+
+        // Transfer size value
         tgt.nSize = src.nSize;
+
+        // Transfer pointer ownership
         tgt.pString = src.pString;
+
+        // Reset source object size
         src.nSize = 0;
+
+        // Remove ownership from source object
         src.pString = nullptr;
     }
+
+    // Helper function for copy operations
     static void copyIt(      MyContainer& tgt,
                        const MyContainer& src)
     {
+        // Display copy message
         cout << "Copying " << src.pString << endl;
+
+        // Delete old memory in target object
         delete tgt.pString;
+
+        // Copy size from source
         tgt.nSize = src.nSize;
+
+        // Allocate new memory for target
         tgt.pString = new char[tgt.nSize];
+
+        // Copy string data into target
         strncpy(tgt.pString, src.pString, tgt.nSize);
     }
+
+    // Stores size of string buffer
     int nSize;
+
+    // Pointer to dynamically allocated character array
     char* pString;
 };
+
+// Function that creates and returns a MyContainer object
 MyContainer fn(int n, const char* pString)
 {
+    // Create local object
     MyContainer b(n, pString);
+
+    // Return object
+    // Move constructor may be used here
     return b;
 }
+
+// Main program entry point
 int main(int nNumberofArgs, char* pszArgs[])
 {
+    // Create initial object
     MyContainer mc(100, "Original");
+
+    // Assign temporary object returned from fn()
+    // Move assignment operator is called
     mc = fn(100, "Created in fn()");
-    // wait until user is ready before terminating program
-    // to allow the user to see the program results
+
+    // Wait before exiting program
+    // Allows user to view output
     cout << "Press Enter to continue..." << endl;
+
+    // Ignore leftover newline characters
     cin.ignore(10, '\n');
+
+    // Wait for user input
     cin.get();
+
+    // Indicate successful termination
     return 0;
 }
 
 /* OUTPUT:
+
   Moving Created in fn()
   Press Enter to continue...
+
 */
 ```
