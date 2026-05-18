@@ -369,4 +369,14 @@ cin.ignore(10, '\n');
 cin.get();
 return 0;
 }
+
+/* OUTPUT:
+Creating DArray of length = 5
+da1=0, 1, 2, 3, 4
+Copying DArray of length = 5
+da2=0, 1, 20, 3, 4
+Assigning source of length = 5 to target of length = 5
+da2=0, 1, 2, 3, 4
+Press Enter to continue...
+*/
 ```
