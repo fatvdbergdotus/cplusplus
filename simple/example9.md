@@ -424,3 +424,163 @@ int main(int nNumberofArgs, char* pszArgs[])
     return 0;
 }
 ```
+
+## Applying templates to functions (max template)
+```cpp
+// MaxTemplate - create a template max() function
+//               that returns the greater of two types
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+using namespace std;
+template <class T> T maximum(T t1, T t2)
+{
+    return (t1 > t2) ? t1 : t2;
+}
+int main(int argc, char* pArgs[])
+{
+    // find the maximum of two int's;
+    // here C++ creates maximum(int, int)
+    cout << "maximum(-1, 2) = "<<maximum(-1, 2) << endl;
+    // repeat for two doubles;
+    // in this case, we have to provide T explicitly since
+    // the types of the arguments are different
+    cout << "maximum(1, 2.5) = "<<maximum<double>(1, 2.5)
+         << endl;
+    cout << "Press Enter to continue..." << endl;
+    cin.ignore(10, '\n');
+    cin.get();
+    return 0;
+}
+```
+
+## Applying templates to classes
+```cpp
+// TemplateVector - a simple templatized vector class
+template <class T>
+class TemplateVector
+{
+public:
+    TemplateVector(int nArraySize)
+    {
+        // store off the number of elements
+        nSize = nArraySize;
+        array = new T[nArraySize];
+        reset();
+    }
+    int size() { return nWriteIndex; }
+    void reset() { nWriteIndex = 0; nReadIndex = 0; }
+    void add(const T& object)
+    {
+        if (nWriteIndex < nSize)
+        {
+            array[nWriteIndex++] = object;
+        }
+    }
+    T& get()
+    {
+        return array[nReadIndex++];
+    }
+  protected:
+    int nSize;
+    int nWriteIndex;
+    int nReadIndex;
+    T* array;
+
+// TemplateVector - implement a vector that uses a
+//                  template type
+#include <cstdlib>
+#include <cstdio>
+#include <iostream>
+#include "templatevector.h"
+using namespace std;
+// intFn() - manipulate a collection of integers
+void intFn()
+{
+    // create a vector of integers
+    TemplateVector<int> integers(10);
+    // add values to the vector
+    cout << "Enter integer values to add to a vector\n"
+         << "(Enter a negative number to terminate):"
+         << endl;
+    for(;;)
+    {
+        int n;
+        cin  >> n;
+        if (n < 0) { break; }
+        integers.add(n);
+    }
+    cout << "\nHere are the numbers you entered:" << endl;
+    for(int i = 0; i < integers.size(); i++)
+    {
+        cout << i << ":" << integers.get() << endl;
+    }
+}
+// Names - create and manipulate a vector of names
+class Name
+{
+  public:
+    Name() = default;
+    Name(string s) : name(s) {}
+    const string& display() { return name; }
+  protected:
+    string name;
+};
+void nameFn()
+{
+    // create a vector of Name objects
+    TemplateVector<Name> names(20);
+    // add values to the vector
+    cout << "Enter names to add to a second vector\n"
+         << "(Enter an 'x' to quit):" << endl;
+    for(;;)
+    {
+        string s;
+        cin >> s;
+        if (s == "x" || s == "X") { break; }
+        names.add(Name(s));
+    }
+    cout << "\nHere are the names you entered" << endl;
+    for(int i = 0; i < names.size(); i++)
+    {
+        Name& name = names.get();
+        cout << i << ":" << name.display() << endl;
+    }
+}
+int main(int argc, char* pArgs[])
+{
+    intFn();
+    nameFn();
+    cout << "Press Enter to continue..." << endl;
+    cin.ignore(10, '\n');
+    cin.get();
+    return 0;
+
+/* SAMPLE OUTPUT:
+    Enter integer values to add to a vector
+    (Enter a negative number to terminate):
+    5
+    10
+    15-1
+    Here are the numbers you entered:
+    0:5
+    1:10
+    2:15
+    Enter names to add to a second vector
+    (Enter an 'x' to quit):
+    Chester
+    Trude
+    Lollie
+    Bodie
+    x
+    Here are the names you entered
+    0:Chester
+    1:Trude
+    2:Lollie
+    3:Bodie
+    Press Enter to continue...
+*/
+}
+};
+
+```
