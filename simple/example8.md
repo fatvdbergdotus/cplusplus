@@ -685,17 +685,10 @@ int main(int nNumberofArgs, char* pszArgs[])
 #include <iostream>
 using namespace std;
 // parseAccountInfo - read a passed buffer as if it were
-//               
-an actual file - read the following
-//               
-//                
-//               
-format:
-name, account balance
-return true if all worked well
-bool parseString(const char* pString,
-char* pName, int arraySize,
-long& accountNum, double& balance)
+// an actual file - read the following format:
+// name, account balance
+// return true if all worked well
+bool parseString(const char* pString, char* pName, int arraySize, long& accountNum, double& balance)
 {
 // associate an istrstream object with the input
 // character string
