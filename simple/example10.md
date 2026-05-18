@@ -60,4 +60,11 @@ int main(int argc, char* pArgs[])
     cin.get();
     return 0;
 }
+
+/*
+    string1 + string2 = string1string2
+    <this is a test string> minus spaces = <thisisateststring>
+    Stephen <ip> Davis -> Stephen Randall Davis
+    Press Enter to continue...
+*/
 ```
