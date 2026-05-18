@@ -13,13 +13,13 @@ using namespace std;
 // factorial - compute factorial
 int factorial(int n)
 {
-// you can't handle negative values of n;
-// better check for that condition first
-if (n < 0)
-{
-throw string("Argument for factorial negative");
-}
-// go ahead and calculate factorial
+    // you can't handle negative values of n;
+    // better check for that condition first
+    if (n < 0)
+    {
+        throw string("Argument for factorial negative");
+    }
+    // go ahead and calculate factorial
     int accum = 1;
     while(n > 0)
     {
