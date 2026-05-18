@@ -240,72 +240,129 @@ Press Enter to continue...
 ## Moving temporary rather than creating a copy constructor
 ```cpp
 //
-//  MoveCopy  - demonstrate the principle of moving a
-//              
-temporary rather than creating a copy
-.
+// MoveCopy - demonstrate the principle of moving a
+//            temporary rather than creating a copy
 //
-#include <cstdio>
-#include <cstdlib>
-#include <iostream>
-using namespace std;
+
+#include <cstdio>      // Standard C input/output library
+#include <cstdlib>     // Standard library functions
+#include <iostream>    // Provides cout, cin, endl
+
+using namespace std;   // Avoids writing std:: repeatedly
+
+// Define a class named Person
 class Person
 {
   public:
+
+    // Constructor that accepts a C-style string
     Person(const char *pN)
     {
+        // Dynamically allocate a string object
         pName = new string(pN);
+
+        // Print message showing object creation
         cout << "Constructing " << *pName << endl;
     }
+
+    // Copy constructor
+    // Called when copying an existing Person object
     Person(Person& p)
     {
+        // Display message showing copy operation
         cout << "Copying " << *p.pName << endl;
+
+        // Allocate memory for a new string
         pName = new string("Copy of ");
+
+        // Append original person's name
         *pName += *p.pName;
     }
+
+    // Move constructor
+    // Called when transferring ownership from a temporary object
     Person(Person&& p)
     {
+        // Display move operation message
         cout << "Moving " << *p.pName << endl;
+
+        // Transfer pointer ownership instead of copying data
         pName = p.pName;
+
+        // Set source pointer to nullptr so it no longer owns memory
         p.pName = nullptr;
     }
+
+    // Destructor
+    // Automatically called when object goes out of scope
     ~Person()
     {
+        // Check if pointer is valid
         if (pName)
         {
+            // Print destruction message
             cout << "Destructing " << *pName << endl;
+
+            // Free dynamically allocated memory
             delete pName;
         }
         else
         {
+            // Object no longer owns data
             cout << "Destructing null object" << endl;
         }
     }
+
 protected:
+    // Pointer to dynamically allocated string
     string* pName;
 };
+
+// Function that accepts a Person object by value
+// Passing by value invokes copy or move constructor
 Person fn2(Person p)
 {
+  // Indicate function entry
   cout << "Entering fn2" << endl;
+
+  // Return local object
+  // Move constructor may be used here
   return p;
 }
+
+// Function that creates and returns a Person object
 Person fn1(char* pName)
 {
+  // Indicate function entry
   cout << "Entering fn1" << endl;
+
+  // Dynamically create a Person object
+  // Dereference it and pass by value to fn2
   return fn2(*new Person(pName));
 }
+
+// Main program entry point
 int main(int argcs, char* pArgs[])
 {
+  // Create Person object using return value from fn1
   Person s(fn1("Scruffy"));
-  // wait until user is ready before terminating program
-  // to allow the user to see the program results
+
+  // Wait before program exits
+  // Allows user to view output
   cout << "Press Enter to continue..." << endl;
+
+  // Ignore leftover newline characters
   cin.ignore(10, '\n');
+
+  // Wait for user input
   cin.get();
+
+  // Indicate successful program termination
   return 0;
 }
 
 /* OUTPUT:
+
 Entering fn1
 Constructing Scruffy
 Copying Scruffy
@@ -314,5 +371,6 @@ Moving Copy of Scruffy
 Destructing null object
 Press Enter to continue...
 Destructing Copy of Scruffy
+
 */
 ```
