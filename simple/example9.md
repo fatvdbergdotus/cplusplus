@@ -136,4 +136,17 @@ void f3()
     Obj d('d');
     throw 10;
 }
+
+/*
+    Constructing object a
+    Constructing object b
+    Constructing object c
+    Constructing object d
+    Destructing object d
+    Destructing object c
+    Destructing object b
+    Int catch
+    Destructing object a
+    Press Enter to continue...
+*/
 ```
