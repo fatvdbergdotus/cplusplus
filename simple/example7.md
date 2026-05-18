@@ -291,7 +291,7 @@ Person fn2(Person p)
 }
 Person fn1(char* pName)
 {
-  cout << "Entering fn1_ << endl;
+  cout << "Entering fn1" << endl;
   return fn2(*new Person(pName));
 }
 int main(int argcs, char* pArgs[])
