@@ -286,15 +286,15 @@ protected:
 };
 Person fn2(Person p)
 {
-cout << "Entering fn2" << endl;
-return p;
+  cout << "Entering fn2" << endl;
+  return p;
 }
-Person fn1(char* pName)
+  Person fn1(char* pName)
 {
 cout << "Entering fn1_ << endl;
 return fn2(*new Person(pName));
 }
-int main(int argcs, char* pArgs[])
+  int main(int argcs, char* pArgs[])
 {
 Person s(fn1("Scruffy"));
 // wait until user is ready before terminating program
