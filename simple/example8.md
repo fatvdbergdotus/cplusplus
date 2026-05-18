@@ -392,13 +392,13 @@ using namespace std;
 class MyContainer
 {
 public:
-MyContainer(int nS, const char* pS) : nSize(nS)
-{
-    pString = new char[nSize];
-    strcpy(pString, pS);
-}
-~MyContainer()
-{
+    MyContainer(int nS, const char* pS) : nSize(nS)
+    {
+        pString = new char[nSize];
+        strcpy(pString, pS);
+    }
+    ~MyContainer()
+    {
         delete pString;
         pString = nullptr;
     }
