@@ -256,8 +256,7 @@ Press Enter to continue...
 ## Multiple inheritance
 ```cpp
 //  MultipleInheritance - a single class can inherit from
-//                        
-more than one base class
+//                        more than one base class
 //
 #include <cstdio>
 #include <cstdlib>
